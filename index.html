@@ -60,6 +60,16 @@
         @keyframes spin {
             to { transform: rotate(360deg); }
         }
+        .loader-countdown {
+            font-family: 'Playfair Display', serif;
+            font-size: 3rem;
+            color: #d4af37;
+            margin-top: 16px;
+            font-weight: 900;
+            text-shadow: 0 0 40px rgba(184, 134, 11, 0.2);
+            opacity: 0.9;
+            transition: transform 0.3s ease;
+        }
 
         /* ===== VARIABLES ===== */
         :root {
@@ -172,7 +182,7 @@
             50% { opacity: 1; transform: scale(1.05); }
         }
 
-        /* ===== PÉTALES (optimisés) ===== */
+        /* ===== PÉTALES ===== */
         #petalsCanvas {
             position: fixed;
             top: 0;
@@ -184,7 +194,7 @@
             opacity: 0.5;
         }
 
-        /* ===== PARTICULES D'OR (optimisées) ===== */
+        /* ===== PARTICULES D'OR ===== */
         #bgParticlesCanvas {
             position: fixed;
             top: 0;
@@ -471,7 +481,7 @@
             text-transform: uppercase;
         }
 
-        /* ===== PHOTOS GRID (sidebar) ===== */
+        /* ===== PHOTOS GRID ===== */
         .photos-grid {
             display: grid;
             grid-template-columns: repeat(auto-fill, minmax(95px, 1fr));
@@ -1474,15 +1484,9 @@
 
         /* ===== RESPONSIVE ===== */
         @media (max-width: 480px) {
-            .invitation-card {
-                padding: 20px 14px 22px;
-                border-radius: 24px;
-            }
+            .invitation-card { padding: 20px 14px 22px; border-radius: 24px; }
             .invitation-card::before, .invitation-card::after { border-radius: 24px; }
-            .card-inner-border {
-                inset: 10px;
-                border-radius: 14px;
-            }
+            .card-inner-border { inset: 10px; border-radius: 14px; }
             .card-decoration { border-radius: 24px; }
             .ornament-corner { font-size: 1.1rem; opacity: 0.25; }
             .ornament-corner.tl { top: 12px; left: 14px; }
@@ -1536,6 +1540,7 @@
         <div class="loader-heart">❤️</div>
         <div class="loader-text">YOSRA &amp; MOHAMED ALI</div>
         <div class="loader-spinner"></div>
+        <div class="loader-countdown" id="countdownDisplay">5</div>
     </div>
 
     <!-- Canvas pour les pétales -->
@@ -1691,6 +1696,7 @@
 
             <div class="divider-light"></div>
 
+            <!-- ===== ZONE DATE AVEC GRATTAGE ===== -->
             <div class="date-wrapper" id="dateWrapper">
                 <div class="date-content" id="dateContent">
                     <div class="date-main">
@@ -1766,10 +1772,11 @@
             'use strict';
 
             // ============================================================
-            //  CONFIGURATION
+            //  CONFIGURATION – FICHIERS AUDIO
             // ============================================================
             const CONFIG = {
                 coupleImage: 'https://raw.githubusercontent.com/wkwtunisia/invitation/main/test1.jpg',
+                loadingMusicFile: 'https://raw.githubusercontent.com/wkwtunisia/invitation/main/test1.mp3',
                 musicFile: 'https://raw.githubusercontent.com/wkwtunisia/invitation/main/test.mp3',
                 weddingDate: new Date('2027-01-30T20:00:00+01:00').getTime(),
                 photos: [
@@ -1783,48 +1790,208 @@
             };
 
             // ============================================================
-            //  LOADER
+            //  AUDIO – MUSIQUE DE CHARGEMENT
             // ============================================================
-            const loader = document.getElementById('loader');
-            const card = document.getElementById('invitationCard');
+            var loadingAudio = null;
+            var mainAudio = null;
+            var audioCtx = null;
+            var musicPlaying = false;
+            var musicInterval = null;
+            var musicNodes = [];
 
-            // Cache le loader après 2.5 secondes
-            setTimeout(() => {
-                loader.classList.add('hidden');
-                card.classList.add('loaded');
-                // Lancer les animations de fond après le chargement
-                initPetals();
-                initBgParticles();
-            }, 2500);
+            // Fonction pour jouer la musique de chargement (test1.mp3)
+            function playLoadingMusic() {
+                if (loadingAudio) return;
+                loadingAudio = new Audio(CONFIG.loadingMusicFile);
+                loadingAudio.loop = true;
+                loadingAudio.volume = 0.3;
+                loadingAudio.play().catch(function(err) {
+                    console.warn('Impossible de jouer test1.mp3 :', err);
+                });
+            }
+
+            // Fonction pour arrêter la musique de chargement
+            function stopLoadingMusic() {
+                if (loadingAudio) {
+                    loadingAudio.pause();
+                    loadingAudio.currentTime = 0;
+                    loadingAudio = null;
+                }
+            }
+
+            // Fonction pour jouer la musique principale (test.mp3)
+            function playMainMusic() {
+                if (musicPlaying) return;
+                if (!mainAudio) {
+                    mainAudio = new Audio(CONFIG.musicFile);
+                    mainAudio.loop = true;
+                    mainAudio.volume = 0.5;
+                }
+                mainAudio.play().then(function() {
+                    musicPlaying = true;
+                    elements.musicToggle.classList.add('playing');
+                    elements.musicToggle.textContent = translations[currentLang].musicToggle;
+                }).catch(function(err) {
+                    console.warn('Impossible de jouer test.mp3, fallback synthétique.', err);
+                    playSyntheticMusic();
+                });
+            }
+
+            // Fonction pour arrêter la musique principale
+            function stopMainMusic() {
+                musicPlaying = false;
+                if (mainAudio) {
+                    mainAudio.pause();
+                    mainAudio.currentTime = 0;
+                }
+                if (musicInterval) {
+                    clearTimeout(musicInterval);
+                    musicInterval = null;
+                }
+                musicNodes.forEach(function(item) {
+                    try { item.osc.stop(); item.gain.disconnect(); } catch (_) {}
+                });
+                musicNodes = [];
+                elements.musicToggle.classList.remove('playing');
+                elements.musicToggle.textContent = translations[currentLang].musicOff;
+            }
+
+            // Fallback synthétique si test.mp3 ne peut pas être lu
+            function playSyntheticMusic() {
+                if (musicPlaying) return;
+                try {
+                    if (!audioCtx) {
+                        audioCtx = new(window.AudioContext || window.webkitAudioContext)();
+                    }
+                    if (audioCtx.state === 'suspended') audioCtx.resume();
+
+                    var notes = [
+                        { freq: 261.63, dur: 0.3 }, { freq: 293.66, dur: 0.3 },
+                        { freq: 329.63, dur: 0.4 }, { freq: 392.00, dur: 0.3 },
+                        { freq: 440.00, dur: 0.4 }, { freq: 523.25, dur: 0.5 },
+                        { freq: 493.88, dur: 0.3 }, { freq: 440.00, dur: 0.4 },
+                        { freq: 392.00, dur: 0.3 }, { freq: 349.23, dur: 0.3 },
+                        { freq: 329.63, dur: 0.4 }, { freq: 293.66, dur: 0.3 },
+                        { freq: 261.63, dur: 0.6 }
+                    ];
+                    var currentNote = 0;
+                    var playNote = function() {
+                        if (!musicPlaying) return;
+                        var note = notes[currentNote];
+                        var osc = audioCtx.createOscillator();
+                        var gain = audioCtx.createGain();
+                        osc.type = 'sine';
+                        osc.frequency.value = note.freq;
+                        gain.gain.setValueAtTime(0.12, audioCtx.currentTime);
+                        gain.gain.exponentialRampToValueAtTime(0.001, audioCtx.currentTime + note.dur);
+                        osc.connect(gain);
+                        gain.connect(audioCtx.destination);
+                        osc.start();
+                        osc.stop(audioCtx.currentTime + note.dur);
+                        musicNodes.push({ osc: osc, gain: gain });
+                        setTimeout(function() {
+                            musicNodes = musicNodes.filter(function(n) { return n.osc.context.state !== 'closed'; });
+                        }, 1000);
+                        currentNote = (currentNote + 1) % notes.length;
+                        if (musicPlaying) {
+                            musicInterval = setTimeout(playNote, note.dur * 1000 + 60);
+                        }
+                    };
+                    musicPlaying = true;
+                    elements.musicToggle.classList.add('playing');
+                    elements.musicToggle.textContent = translations[currentLang].musicToggle;
+                    playNote();
+                } catch (e) {
+                    console.warn('Erreur audio synthétique:', e);
+                }
+            }
+
+            // ============================================================
+            //  LOADER AVEC COMPTE À REBOURS
+            // ============================================================
+            var loader = document.getElementById('loader');
+            var card = document.getElementById('invitationCard');
+            var countdownDisplay = document.getElementById('countdownDisplay');
+
+            var countdown = 5;
+            countdownDisplay.textContent = countdown;
+
+            // Démarrer la musique de chargement dès qu'il y a une interaction
+            // (car les navigateurs bloquent les lectures automatiques)
+            var audioStarted = false;
+            function startAudioOnInteraction() {
+                if (audioStarted) return;
+                audioStarted = true;
+                playLoadingMusic();
+                document.removeEventListener('click', startAudioOnInteraction);
+                document.removeEventListener('touchstart', startAudioOnInteraction);
+                document.removeEventListener('keydown', startAudioOnInteraction);
+            }
+            document.addEventListener('click', startAudioOnInteraction);
+            document.addEventListener('touchstart', startAudioOnInteraction);
+            document.addEventListener('keydown', startAudioOnInteraction);
+
+            var countdownInterval = setInterval(function() {
+                countdown--;
+                if (countdown > 0) {
+                    countdownDisplay.textContent = countdown;
+                    countdownDisplay.style.transform = 'scale(1.4)';
+                    setTimeout(function() {
+                        countdownDisplay.style.transform = 'scale(1)';
+                    }, 200);
+                } else {
+                    clearInterval(countdownInterval);
+                    // Arrêter la musique de chargement
+                    stopLoadingMusic();
+                    // Charger la carte
+                    loader.classList.add('hidden');
+                    card.classList.add('loaded');
+                    // Initialiser les animations
+                    setTimeout(function() {
+                        initPetals();
+                        initBgParticles();
+                        initCarousel();
+                        animateBgParticles();
+                        animatePetals();
+                    }, 100);
+                    // Initialiser l'audio principal après un clic si nécessaire
+                    document.addEventListener('click', function initAudioCtx() {
+                        if (!audioCtx) {
+                            try {
+                                audioCtx = new(window.AudioContext || window.webkitAudioContext)();
+                                if (audioCtx.state === 'suspended') audioCtx.resume();
+                            } catch (_) {}
+                        }
+                    }, { once: true });
+                }
+            }, 1000);
 
             // ============================================================
             //  CARROUSEL
             // ============================================================
-            const track = document.getElementById('carouselTrack');
-            const dotsContainer = document.getElementById('carouselDots');
-            const prevBtn = document.getElementById('carouselPrev');
-            const nextBtn = document.getElementById('carouselNext');
-            let currentSlide = 0;
-            let slideCount = 0;
-            let autoPlayInterval = null;
+            var track = document.getElementById('carouselTrack');
+            var dotsContainer = document.getElementById('carouselDots');
+            var prevBtn = document.getElementById('carouselPrev');
+            var nextBtn = document.getElementById('carouselNext');
+            var currentSlide = 0;
+            var slideCount = 0;
+            var autoPlayInterval = null;
 
             function initCarousel() {
-                // Utiliser les photos de CONFIG
-                const photos = CONFIG.photos;
+                var photos = CONFIG.photos;
                 slideCount = photos.length;
 
-                // Remplir le track
                 track.innerHTML = '';
-                photos.forEach((photo, index) => {
-                    const slide = document.createElement('div');
+                photos.forEach(function(photo, index) {
+                    var slide = document.createElement('div');
                     slide.className = 'carousel-slide';
-                    const img = document.createElement('img');
+                    var img = document.createElement('img');
                     img.src = photo.url;
                     img.alt = photo.name;
                     img.loading = 'lazy';
                     img.onerror = function() {
                         this.style.display = 'none';
-                        const fallback = document.createElement('div');
+                        var fallback = document.createElement('div');
                         fallback.textContent = photo.name;
                         fallback.style.cssText = 'display:flex; align-items:center; justify-content:center; width:100%; height:100%; color:rgba(255,255,255,0.6); background:rgba(0,0,0,0.2); font-size:1rem;';
                         this.parentNode.appendChild(fallback);
@@ -1833,10 +2000,9 @@
                     track.appendChild(slide);
                 });
 
-                // Créer les dots
                 dotsContainer.innerHTML = '';
-                for (let i = 0; i < slideCount; i++) {
-                    const dot = document.createElement('button');
+                for (var i = 0; i < slideCount; i++) {
+                    var dot = document.createElement('button');
                     dot.className = 'carousel-dot' + (i === 0 ? ' active' : '');
                     dot.dataset.index = i;
                     dot.addEventListener('click', function() {
@@ -1853,9 +2019,8 @@
                 if (index < 0) index = slideCount - 1;
                 if (index >= slideCount) index = 0;
                 currentSlide = index;
-                track.style.transform = `translateX(-${index * 100}%)`;
-                // Mettre à jour les dots
-                document.querySelectorAll('.carousel-dot').forEach((dot, i) => {
+                track.style.transform = 'translateX(-' + (index * 100) + '%)';
+                document.querySelectorAll('.carousel-dot').forEach(function(dot, i) {
                     dot.classList.toggle('active', i === index);
                 });
             }
@@ -1863,7 +2028,7 @@
             function startAutoPlay() {
                 if (autoPlayInterval) clearInterval(autoPlayInterval);
                 if (slideCount > 1) {
-                    autoPlayInterval = setInterval(() => {
+                    autoPlayInterval = setInterval(function() {
                         goToSlide(currentSlide + 1);
                     }, 4000);
                 }
@@ -1893,9 +2058,9 @@
             // ============================================================
             //  SIDEBAR
             // ============================================================
-            const sidebar = document.getElementById('sidebar');
-            const sidebarToggle = document.getElementById('sidebarToggle');
-            const sidebarClose = document.getElementById('sidebarClose');
+            var sidebar = document.getElementById('sidebar');
+            var sidebarToggle = document.getElementById('sidebarToggle');
+            var sidebarClose = document.getElementById('sidebarClose');
 
             function toggleSidebar() {
                 sidebar.classList.toggle('open');
@@ -1907,19 +2072,19 @@
             // ============================================================
             //  LIGHTBOX
             // ============================================================
-            const lightbox = document.getElementById('lightbox');
-            const lightboxImg = document.getElementById('lightboxImg');
-            const lightboxName = document.getElementById('lightboxName');
-            const lightboxClose = document.getElementById('lightboxClose');
-            const lightboxPrev = document.getElementById('lightboxPrev');
-            const lightboxNext = document.getElementById('lightboxNext');
-            let currentPhotoIndex = 0;
-            let photoList = [];
+            var lightbox = document.getElementById('lightbox');
+            var lightboxImg = document.getElementById('lightboxImg');
+            var lightboxName = document.getElementById('lightboxName');
+            var lightboxClose = document.getElementById('lightboxClose');
+            var lightboxPrev = document.getElementById('lightboxPrev');
+            var lightboxNext = document.getElementById('lightboxNext');
+            var currentPhotoIndex = 0;
+            var photoList = [];
 
             function openLightbox(index) {
                 if (index < 0 || index >= photoList.length) return;
                 currentPhotoIndex = index;
-                const photo = photoList[currentPhotoIndex];
+                var photo = photoList[currentPhotoIndex];
                 lightboxImg.src = photo.url;
                 lightboxName.textContent = photo.name;
                 lightbox.classList.add('active');
@@ -1932,7 +2097,7 @@
             }
 
             function navigateLightbox(dir) {
-                const newIndex = currentPhotoIndex + dir;
+                var newIndex = currentPhotoIndex + dir;
                 if (newIndex >= 0 && newIndex < photoList.length) {
                     openLightbox(newIndex);
                 }
@@ -1959,23 +2124,23 @@
             // ============================================================
             //  PHOTOS (sidebar)
             // ============================================================
-            const photosGrid = document.getElementById('photosGrid');
+            var photosGrid = document.getElementById('photosGrid');
             photoList = CONFIG.photos;
-            CONFIG.photos.forEach((photo, index) => {
-                const item = document.createElement('div');
+            CONFIG.photos.forEach(function(photo, index) {
+                var item = document.createElement('div');
                 item.className = 'photo-item';
-                const img = document.createElement('img');
+                var img = document.createElement('img');
                 img.src = photo.url;
                 img.alt = photo.name;
                 img.loading = 'lazy';
                 img.onerror = function() {
                     this.style.display = 'none';
-                    const fallback = document.createElement('div');
+                    var fallback = document.createElement('div');
                     fallback.textContent = photo.name;
                     fallback.style.cssText = 'display:flex; align-items:center; justify-content:center; width:100%; height:100%; color:#fcf8f0; background:rgba(0,0,0,0.3); font-size:0.7rem; text-align:center; padding:4px;';
                     this.parentNode.appendChild(fallback);
                 };
-                const nameLabel = document.createElement('div');
+                var nameLabel = document.createElement('div');
                 nameLabel.className = 'photo-name';
                 nameLabel.textContent = photo.name;
                 item.appendChild(img);
@@ -1990,26 +2155,26 @@
             // ============================================================
             //  PALETTES / THEMES
             // ============================================================
-            const colorItems = document.querySelectorAll('.color-item');
-            let currentTheme = '';
+            var colorItems = document.querySelectorAll('.color-item');
+            var currentTheme = '';
 
             function setTheme(color) {
                 document.body.classList.remove('theme-black', 'theme-white', 'theme-red', 'theme-starry');
                 if (color) {
                     document.body.classList.add('theme-' + color);
                 }
-                colorItems.forEach(item => {
-                    const btn = item.querySelector('.color-btn');
-                    const isActive = item.dataset.color === color;
+                colorItems.forEach(function(item) {
+                    var btn = item.querySelector('.color-btn');
+                    var isActive = item.dataset.color === color;
                     btn.classList.toggle('active', isActive);
                 });
                 currentTheme = color;
             }
 
-            colorItems.forEach(item => {
+            colorItems.forEach(function(item) {
                 item.addEventListener('click', function(e) {
                     e.stopPropagation();
-                    const color = this.dataset.color;
+                    var color = this.dataset.color;
                     if (currentTheme === color) {
                         setTheme('');
                     } else {
@@ -2019,12 +2184,12 @@
             });
 
             // ============================================================
-            //  PARTICULES D'OR (optimisées)
+            //  PARTICULES D'OR
             // ============================================================
-            const bgCanvas = document.getElementById('bgParticlesCanvas');
-            const bgCtx = bgCanvas.getContext('2d');
-            let bgParticles = [];
-            const MAX_PARTICLES = 35; // Réduit pour performance
+            var bgCanvas = document.getElementById('bgParticlesCanvas');
+            var bgCtx = bgCanvas.getContext('2d');
+            var bgParticles = [];
+            var MAX_PARTICLES = 35;
 
             function resizeBgCanvas() {
                 bgCanvas.width = window.innerWidth;
@@ -2033,11 +2198,8 @@
             window.addEventListener('resize', resizeBgCanvas);
             resizeBgCanvas();
 
-            class BgParticle {
-                constructor() {
-                    this.reset();
-                }
-                reset() {
+            function BgParticle() {
+                this.reset = function() {
                     this.x = Math.random() * bgCanvas.width;
                     this.y = Math.random() * bgCanvas.height;
                     this.size = Math.random() * 2 + 0.8;
@@ -2047,18 +2209,18 @@
                     this.pulseSpeed = 0.005 + Math.random() * 0.01;
                     this.pulseOffset = Math.random() * Math.PI * 2;
                     this.shape = Math.random() > 0.8 ? 'heart' : 'circle';
-                }
-                update() {
+                };
+                this.update = function() {
                     this.x += this.speedX;
                     this.y += this.speedY;
                     this.pulseOffset += this.pulseSpeed;
                     if (this.x < 0 || this.x > bgCanvas.width) this.speedX *= -1;
                     if (this.y < 0 || this.y > bgCanvas.height) this.speedY *= -1;
-                }
-                draw() {
-                    const pulse = 0.6 + 0.4 * Math.sin(this.pulseOffset);
-                    const currentOpacity = this.opacity * pulse;
-                    const size = this.size * pulse;
+                };
+                this.draw = function() {
+                    var pulse = 0.6 + 0.4 * Math.sin(this.pulseOffset);
+                    var currentOpacity = this.opacity * pulse;
+                    var size = this.size * pulse;
                     bgCtx.save();
                     bgCtx.globalAlpha = currentOpacity;
                     bgCtx.fillStyle = '#d4af37';
@@ -2078,23 +2240,24 @@
                         bgCtx.fill();
                     }
                     bgCtx.restore();
-                }
+                };
+                this.reset();
             }
 
             function initBgParticles() {
                 bgParticles = [];
-                const count = Math.min(MAX_PARTICLES, Math.floor(window.innerWidth / 15));
-                for (let i = 0; i < count; i++) {
+                var count = Math.min(MAX_PARTICLES, Math.floor(window.innerWidth / 15));
+                for (var i = 0; i < count; i++) {
                     bgParticles.push(new BgParticle());
                 }
             }
 
-            let bgAnimFrame = null;
+            var bgAnimFrame = null;
 
             function animateBgParticles() {
                 if (!bgCanvas) return;
                 bgCtx.clearRect(0, 0, bgCanvas.width, bgCanvas.height);
-                bgParticles.forEach(p => {
+                bgParticles.forEach(function(p) {
                     p.update();
                     p.draw();
                 });
@@ -2102,12 +2265,12 @@
             }
 
             // ============================================================
-            //  PÉTALES DE FLEURS (optimisés)
+            //  PÉTALES DE FLEURS
             // ============================================================
-            const petalsCanvas = document.getElementById('petalsCanvas');
-            const petalsCtx = petalsCanvas.getContext('2d');
-            let petals = [];
-            const MAX_PETALS = 15; // Réduit pour performance
+            var petalsCanvas = document.getElementById('petalsCanvas');
+            var petalsCtx = petalsCanvas.getContext('2d');
+            var petals = [];
+            var MAX_PETALS = 15;
 
             function resizePetalsCanvas() {
                 petalsCanvas.width = window.innerWidth;
@@ -2116,11 +2279,8 @@
             window.addEventListener('resize', resizePetalsCanvas);
             resizePetalsCanvas();
 
-            class Petal {
-                constructor() {
-                    this.reset();
-                }
-                reset() {
+            function Petal() {
+                this.reset = function() {
                     this.x = Math.random() * petalsCanvas.width;
                     this.y = Math.random() * petalsCanvas.height - petalsCanvas.height;
                     this.size = 6 + Math.random() * 10;
@@ -2129,17 +2289,18 @@
                     this.rotation = Math.random() * 360;
                     this.rotSpeed = (Math.random() - 0.5) * 0.6;
                     this.opacity = 0.3 + Math.random() * 0.3;
-                    this.color = [
+                    var colors = [
                         'rgba(232, 200, 180, ',
                         'rgba(212, 175, 155, ',
                         'rgba(240, 220, 210, ',
                         'rgba(200, 170, 160, ',
                         'rgba(255, 230, 220, '
-                    ][Math.floor(Math.random() * 5)];
+                    ];
+                    this.color = colors[Math.floor(Math.random() * colors.length)];
                     this.wobble = Math.random() * 0.02;
                     this.wobbleOffset = Math.random() * Math.PI * 2;
-                }
-                update() {
+                };
+                this.update = function() {
                     this.y += this.speedY;
                     this.x += this.speedX + Math.sin(this.wobbleOffset) * 0.2;
                     this.rotation += this.rotSpeed;
@@ -2150,8 +2311,8 @@
                     }
                     if (this.x < -50) this.x = petalsCanvas.width + 50;
                     if (this.x > petalsCanvas.width + 50) this.x = -50;
-                }
-                draw() {
+                };
+                this.draw = function() {
                     petalsCtx.save();
                     petalsCtx.translate(this.x, this.y);
                     petalsCtx.rotate((this.rotation * Math.PI) / 180);
@@ -2165,46 +2326,44 @@
                     petalsCtx.fillStyle = this.color + (this.opacity * 0.6) + ')';
                     petalsCtx.fill();
                     petalsCtx.restore();
-                }
+                };
+                this.reset();
             }
 
             function initPetals() {
                 petals = [];
-                const count = Math.min(MAX_PETALS, Math.floor(window.innerWidth / 30));
-                for (let i = 0; i < count; i++) {
-                    const p = new Petal();
+                var count = Math.min(MAX_PETALS, Math.floor(window.innerWidth / 30));
+                for (var i = 0; i < count; i++) {
+                    var p = new Petal();
                     p.y = Math.random() * petalsCanvas.height;
                     petals.push(p);
                 }
             }
 
-            let petalsAnimFrame = null;
+            var petalsAnimFrame = null;
 
             function animatePetals() {
                 if (!petalsCanvas) return;
                 petalsCtx.clearRect(0, 0, petalsCanvas.width, petalsCanvas.height);
-                petals.forEach(p => {
+                petals.forEach(function(p) {
                     p.update();
                     p.draw();
                 });
                 petalsAnimFrame = requestAnimationFrame(animatePetals);
             }
 
-            // Démarrer les animations après le loader
-            // Les fonctions sont appelées après le loader dans setTimeout
-
             // ============================================================
-            //  COMPTE À REBOURS
+            //  COMPTE À REBOURS (date)
             // ============================================================
             function updateCountdown() {
-                const now = Date.now();
-                let diff = CONFIG.weddingDate - now;
+                var now = Date.now();
+                var diff = CONFIG.weddingDate - now;
                 if (diff < 0) diff = 0;
 
-                const days = Math.floor(diff / (1000 * 60 * 60 * 24));
-                const hours = Math.floor((diff % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
-                const minutes = Math.floor((diff % (1000 * 60 * 60)) / (1000 * 60));
-                const seconds = Math.floor((diff % (1000 * 60)) / 1000);
+                var days = Math.floor(diff / (1000 * 60 * 60 * 24));
+                var hours = Math.floor((diff % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+                var minutes = Math.floor((diff % (1000 * 60 * 60)) / (1000 * 60));
+                var seconds = Math.floor((diff % (1000 * 60)) / 1000);
 
                 document.getElementById('cdDays').textContent = String(days).padStart(2, '0');
                 document.getElementById('cdHours').textContent = String(hours).padStart(2, '0');
@@ -2217,9 +2376,9 @@
             // ============================================================
             //  CARTE GOOGLE MAPS
             // ============================================================
-            const mapToggle = document.getElementById('mapToggle');
-            const mapContainer = document.getElementById('mapContainer');
-            let mapVisible = false;
+            var mapToggle = document.getElementById('mapToggle');
+            var mapContainer = document.getElementById('mapContainer');
+            var mapVisible = false;
 
             mapToggle.addEventListener('click', function() {
                 mapVisible = !mapVisible;
@@ -2230,31 +2389,31 @@
             // ============================================================
             //  PARTAGE SOCIAL
             // ============================================================
-            const url = encodeURIComponent(CONFIG.invitationUrl);
-            const text = encodeURIComponent('💍 YOSRA & MOHAMED ALI - Mariage le 30 Janvier 2027 🎉');
+            var url = encodeURIComponent(CONFIG.invitationUrl);
+            var text = encodeURIComponent('💍 YOSRA & MOHAMED ALI - Mariage le 30 Janvier 2027 🎉');
 
             document.getElementById('shareWhatsApp').addEventListener('click', function() {
-                window.open(`https://wa.me/?text=${text}%20${url}`, '_blank');
+                window.open('https://wa.me/?text=' + text + '%20' + url, '_blank');
             });
             document.getElementById('shareFacebook').addEventListener('click', function() {
-                window.open(`https://www.facebook.com/sharer/sharer.php?u=${url}`, '_blank');
+                window.open('https://www.facebook.com/sharer/sharer.php?u=' + url, '_blank');
             });
             document.getElementById('shareEmail').addEventListener('click', function() {
-                window.location.href = `mailto:?subject=${text}&body=${text}%0A%0A${url}`;
+                window.location.href = 'mailto:?subject=' + text + '&body=' + text + '%0A%0A' + url;
             });
             document.getElementById('shareCopy').addEventListener('click', function() {
-                navigator.clipboard.writeText(CONFIG.invitationUrl).then(() => {
-                    const btn = this;
-                    const orig = btn.textContent;
+                navigator.clipboard.writeText(CONFIG.invitationUrl).then(function() {
+                    var btn = document.getElementById('shareCopy');
+                    var orig = btn.textContent;
                     btn.textContent = '✅ Copié !';
-                    setTimeout(() => btn.textContent = orig, 2000);
+                    setTimeout(function() { btn.textContent = orig; }, 2000);
                 });
             });
 
             // ============================================================
             //  TRADUCTIONS
             // ============================================================
-            const translations = {
+            var translations = {
                 fr: {
                     blessing: 'بسم الله الرحمن الرحيم',
                     title: 'Mariage d\'Or',
@@ -2335,7 +2494,7 @@
             // ============================================================
             //  RÉFÉRENCES DOM
             // ============================================================
-            const elements = {
+            var elements = {
                 blessing: document.getElementById('blessing'),
                 title: document.getElementById('title'),
                 subtitle: document.getElementById('subtitle'),
@@ -2369,11 +2528,11 @@
             // ============================================================
             //  LANGUE
             // ============================================================
-            let currentLang = 'fr';
+            var currentLang = 'fr';
 
             function setLanguage(lang) {
                 currentLang = lang;
-                const t = translations[lang];
+                var t = translations[lang];
                 if (!t) return;
 
                 elements.blessing.textContent = t.blessing;
@@ -2409,50 +2568,58 @@
                     elements.musicToggle.textContent = musicPlaying ? t.musicToggle : t.musicOff;
                 }
 
-                document.querySelectorAll('.lang-btn').forEach(btn => {
+                document.querySelectorAll('.lang-btn').forEach(function(btn) {
                     btn.classList.toggle('active', btn.dataset.lang === lang);
                 });
                 drawScratchBackground();
             }
 
-            document.querySelectorAll('.lang-btn').forEach(btn => {
+            document.querySelectorAll('.lang-btn').forEach(function(btn) {
                 btn.addEventListener('click', function(e) {
                     e.stopPropagation();
-                    const lang = this.dataset.lang;
+                    var lang = this.dataset.lang;
                     if (lang !== currentLang) setLanguage(lang);
                 });
             });
 
             // ============================================================
-            //  CANVAS DE GRATTAGE
+            //  CANVAS DE GRATTAGE (VERSION CORRIGÉE)
             // ============================================================
-            const scratchCanvas = document.getElementById('scratchCanvas');
-            const scratchCtx = scratchCanvas.getContext('2d');
-            const dateWrapper = document.getElementById('dateWrapper');
-            const hint = document.getElementById('scratchHint');
+            var scratchCanvas = document.getElementById('scratchCanvas');
+            var scratchCtx = scratchCanvas.getContext('2d');
+            var dateWrapper = document.getElementById('dateWrapper');
+            var hint = document.getElementById('scratchHint');
 
-            let isRevealed = false;
-            let isDrawing = false;
-            let lastX = 0, lastY = 0;
+            var isRevealed = false;
+            var isDrawing = false;
+            var lastX = 0, lastY = 0;
 
             function resizeScratchCanvas() {
-                const rect = dateWrapper.getBoundingClientRect();
-                const w = rect.width;
-                const h = rect.height;
+                var rect = dateWrapper.getBoundingClientRect();
+                var w = rect.width;
+                var h = rect.height;
                 if (w === 0 || h === 0) return;
                 scratchCanvas.width = w;
                 scratchCanvas.height = h;
                 scratchCanvas.style.width = w + 'px';
                 scratchCanvas.style.height = h + 'px';
+                if (isRevealed) {
+                    scratchCtx.clearRect(0, 0, w, h);
+                    return;
+                }
                 drawScratchBackground();
             }
 
             function drawScratchBackground() {
-                const w = scratchCanvas.width;
-                const h = scratchCanvas.height;
+                var w = scratchCanvas.width;
+                var h = scratchCanvas.height;
                 if (w === 0 || h === 0) return;
+                if (isRevealed) {
+                    scratchCtx.clearRect(0, 0, w, h);
+                    return;
+                }
 
-                const grad = scratchCtx.createRadialGradient(w/2, h/2, 0, w/2, h/2, Math.max(w, h) * 0.7);
+                var grad = scratchCtx.createRadialGradient(w/2, h/2, 0, w/2, h/2, Math.max(w, h) * 0.7);
                 grad.addColorStop(0, '#d4af37');
                 grad.addColorStop(0.3, '#c49a3c');
                 grad.addColorStop(0.7, '#b8860b');
@@ -2460,20 +2627,20 @@
                 scratchCtx.fillStyle = grad;
                 scratchCtx.fillRect(0, 0, w, h);
 
-                const flowers = ['✦', '✧', '☪', '✶'];
+                var flowers = ['✦', '✧', '☪', '✶'];
                 scratchCtx.font = '1.6rem serif';
                 scratchCtx.textAlign = 'center';
                 scratchCtx.textBaseline = 'middle';
-                for (let i = 0; i < 20; i++) {
-                    const x = Math.random() * w;
-                    const y = Math.random() * h;
-                    const f = flowers[Math.floor(Math.random() * flowers.length)];
-                    scratchCtx.fillStyle = `rgba(255,215,0,${0.08 + Math.random() * 0.08})`;
+                for (var i = 0; i < 20; i++) {
+                    var x = Math.random() * w;
+                    var y = Math.random() * h;
+                    var f = flowers[Math.floor(Math.random() * flowers.length)];
+                    scratchCtx.fillStyle = 'rgba(255,215,0,' + (0.08 + Math.random() * 0.08) + ')';
                     scratchCtx.fillText(f, x, y);
                 }
-                const hintText = currentLang === 'fr' ? 'Grattez ici' :
-                                 currentLang === 'en' ? 'Scratch here' :
-                                 'افرك هنا';
+                var hintText = currentLang === 'fr' ? 'Grattez ici' :
+                               currentLang === 'en' ? 'Scratch here' :
+                               'افرك هنا';
                 scratchCtx.fillStyle = 'rgba(255,215,0,0.15)';
                 scratchCtx.font = 'bold 1.8rem Amiri, serif';
                 scratchCtx.fillText('☪ ' + hintText, w/2, h/2);
@@ -2486,9 +2653,9 @@
             }
 
             function getPosition(e) {
-                const rect = scratchCanvas.getBoundingClientRect();
-                const clientX = e.touches ? e.touches[0].clientX : e.clientX;
-                const clientY = e.touches ? e.touches[0].clientY : e.clientY;
+                var rect = scratchCanvas.getBoundingClientRect();
+                var clientX = e.touches ? e.touches[0].clientX : e.clientX;
+                var clientY = e.touches ? e.touches[0].clientY : e.clientY;
                 return {
                     x: (clientX - rect.left) * (scratchCanvas.width / rect.width),
                     y: (clientY - rect.top) * (scratchCanvas.height / rect.height)
@@ -2499,7 +2666,7 @@
                 e.preventDefault();
                 if (isRevealed) return;
                 isDrawing = true;
-                const pos = getPosition(e);
+                var pos = getPosition(e);
                 lastX = pos.x;
                 lastY = pos.y;
                 hint.classList.add('hidden');
@@ -2508,9 +2675,9 @@
             function draw(e) {
                 e.preventDefault();
                 if (!isDrawing || isRevealed) return;
-                const pos = getPosition(e);
-                const x = pos.x;
-                const y = pos.y;
+                var pos = getPosition(e);
+                var x = pos.x;
+                var y = pos.y;
 
                 scratchCtx.globalCompositeOperation = 'destination-out';
                 scratchCtx.beginPath();
@@ -2539,15 +2706,15 @@
 
             function checkScratchProgress() {
                 if (isRevealed) return;
-                const imageData = scratchCtx.getImageData(0, 0, scratchCanvas.width, scratchCanvas.height);
-                const data = imageData.data;
-                let transparent = 0;
-                const total = data.length / 4;
-                const step = 4;
-                for (let i = 3; i < data.length; i += 4 * step) {
+                var imageData = scratchCtx.getImageData(0, 0, scratchCanvas.width, scratchCanvas.height);
+                var data = imageData.data;
+                var transparent = 0;
+                var total = data.length / 4;
+                var step = 4;
+                for (var i = 3; i < data.length; i += 4 * step) {
                     if (data[i] < 128) transparent++;
                 }
-                const percent = transparent / (total / step);
+                var percent = transparent / (total / step);
                 if (percent > 0.35) {
                     revealDate();
                 }
@@ -2562,10 +2729,11 @@
 
                 playTraditionalSound();
                 launchConfetti(250);
-                setTimeout(() => launchConfetti(180), 500);
-                setTimeout(() => launchConfetti(100), 1000);
-                setTimeout(() => launchConfetti(60), 1600);
+                setTimeout(function() { launchConfetti(180); }, 500);
+                setTimeout(function() { launchConfetti(100); }, 1000);
+                setTimeout(function() { launchConfetti(60); }, 1600);
 
+                // Effacer complètement le scratch
                 scratchCtx.globalCompositeOperation = 'destination-out';
                 scratchCtx.fillStyle = '#ffffff';
                 scratchCtx.fillRect(0, 0, scratchCanvas.width, scratchCanvas.height);
@@ -2574,111 +2742,15 @@
 
                 elements.dateContent.classList.add('revealed');
 
-                setTimeout(() => {
-                    playBackgroundMusic();
+                // Lancer la musique principale après 1 seconde
+                setTimeout(function() {
+                    playMainMusic();
                     elements.musicToggle.classList.add('visible');
                 }, 1000);
             }
 
             // ============================================================
-            //  MUSIQUE
-            // ============================================================
-            let audioCtx = null;
-            let musicPlaying = false;
-            let audioElement = null;
-            let musicInterval = null;
-            let musicNodes = [];
-
-            function playBackgroundMusic() {
-                if (musicPlaying) return;
-                if (CONFIG.musicFile) {
-                    if (!audioElement) {
-                        audioElement = new Audio(CONFIG.musicFile);
-                        audioElement.loop = true;
-                        audioElement.volume = 0.4;
-                    }
-                    audioElement.play().then(() => {
-                        musicPlaying = true;
-                        elements.musicToggle.classList.add('playing');
-                        elements.musicToggle.textContent = translations[currentLang].musicToggle;
-                    }).catch(err => {
-                        console.warn('Impossible de jouer test.mp3, fallback synthétique.', err);
-                        playSyntheticMusic();
-                    });
-                } else {
-                    playSyntheticMusic();
-                }
-            }
-
-            function playSyntheticMusic() {
-                if (musicPlaying) return;
-                try {
-                    if (!audioCtx) {
-                        audioCtx = new(window.AudioContext || window.webkitAudioContext)();
-                    }
-                    if (audioCtx.state === 'suspended') audioCtx.resume();
-
-                    const notes = [
-                        { freq: 261.63, dur: 0.3 }, { freq: 293.66, dur: 0.3 },
-                        { freq: 329.63, dur: 0.4 }, { freq: 392.00, dur: 0.3 },
-                        { freq: 440.00, dur: 0.4 }, { freq: 523.25, dur: 0.5 },
-                        { freq: 493.88, dur: 0.3 }, { freq: 440.00, dur: 0.4 },
-                        { freq: 392.00, dur: 0.3 }, { freq: 349.23, dur: 0.3 },
-                        { freq: 329.63, dur: 0.4 }, { freq: 293.66, dur: 0.3 },
-                        { freq: 261.63, dur: 0.6 }
-                    ];
-                    let currentNote = 0;
-                    const playNote = () => {
-                        if (!musicPlaying) return;
-                        const note = notes[currentNote];
-                        const osc = audioCtx.createOscillator();
-                        const gain = audioCtx.createGain();
-                        osc.type = 'sine';
-                        osc.frequency.value = note.freq;
-                        gain.gain.setValueAtTime(0.12, audioCtx.currentTime);
-                        gain.gain.exponentialRampToValueAtTime(0.001, audioCtx.currentTime + note.dur);
-                        osc.connect(gain);
-                        gain.connect(audioCtx.destination);
-                        osc.start();
-                        osc.stop(audioCtx.currentTime + note.dur);
-                        musicNodes.push({ osc, gain });
-                        setTimeout(() => {
-                            musicNodes = musicNodes.filter(n => n.osc.context.state !== 'closed');
-                        }, 1000);
-                        currentNote = (currentNote + 1) % notes.length;
-                        if (musicPlaying) {
-                            musicInterval = setTimeout(playNote, note.dur * 1000 + 60);
-                        }
-                    };
-                    musicPlaying = true;
-                    elements.musicToggle.classList.add('playing');
-                    elements.musicToggle.textContent = translations[currentLang].musicToggle;
-                    playNote();
-                } catch (e) {
-                    console.warn('Erreur audio synthétique:', e);
-                }
-            }
-
-            function stopBackgroundMusic() {
-                musicPlaying = false;
-                if (musicInterval) {
-                    clearTimeout(musicInterval);
-                    musicInterval = null;
-                }
-                if (audioElement) {
-                    audioElement.pause();
-                    audioElement.currentTime = 0;
-                }
-                musicNodes.forEach(({ osc, gain }) => {
-                    try { osc.stop(); gain.disconnect(); } catch (_) {}
-                });
-                musicNodes = [];
-                elements.musicToggle.classList.remove('playing');
-                elements.musicToggle.textContent = translations[currentLang].musicOff;
-            }
-
-            // ============================================================
-            //  JINGLE
+            //  JINGLE (son court de révélation)
             // ============================================================
             function playTraditionalSound() {
                 try {
@@ -2686,8 +2758,8 @@
                         audioCtx = new(window.AudioContext || window.webkitAudioContext)();
                     }
                     if (audioCtx.state === 'suspended') audioCtx.resume();
-                    const now = audioCtx.currentTime;
-                    const notes = [
+                    var now = audioCtx.currentTime;
+                    var notes = [
                         { freq: 180, time: 0.00, dur: 0.12, vol: 0.18 },
                         { freq: 240, time: 0.10, dur: 0.10, vol: 0.16 },
                         { freq: 300, time: 0.20, dur: 0.15, vol: 0.20 },
@@ -2695,9 +2767,9 @@
                         { freq: 450, time: 0.48, dur: 0.20, vol: 0.22 },
                         { freq: 300, time: 0.68, dur: 0.18, vol: 0.18 }
                     ];
-                    notes.forEach(n => {
-                        const osc = audioCtx.createOscillator();
-                        const gain = audioCtx.createGain();
+                    notes.forEach(function(n) {
+                        var osc = audioCtx.createOscillator();
+                        var gain = audioCtx.createGain();
                         osc.type = 'sine';
                         osc.frequency.value = n.freq;
                         gain.gain.setValueAtTime(n.vol, now + n.time);
@@ -2707,15 +2779,15 @@
                         osc.start(now + n.time);
                         osc.stop(now + n.time + n.dur + 0.02);
                     });
-                    const percs = [0.05, 0.20, 0.38, 0.55, 0.72];
-                    percs.forEach(t => {
-                        const bufferSize = audioCtx.sampleRate * 0.03;
-                        const buffer = audioCtx.createBuffer(1, bufferSize, audioCtx.sampleRate);
-                        const data = buffer.getChannelData(0);
-                        for (let i = 0; i < bufferSize; i++) data[i] = (Math.random() * 2 - 1) * 0.10;
-                        const noise = audioCtx.createBufferSource();
+                    var percs = [0.05, 0.20, 0.38, 0.55, 0.72];
+                    percs.forEach(function(t) {
+                        var bufferSize = audioCtx.sampleRate * 0.03;
+                        var buffer = audioCtx.createBuffer(1, bufferSize, audioCtx.sampleRate);
+                        var data = buffer.getChannelData(0);
+                        for (var i = 0; i < bufferSize; i++) data[i] = (Math.random() * 2 - 1) * 0.10;
+                        var noise = audioCtx.createBufferSource();
                         noise.buffer = buffer;
-                        const gainN = audioCtx.createGain();
+                        var gainN = audioCtx.createGain();
                         gainN.gain.setValueAtTime(0.10, now + t);
                         gainN.gain.exponentialRampToValueAtTime(0.001, now + t + 0.06);
                         noise.connect(gainN);
@@ -2729,11 +2801,11 @@
             // ============================================================
             //  CONFETTIS
             // ============================================================
-            const confettiCanvas = document.getElementById('confettiCanvas');
-            const confettiCtx = confettiCanvas.getContext('2d');
-            let confettiPieces = [];
-            let confettiActive = false;
-            let animFrameId = null;
+            var confettiCanvas = document.getElementById('confettiCanvas');
+            var confettiCtx = confettiCanvas.getContext('2d');
+            var confettiPieces = [];
+            var confettiActive = false;
+            var animFrameId = null;
 
             function resizeConfettiCanvas() {
                 confettiCanvas.width = window.innerWidth;
@@ -2742,70 +2814,70 @@
             window.addEventListener('resize', resizeConfettiCanvas);
             resizeConfettiCanvas();
 
-            class Particle {
-                constructor(x, y) {
-                    this.x = x;
-                    this.y = y;
-                    const angle = Math.random() * 2 * Math.PI;
-                    const speed = 5 + Math.random() * 12;
-                    this.vx = Math.cos(angle) * speed * (0.5 + Math.random() * 0.8);
-                    this.vy = Math.sin(angle) * speed * (0.5 + Math.random() * 0.8) - 4;
-                    this.gravity = 0.12 + Math.random() * 0.08;
-                    this.size = 5 + Math.random() * 10;
-                    this.life = 1;
-                    this.decay = 0.005 + Math.random() * 0.01;
-                    this.rotation = Math.random() * 360;
-                    this.rotSpeed = (Math.random() - 0.5) * 10;
-                    const colors = ['#D4AF37', '#FFD700', '#8B0000', '#B8860B', '#FCF8F0', '#CD853F', '#C49A6C', '#FF6B6B', '#FFD93D', '#6A5ACD', '#4A90D9'];
-                    this.color = colors[Math.floor(Math.random() * colors.length)];
-                    this.shape = Math.random() > 0.5 ? 'star' : 'circle';
-                }
-                update() {
-                    this.x += this.vx;
-                    this.vy += this.gravity;
-                    this.y += this.vy;
-                    this.vx *= 0.99;
-                    this.life -= this.decay;
-                    this.rotation += this.rotSpeed;
-                    return this.life > 0.01 && this.y < confettiCanvas.height + 50;
-                }
-                draw(ctx) {
-                    ctx.save();
-                    ctx.globalAlpha = Math.max(0, this.life * 0.9);
-                    ctx.translate(this.x, this.y);
-                    ctx.rotate((this.rotation * Math.PI) / 180);
-                    ctx.fillStyle = this.color;
-                    ctx.shadowColor = 'rgba(212, 175, 55, 0.2)';
-                    ctx.shadowBlur = 10;
-                    if (this.shape === 'star') {
-                        const points = 5;
-                        const outerR = this.size / 2;
-                        const innerR = outerR * 0.4;
-                        ctx.beginPath();
-                        for (let i = 0; i < points * 2; i++) {
-                            const radius = i % 2 === 0 ? outerR : innerR;
-                            const angle = (i * Math.PI) / points - Math.PI / 2;
-                            const x = Math.cos(angle) * radius;
-                            const y = Math.sin(angle) * radius;
-                            if (i === 0) ctx.moveTo(x, y);
-                            else ctx.lineTo(x, y);
-                        }
-                        ctx.closePath();
-                        ctx.fill();
-                    } else {
-                        ctx.beginPath();
-                        ctx.arc(0, 0, this.size / 2, 0, Math.PI * 2);
-                        ctx.fill();
-                    }
-                    ctx.restore();
-                }
+            function Particle(x, y) {
+                this.x = x;
+                this.y = y;
+                var angle = Math.random() * 2 * Math.PI;
+                var speed = 5 + Math.random() * 12;
+                this.vx = Math.cos(angle) * speed * (0.5 + Math.random() * 0.8);
+                this.vy = Math.sin(angle) * speed * (0.5 + Math.random() * 0.8) - 4;
+                this.gravity = 0.12 + Math.random() * 0.08;
+                this.size = 5 + Math.random() * 10;
+                this.life = 1;
+                this.decay = 0.005 + Math.random() * 0.01;
+                this.rotation = Math.random() * 360;
+                this.rotSpeed = (Math.random() - 0.5) * 10;
+                var colors = ['#D4AF37', '#FFD700', '#8B0000', '#B8860B', '#FCF8F0', '#CD853F', '#C49A6C', '#FF6B6B', '#FFD93D', '#6A5ACD', '#4A90D9'];
+                this.color = colors[Math.floor(Math.random() * colors.length)];
+                this.shape = Math.random() > 0.5 ? 'star' : 'circle';
             }
 
+            Particle.prototype.update = function() {
+                this.x += this.vx;
+                this.vy += this.gravity;
+                this.y += this.vy;
+                this.vx *= 0.99;
+                this.life -= this.decay;
+                this.rotation += this.rotSpeed;
+                return this.life > 0.01 && this.y < confettiCanvas.height + 50;
+            };
+
+            Particle.prototype.draw = function(ctx) {
+                ctx.save();
+                ctx.globalAlpha = Math.max(0, this.life * 0.9);
+                ctx.translate(this.x, this.y);
+                ctx.rotate((this.rotation * Math.PI) / 180);
+                ctx.fillStyle = this.color;
+                ctx.shadowColor = 'rgba(212, 175, 55, 0.2)';
+                ctx.shadowBlur = 10;
+                if (this.shape === 'star') {
+                    var points = 5;
+                    var outerR = this.size / 2;
+                    var innerR = outerR * 0.4;
+                    ctx.beginPath();
+                    for (var i = 0; i < points * 2; i++) {
+                        var radius = i % 2 === 0 ? outerR : innerR;
+                        var angle = (i * Math.PI) / points - Math.PI / 2;
+                        var x = Math.cos(angle) * radius;
+                        var y = Math.sin(angle) * radius;
+                        if (i === 0) ctx.moveTo(x, y);
+                        else ctx.lineTo(x, y);
+                    }
+                    ctx.closePath();
+                    ctx.fill();
+                } else {
+                    ctx.beginPath();
+                    ctx.arc(0, 0, this.size / 2, 0, Math.PI * 2);
+                    ctx.fill();
+                }
+                ctx.restore();
+            };
+
             function launchConfetti(count) {
-                const rect = dateWrapper.getBoundingClientRect();
-                const cx = rect.left + rect.width / 2;
-                const cy = rect.top + rect.height / 2;
-                for (let i = 0; i < count; i++) {
+                var rect = dateWrapper.getBoundingClientRect();
+                var cx = rect.left + rect.width / 2;
+                var cy = rect.top + rect.height / 2;
+                for (var i = 0; i < count; i++) {
                     confettiPieces.push(new Particle(
                         cx + (Math.random() - 0.5) * 50,
                         cy + (Math.random() - 0.5) * 50
@@ -2828,10 +2900,10 @@
                     return;
                 }
                 confettiCtx.clearRect(0, 0, confettiCanvas.width, confettiCanvas.height);
-                let alive = false;
-                for (let i = confettiPieces.length - 1; i >= 0; i--) {
-                    const p = confettiPieces[i];
-                    const isAlive = p.update();
+                var alive = false;
+                for (var i = confettiPieces.length - 1; i >= 0; i--) {
+                    var p = confettiPieces[i];
+                    var isAlive = p.update();
                     if (isAlive) { p.draw(confettiCtx); alive = true; }
                     else { confettiPieces.splice(i, 1); }
                 }
@@ -2849,7 +2921,7 @@
             }
 
             // ============================================================
-            //  ÉVÉNEMENTS & INIT
+            //  ÉVÉNEMENTS SUR LE GRATTAGE
             // ============================================================
             scratchCanvas.addEventListener('mousedown', startDraw);
             scratchCanvas.addEventListener('mousemove', draw);
@@ -2861,46 +2933,39 @@
             scratchCanvas.addEventListener('touchend', stopDraw, { passive: false });
             scratchCanvas.addEventListener('touchcancel', stopDraw, { passive: false });
 
+            // ============================================================
+            //  BOUTON MUSIQUE PRINCIPALE
+            // ============================================================
             elements.musicToggle.addEventListener('click', function(e) {
                 e.stopPropagation();
                 if (musicPlaying) {
-                    stopBackgroundMusic();
+                    stopMainMusic();
                 } else {
-                    playBackgroundMusic();
+                    playMainMusic();
                 }
             });
 
-            window.addEventListener('resize', () => {
+            // ============================================================
+            //  RESIZE
+            // ============================================================
+            window.addEventListener('resize', function() {
                 resizeConfettiCanvas();
                 resizeScratchCanvas();
             });
 
-            // Initialisation différée (après le loader)
-            setTimeout(() => {
-                resizeConfettiCanvas();
+            // ============================================================
+            //  INIT FINAL
+            // ============================================================
+            setTimeout(function() {
                 resizeScratchCanvas();
-                initCarousel();
-                // Démarrer les animations de fond
-                initBgParticles();
-                animateBgParticles();
-                initPetals();
-                animatePetals();
+                resizeConfettiCanvas();
+            }, 100);
 
-                document.addEventListener('click', function initAudio() {
-                    if (!audioCtx) {
-                        try {
-                            audioCtx = new(window.AudioContext || window.webkitAudioContext)();
-                            if (audioCtx.state === 'suspended') audioCtx.resume();
-                        } catch (_) {}
-                    }
-                }, { once: true });
-            }, 2600);
-
-            document.querySelectorAll('.lang-btn').forEach(btn => {
+            document.querySelectorAll('.lang-btn').forEach(function(btn) {
                 btn.addEventListener('click', drawScratchBackground);
             });
 
-            console.log('💍 Invitation améliorée : loader, carrousel, histoire, performances optimisées');
+            console.log('💍 Invitation finale : test1.mp3 pendant le chargement, test.mp3 après le grattage');
 
         })();
     </script>
