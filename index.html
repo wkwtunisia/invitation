@@ -71,6 +71,36 @@
             transition: transform 0.3s ease;
         }
 
+        /* ===== BOUTON DE LECTURE SI AUTOPLAY BLOQUÉ ===== */
+        #clickToPlay {
+            position: fixed;
+            bottom: 30px;
+            left: 50%;
+            transform: translateX(-50%);
+            z-index: 99998;
+            background: rgba(184, 134, 11, 0.9);
+            color: #0d0a08;
+            padding: 10px 24px;
+            border-radius: 40px;
+            font-family: 'Roboto', sans-serif;
+            font-size: 0.9rem;
+            font-weight: 600;
+            letter-spacing: 1px;
+            cursor: pointer;
+            border: none;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.5);
+            opacity: 0;
+            transition: opacity 0.6s ease;
+            pointer-events: none;
+        }
+        #clickToPlay.show {
+            opacity: 1;
+            pointer-events: auto;
+        }
+        #clickToPlay:hover {
+            background: #d4af37;
+        }
+
         /* ===== VARIABLES ===== */
         :root {
             --card-bg: rgba(252, 248, 240, 0.92);
@@ -1535,6 +1565,9 @@
 </head>
 <body>
 
+    <!-- ===== BOUTON DE LECTURE SI AUTOPLAY BLOQUÉ ===== -->
+    <button id="clickToPlay">🎵 Cliquez pour lancer la musique</button>
+
     <!-- ===== LOADER ===== -->
     <div id="loader">
         <div class="loader-heart">❤️</div>
@@ -1774,7 +1807,7 @@
             // ============================================================
             //  CONFIGURATION – FICHIERS AUDIO
             // ============================================================
-            const CONFIG = {
+            var CONFIG = {
                 coupleImage: 'https://raw.githubusercontent.com/wkwtunisia/invitation/main/test1.jpg',
                 loadingMusicFile: 'https://raw.githubusercontent.com/wkwtunisia/invitation/main/test1.mp3',
                 musicFile: 'https://raw.githubusercontent.com/wkwtunisia/invitation/main/test.mp3',
@@ -1790,7 +1823,7 @@
             };
 
             // ============================================================
-            //  AUDIO – MUSIQUE DE CHARGEMENT
+            //  AUDIO – GESTION DE test1.mp3 (autoplay avec fallback)
             // ============================================================
             var loadingAudio = null;
             var mainAudio = null;
@@ -1799,27 +1832,59 @@
             var musicInterval = null;
             var musicNodes = [];
 
-            // Fonction pour jouer la musique de chargement (test1.mp3)
+            // Bouton de fallback
+            var clickToPlayBtn = document.getElementById('clickToPlay');
+
             function playLoadingMusic() {
                 if (loadingAudio) return;
                 loadingAudio = new Audio(CONFIG.loadingMusicFile);
                 loadingAudio.loop = true;
                 loadingAudio.volume = 0.3;
-                loadingAudio.play().catch(function(err) {
-                    console.warn('Impossible de jouer test1.mp3 :', err);
+                loadingAudio.play().then(function() {
+                    // Lecture automatique réussie
+                    clickToPlayBtn.classList.remove('show');
+                }).catch(function(err) {
+                    // Autoplay bloqué : on affiche le bouton
+                    clickToPlayBtn.classList.add('show');
                 });
             }
 
-            // Fonction pour arrêter la musique de chargement
+            // Déclencher la lecture au premier clic sur la page ou le bouton
+            function startLoadingOnInteraction() {
+                if (loadingAudio && !loadingAudio.paused) return;
+                if (loadingAudio) {
+                    loadingAudio.play().then(function() {
+                        clickToPlayBtn.classList.remove('show');
+                    }).catch(function() {});
+                } else {
+                    playLoadingMusic();
+                }
+                // Retirer les écouteurs après le premier clic
+                document.removeEventListener('click', startLoadingOnInteraction);
+                document.removeEventListener('touchstart', startLoadingOnInteraction);
+                clickToPlayBtn.removeEventListener('click', startLoadingOnInteraction);
+            }
+
+            // Ajouter les écouteurs pour le premier clic
+            document.addEventListener('click', startLoadingOnInteraction);
+            document.addEventListener('touchstart', startLoadingOnInteraction);
+            clickToPlayBtn.addEventListener('click', startLoadingOnInteraction);
+
+            // Lancer la lecture automatique immédiatement (tentative)
+            playLoadingMusic();
+
+            // Fonction pour arrêter test1.mp3
             function stopLoadingMusic() {
                 if (loadingAudio) {
                     loadingAudio.pause();
                     loadingAudio.currentTime = 0;
                     loadingAudio = null;
                 }
+                // Cacher le bouton
+                clickToPlayBtn.classList.remove('show');
             }
 
-            // Fonction pour jouer la musique principale (test.mp3)
+            // Fonctions pour la musique principale (test.mp3)
             function playMainMusic() {
                 if (musicPlaying) return;
                 if (!mainAudio) {
@@ -1837,7 +1902,6 @@
                 });
             }
 
-            // Fonction pour arrêter la musique principale
             function stopMainMusic() {
                 musicPlaying = false;
                 if (mainAudio) {
@@ -1916,20 +1980,7 @@
             var countdown = 5;
             countdownDisplay.textContent = countdown;
 
-            // Démarrer la musique de chargement dès qu'il y a une interaction
-            // (car les navigateurs bloquent les lectures automatiques)
-            var audioStarted = false;
-            function startAudioOnInteraction() {
-                if (audioStarted) return;
-                audioStarted = true;
-                playLoadingMusic();
-                document.removeEventListener('click', startAudioOnInteraction);
-                document.removeEventListener('touchstart', startAudioOnInteraction);
-                document.removeEventListener('keydown', startAudioOnInteraction);
-            }
-            document.addEventListener('click', startAudioOnInteraction);
-            document.addEventListener('touchstart', startAudioOnInteraction);
-            document.addEventListener('keydown', startAudioOnInteraction);
+            // La musique est déjà jouée (ou en attente) grâce à playLoadingMusic()
 
             var countdownInterval = setInterval(function() {
                 countdown--;
@@ -1941,12 +1992,8 @@
                     }, 200);
                 } else {
                     clearInterval(countdownInterval);
-                    // Arrêter la musique de chargement
-                    stopLoadingMusic();
-                    // Charger la carte
                     loader.classList.add('hidden');
                     card.classList.add('loaded');
-                    // Initialiser les animations
                     setTimeout(function() {
                         initPetals();
                         initBgParticles();
@@ -1954,7 +2001,6 @@
                         animateBgParticles();
                         animatePetals();
                     }, 100);
-                    // Initialiser l'audio principal après un clic si nécessaire
                     document.addEventListener('click', function initAudioCtx() {
                         if (!audioCtx) {
                             try {
@@ -2583,7 +2629,7 @@
             });
 
             // ============================================================
-            //  CANVAS DE GRATTAGE (VERSION CORRIGÉE)
+            //  CANVAS DE GRATTAGE
             // ============================================================
             var scratchCanvas = document.getElementById('scratchCanvas');
             var scratchCtx = scratchCanvas.getContext('2d');
@@ -2721,19 +2767,25 @@
             }
 
             // ============================================================
-            //  RÉVÉLATION
+            //  RÉVÉLATION – ARRÊT DE test1.mp3 ET LANCEMENT DE test.mp3
             // ============================================================
             function revealDate() {
                 if (isRevealed) return;
                 isRevealed = true;
 
+                // ★ Arrêter la musique de chargement (test1.mp3)
+                stopLoadingMusic();
+
+                // Jouer le jingle court
                 playTraditionalSound();
+
+                // Lancer les confettis
                 launchConfetti(250);
                 setTimeout(function() { launchConfetti(180); }, 500);
                 setTimeout(function() { launchConfetti(100); }, 1000);
                 setTimeout(function() { launchConfetti(60); }, 1600);
 
-                // Effacer complètement le scratch
+                // Effacer le scratch
                 scratchCtx.globalCompositeOperation = 'destination-out';
                 scratchCtx.fillStyle = '#ffffff';
                 scratchCtx.fillRect(0, 0, scratchCanvas.width, scratchCanvas.height);
@@ -2742,7 +2794,7 @@
 
                 elements.dateContent.classList.add('revealed');
 
-                // Lancer la musique principale après 1 seconde
+                // Lancer la musique principale (test.mp3) après 1 seconde
                 setTimeout(function() {
                     playMainMusic();
                     elements.musicToggle.classList.add('visible');
@@ -2750,7 +2802,7 @@
             }
 
             // ============================================================
-            //  JINGLE (son court de révélation)
+            //  JINGLE
             // ============================================================
             function playTraditionalSound() {
                 try {
@@ -2965,7 +3017,7 @@
                 btn.addEventListener('click', drawScratchBackground);
             });
 
-            console.log('💍 Invitation finale : test1.mp3 pendant le chargement, test.mp3 après le grattage');
+            console.log('💍 test1.mp3 démarre en autoplay (ou au premier clic) et s\'arrête après le grattage');
 
         })();
     </script>
