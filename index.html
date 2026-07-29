@@ -78,20 +78,21 @@
             left: 50%;
             transform: translateX(-50%);
             z-index: 99998;
-            background: rgba(184, 134, 11, 0.9);
+            background: rgba(184, 134, 11, 0.95);
             color: #0d0a08;
-            padding: 10px 24px;
-            border-radius: 40px;
+            padding: 12px 28px;
+            border-radius: 60px;
             font-family: 'Roboto', sans-serif;
-            font-size: 0.9rem;
+            font-size: 1rem;
             font-weight: 600;
             letter-spacing: 1px;
             cursor: pointer;
             border: none;
-            box-shadow: 0 4px 20px rgba(0,0,0,0.5);
+            box-shadow: 0 4px 30px rgba(0,0,0,0.6);
             opacity: 0;
-            transition: opacity 0.6s ease;
+            transition: opacity 0.5s ease;
             pointer-events: none;
+            backdrop-filter: blur(4px);
         }
         #clickToPlay.show {
             opacity: 1;
@@ -99,6 +100,10 @@
         }
         #clickToPlay:hover {
             background: #d4af37;
+            transform: translateX(-50%) scale(1.02);
+        }
+        #clickToPlay:active {
+            transform: translateX(-50%) scale(0.96);
         }
 
         /* ===== VARIABLES ===== */
@@ -1841,46 +1846,46 @@
                 loadingAudio.loop = true;
                 loadingAudio.volume = 0.3;
                 loadingAudio.play().then(function() {
-                    // Lecture automatique réussie
+                    // Lecture réussie : cacher le bouton
                     clickToPlayBtn.classList.remove('show');
                 }).catch(function(err) {
-                    // Autoplay bloqué : on affiche le bouton
+                    // Lecture bloquée : afficher le bouton
                     clickToPlayBtn.classList.add('show');
                 });
             }
 
-            // Déclencher la lecture au premier clic sur la page ou le bouton
+            // Fonction pour démarrer la lecture au premier clic/toucher
             function startLoadingOnInteraction() {
-                if (loadingAudio && !loadingAudio.paused) return;
-                if (loadingAudio) {
+                if (loadingAudio && loadingAudio.paused) {
                     loadingAudio.play().then(function() {
                         clickToPlayBtn.classList.remove('show');
                     }).catch(function() {});
-                } else {
+                } else if (!loadingAudio) {
                     playLoadingMusic();
                 }
-                // Retirer les écouteurs après le premier clic
+                // Retirer les écouteurs après la première interaction
                 document.removeEventListener('click', startLoadingOnInteraction);
                 document.removeEventListener('touchstart', startLoadingOnInteraction);
                 clickToPlayBtn.removeEventListener('click', startLoadingOnInteraction);
+                clickToPlayBtn.removeEventListener('touchstart', startLoadingOnInteraction);
             }
 
-            // Ajouter les écouteurs pour le premier clic
+            // Ajouter les écouteurs pour le premier clic/toucher
             document.addEventListener('click', startLoadingOnInteraction);
             document.addEventListener('touchstart', startLoadingOnInteraction);
             clickToPlayBtn.addEventListener('click', startLoadingOnInteraction);
+            clickToPlayBtn.addEventListener('touchstart', startLoadingOnInteraction);
 
-            // Lancer la lecture automatique immédiatement (tentative)
+            // Tenter la lecture automatique immédiatement
             playLoadingMusic();
 
-            // Fonction pour arrêter test1.mp3
+            // Fonction pour arrêter test1.mp3 (appelée après le grattage)
             function stopLoadingMusic() {
                 if (loadingAudio) {
                     loadingAudio.pause();
                     loadingAudio.currentTime = 0;
                     loadingAudio = null;
                 }
-                // Cacher le bouton
                 clickToPlayBtn.classList.remove('show');
             }
 
@@ -1979,8 +1984,6 @@
 
             var countdown = 5;
             countdownDisplay.textContent = countdown;
-
-            // La musique est déjà jouée (ou en attente) grâce à playLoadingMusic()
 
             var countdownInterval = setInterval(function() {
                 countdown--;
