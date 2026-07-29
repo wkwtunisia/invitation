@@ -554,10 +554,10 @@
                 le temps d'une célébration empreinte de traditions. »
             </p>
 
-            <!-- Photo du couple - chargeable depuis GitHub -->
+            <!-- Photo du couple depuis GitHub (test1.jpg) -->
             <div class="couple-photo">
                 <img id="coupleImg" 
-                     src="https://raw.githubusercontent.com/your-username/your-repo/main/couple.jpg" 
+                     src="" 
                      alt="Leila & Youssef" 
                      onerror="this.src='https://via.placeholder.com/300x300/8b0000/fcf8f0?text=Leila+%26+Youssef'">
             </div>
@@ -593,20 +593,20 @@
         (function() {
             'use strict';
 
-            // ============================================
-            //  CONFIGURATION – MODIFIEZ CES URLs
-            // ============================================
+            // ============================================================
+            //  CONFIGURATION – MODIFIEZ CES URLs AVEC VOS FICHIERS GITHUB
+            // ============================================================
             const CONFIG = {
-                // URL de la photo du couple (hébergée sur GitHub, etc.)
-                coupleImage: 'https://raw.githubusercontent.com/your-username/your-repo/main/couple.jpg',
-                // URL du fichier audio (MP3, WAV, etc.) – si vous voulez une musique personnalisée.
-                // Si vous laissez vide, le script génère une mélodie synthétique.
-                musicFile: '' // exemple: 'https://raw.githubusercontent.com/your-username/your-repo/main/mariage.mp3'
+                // URL de la photo du couple (test1.jpg)
+                coupleImage: 'https://raw.githubusercontent.com/wkwtunisia/invitation
+/main/test1.jpg',
+                // URL du fichier audio (test.mp3)
+                musicFile: 'https://raw.githubusercontent.com/wkwtunisia/invitation/main/test.mp3'
             };
 
-            // ============================================
+            // ============================================================
             //  TRADUCTIONS
-            // ============================================
+            // ============================================================
             const translations = {
                 fr: {
                     blessing: 'بسم الله الرحمن الرحيم',
@@ -649,9 +649,9 @@
                 }
             };
 
-            // ============================================
+            // ============================================================
             //  RÉFÉRENCES DOM
-            // ============================================
+            // ============================================================
             const elements = {
                 blessing: document.getElementById('blessing'),
                 title: document.getElementById('title'),
@@ -666,14 +666,14 @@
                 coupleImg: document.getElementById('coupleImg')
             };
 
-            // Charger l'image depuis la config
+            // Charger la photo depuis la config
             if (CONFIG.coupleImage) {
                 elements.coupleImg.src = CONFIG.coupleImage;
             }
 
-            // ============================================
+            // ============================================================
             //  LANGUE
-            // ============================================
+            // ============================================================
             let currentLang = 'fr';
 
             function setLanguage(lang) {
@@ -691,7 +691,6 @@
                 elements.dateDetails.innerHTML = t.dateDetails;
                 elements.scratchHint.textContent = t.scratchHint;
 
-                // Mettre à jour le bouton musique
                 if (!isRevealed) {
                     elements.musicToggle.textContent = t.musicToggle;
                 } else {
@@ -702,7 +701,6 @@
                     btn.classList.toggle('active', btn.dataset.lang === lang);
                 });
 
-                // Redessiner le scratch (pour le texte central)
                 drawScratchBackground();
             }
 
@@ -714,9 +712,9 @@
                 });
             });
 
-            // ============================================
-            //  CANVAS DE GRATTAGE (fonctionnel !)
-            // ============================================
+            // ============================================================
+            //  CANVAS DE GRATTAGE (100% fonctionnel)
+            // ============================================================
             const scratchCanvas = document.getElementById('scratchCanvas');
             const scratchCtx = scratchCanvas.getContext('2d');
             const dateWrapper = document.getElementById('dateWrapper');
@@ -845,47 +843,43 @@
                 }
             }
 
-            // ============================================
+            // ============================================================
             //  RÉVÉLATION
-            // ============================================
+            // ============================================================
             function revealDate() {
                 if (isRevealed) return;
                 isRevealed = true;
 
-                // Son court (jingle)
                 playTraditionalSound();
-
-                // Confettis
                 launchConfetti(280);
                 setTimeout(() => launchConfetti(200), 400);
                 setTimeout(() => launchConfetti(120), 900);
 
-                // Effacer le scratch
                 scratchCtx.globalCompositeOperation = 'destination-out';
                 scratchCtx.fillStyle = '#ffffff';
                 scratchCtx.fillRect(0, 0, scratchCanvas.width, scratchCanvas.height);
                 hint.classList.add('hidden');
                 scratchCanvas.style.pointerEvents = 'none';
 
-                // Lancer la musique de fond (avec ou sans fichier)
                 setTimeout(() => {
                     playBackgroundMusic();
                     elements.musicToggle.classList.add('visible');
                 }, 800);
             }
 
-            // ============================================
-            //  MUSIQUE (avec fichier externe ou synthétique)
-            // ============================================
+            // ============================================================
+            //  MUSIQUE (fichier test.mp3 depuis GitHub)
+            // ============================================================
             let audioCtx = null;
             let musicPlaying = false;
+            let audioElement = null;
             let musicInterval = null;
             let musicNodes = [];
-            let audioElement = null; // pour lecture de fichier
 
             function playBackgroundMusic() {
                 if (musicPlaying) return;
-                // Si un fichier audio est configuré, on l'utilise
+
+                // Utiliser le fichier audio test.mp3
                 if (CONFIG.musicFile) {
                     if (!audioElement) {
                         audioElement = new Audio(CONFIG.musicFile);
@@ -897,7 +891,7 @@
                         elements.musicToggle.classList.add('playing');
                         elements.musicToggle.textContent = translations[currentLang].musicToggle;
                     }).catch(err => {
-                        console.warn('Impossible de jouer le fichier audio, fallback sur synthétique.', err);
+                        console.warn('Impossible de jouer test.mp3, fallback synthétique.', err);
                         playSyntheticMusic();
                     });
                 } else {
@@ -911,26 +905,17 @@
                     if (!audioCtx) {
                         audioCtx = new(window.AudioContext || window.webkitAudioContext)();
                     }
-                    if (audioCtx.state === 'suspended') {
-                        audioCtx.resume();
-                    }
+                    if (audioCtx.state === 'suspended') audioCtx.resume();
 
                     const notes = [
-                        { freq: 261.63, dur: 0.3 },
-                        { freq: 293.66, dur: 0.3 },
-                        { freq: 329.63, dur: 0.4 },
-                        { freq: 392.00, dur: 0.3 },
-                        { freq: 440.00, dur: 0.4 },
-                        { freq: 523.25, dur: 0.5 },
-                        { freq: 493.88, dur: 0.3 },
-                        { freq: 440.00, dur: 0.4 },
-                        { freq: 392.00, dur: 0.3 },
-                        { freq: 349.23, dur: 0.3 },
-                        { freq: 329.63, dur: 0.4 },
-                        { freq: 293.66, dur: 0.3 },
-                        { freq: 261.63, dur: 0.6 },
+                        { freq: 261.63, dur: 0.3 }, { freq: 293.66, dur: 0.3 },
+                        { freq: 329.63, dur: 0.4 }, { freq: 392.00, dur: 0.3 },
+                        { freq: 440.00, dur: 0.4 }, { freq: 523.25, dur: 0.5 },
+                        { freq: 493.88, dur: 0.3 }, { freq: 440.00, dur: 0.4 },
+                        { freq: 392.00, dur: 0.3 }, { freq: 349.23, dur: 0.3 },
+                        { freq: 329.63, dur: 0.4 }, { freq: 293.66, dur: 0.3 },
+                        { freq: 261.63, dur: 0.6 }
                     ];
-
                     let currentNote = 0;
                     const playNote = () => {
                         if (!musicPlaying) return;
@@ -954,12 +939,10 @@
                             musicInterval = setTimeout(playNote, note.dur * 1000 + 80);
                         }
                     };
-
                     musicPlaying = true;
                     elements.musicToggle.classList.add('playing');
                     elements.musicToggle.textContent = translations[currentLang].musicToggle;
                     playNote();
-
                 } catch (e) {
                     console.warn('Erreur audio synthétique:', e);
                 }
@@ -983,17 +966,15 @@
                 elements.musicToggle.textContent = translations[currentLang].musicOff;
             }
 
-            // ============================================
+            // ============================================================
             //  JINGLE COURT
-            // ============================================
+            // ============================================================
             function playTraditionalSound() {
                 try {
                     if (!audioCtx) {
                         audioCtx = new(window.AudioContext || window.webkitAudioContext)();
                     }
-                    if (audioCtx.state === 'suspended') {
-                        audioCtx.resume();
-                    }
+                    if (audioCtx.state === 'suspended') audioCtx.resume();
                     const now = audioCtx.currentTime;
                     const notes = [
                         { freq: 180, time: 0.00, dur: 0.12, vol: 0.20 },
@@ -1001,7 +982,7 @@
                         { freq: 300, time: 0.20, dur: 0.15, vol: 0.22 },
                         { freq: 360, time: 0.35, dur: 0.12, vol: 0.20 },
                         { freq: 450, time: 0.48, dur: 0.20, vol: 0.25 },
-                        { freq: 300, time: 0.68, dur: 0.18, vol: 0.20 },
+                        { freq: 300, time: 0.68, dur: 0.18, vol: 0.20 }
                     ];
                     notes.forEach(n => {
                         const osc = audioCtx.createOscillator();
@@ -1034,9 +1015,9 @@
                 } catch (e) {}
             }
 
-            // ============================================
+            // ============================================================
             //  CONFETTIS
-            // ============================================
+            // ============================================================
             const confettiCanvas = document.getElementById('confettiCanvas');
             const confettiCtx = confettiCanvas.getContext('2d');
             let confettiPieces = [];
@@ -1160,9 +1141,9 @@
                 }
             }
 
-            // ============================================
+            // ============================================================
             //  ÉVÉNEMENTS & INIT
-            // ============================================
+            // ============================================================
             scratchCanvas.addEventListener('mousedown', startDraw);
             scratchCanvas.addEventListener('mousemove', draw);
             scratchCanvas.addEventListener('mouseup', stopDraw);
@@ -1190,7 +1171,6 @@
             function init() {
                 resizeConfettiCanvas();
                 resizeScratchCanvas();
-                // Initialiser l'audio context au premier clic
                 document.addEventListener('click', function initAudio() {
                     if (!audioCtx) {
                         try {
@@ -1203,12 +1183,14 @@
 
             window.addEventListener('load', init);
 
-            // Redessiner le scratch après changement de langue
             document.querySelectorAll('.lang-btn').forEach(btn => {
                 btn.addEventListener('click', drawScratchBackground);
             });
 
-            console.log('💍 Invitation prête ! Grattage fonctionnel, photo et musique depuis GitHub.');
+            console.log('💍 Invitation prête !');
+            console.log('📷 Photo: ' + CONFIG.coupleImage);
+            console.log('🎵 Musique: ' + (CONFIG.musicFile || 'synthétique'));
+
         })();
     </script>
 
