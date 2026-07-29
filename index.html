@@ -3,9 +3,64 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=yes">
-    <title>Invitation Mariage - Grattez pour découvrir</title>
+    <title>Invitation Mariage - YOSRA & MOHAMED ALI</title>
     <link href="https://fonts.googleapis.com/css2?family=Amiri:ital,wght@0,400;0,700;1,700&family=Playfair+Display:wght@400;600;700;900&family=Roboto:wght@300;400;500&display=swap" rel="stylesheet">
     <style>
+        /* ===== LOADER ===== */
+        #loader {
+            position: fixed;
+            inset: 0;
+            z-index: 99999;
+            background: #0d0a08;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            transition: opacity 0.8s ease, visibility 0.8s ease;
+        }
+        #loader.hidden {
+            opacity: 0;
+            visibility: hidden;
+            pointer-events: none;
+        }
+        .loader-heart {
+            font-size: 5rem;
+            animation: heartbeat 1.2s ease-in-out infinite;
+            color: #8b0000;
+            text-shadow: 0 0 60px rgba(139, 0, 0, 0.3);
+        }
+        @keyframes heartbeat {
+            0%, 100% { transform: scale(1); }
+            14% { transform: scale(1.3); }
+            28% { transform: scale(1); }
+            42% { transform: scale(1.3); }
+            70% { transform: scale(1); }
+        }
+        .loader-text {
+            font-family: 'Amiri', serif;
+            color: rgba(212, 175, 55, 0.6);
+            font-size: 1.2rem;
+            margin-top: 20px;
+            letter-spacing: 4px;
+            animation: pulseText 1.8s ease-in-out infinite;
+        }
+        @keyframes pulseText {
+            0%, 100% { opacity: 0.4; }
+            50% { opacity: 1; }
+        }
+        .loader-spinner {
+            margin-top: 16px;
+            width: 40px;
+            height: 40px;
+            border: 3px solid rgba(212, 175, 55, 0.1);
+            border-top-color: #b8860b;
+            border-radius: 50%;
+            animation: spin 0.9s linear infinite;
+        }
+        @keyframes spin {
+            to { transform: rotate(360deg); }
+        }
+
         /* ===== VARIABLES ===== */
         :root {
             --card-bg: rgba(252, 248, 240, 0.92);
@@ -80,19 +135,11 @@
             --gold-gradient: linear-gradient(135deg, #4a3a8a, #7a6acd, #4a3a8a);
             --countdown-bg: rgba(106, 90, 205, 0.15);
         }
-        body.theme-starry .invitation-card::before {
-            opacity: 0.15;
-        }
-        body.theme-starry .invitation-card::after {
-            opacity: 0.8;
-        }
+        body.theme-starry .invitation-card::before { opacity: 0.15; }
+        body.theme-starry .invitation-card::after { opacity: 0.85; }
 
         /* ===== BASE ===== */
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
+        * { margin: 0; padding: 0; box-sizing: border-box; }
 
         body {
             min-height: 100vh;
@@ -111,10 +158,7 @@
         body::before {
             content: '';
             position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
+            inset: 0;
             background:
                 radial-gradient(ellipse at 20% 50%, rgba(184, 134, 11, 0.06) 0%, transparent 60%),
                 radial-gradient(ellipse at 80% 50%, rgba(184, 134, 11, 0.06) 0%, transparent 60%),
@@ -128,7 +172,7 @@
             50% { opacity: 1; transform: scale(1.05); }
         }
 
-        /* ===== PÉTALES EN ARRIÈRE-PLAN ===== */
+        /* ===== PÉTALES (optimisés) ===== */
         #petalsCanvas {
             position: fixed;
             top: 0;
@@ -140,7 +184,7 @@
             opacity: 0.5;
         }
 
-        /* ===== PARTICULES D'OR ===== */
+        /* ===== PARTICULES D'OR (optimisées) ===== */
         #bgParticlesCanvas {
             position: fixed;
             top: 0;
@@ -163,9 +207,7 @@
             opacity: 0;
             transition: opacity 0.8s ease;
         }
-        #confettiCanvas.active {
-            opacity: 1;
-        }
+        #confettiCanvas.active { opacity: 1; }
 
         /* ===== TOP CONTROLS ===== */
         .top-controls {
@@ -312,19 +354,10 @@
             box-shadow: -10px 0 60px rgba(0,0,0,0.6);
             border-left: 1px solid rgba(184, 134, 11, 0.15);
         }
-        .sidebar-overlay.open {
-            right: 0;
-        }
-        .sidebar-overlay::-webkit-scrollbar {
-            width: 4px;
-        }
-        .sidebar-overlay::-webkit-scrollbar-track {
-            background: transparent;
-        }
-        .sidebar-overlay::-webkit-scrollbar-thumb {
-            background: #b8860b;
-            border-radius: 4px;
-        }
+        .sidebar-overlay.open { right: 0; }
+        .sidebar-overlay::-webkit-scrollbar { width: 4px; }
+        .sidebar-overlay::-webkit-scrollbar-track { background: transparent; }
+        .sidebar-overlay::-webkit-scrollbar-thumb { background: #b8860b; border-radius: 4px; }
 
         .sidebar-close {
             position: absolute;
@@ -395,9 +428,7 @@
             letter-spacing: 0.5px;
             transition: color 0.3s ease;
         }
-        .color-item:hover .color-label {
-            color: #fcf8f0;
-        }
+        .color-item:hover .color-label { color: #fcf8f0; }
         .color-btn {
             width: 44px;
             height: 44px;
@@ -416,9 +447,7 @@
             border: 2px solid transparent;
             transition: all 0.4s ease;
         }
-        .color-btn:hover {
-            transform: scale(1.12);
-        }
+        .color-btn:hover { transform: scale(1.12); }
         .color-btn.active::after {
             border-color: #d4af37;
             box-shadow: 0 0 30px rgba(212, 175, 55, 0.3);
@@ -442,6 +471,7 @@
             text-transform: uppercase;
         }
 
+        /* ===== PHOTOS GRID (sidebar) ===== */
         .photos-grid {
             display: grid;
             grid-template-columns: repeat(auto-fill, minmax(95px, 1fr));
@@ -470,6 +500,7 @@
             height: 100%;
             object-fit: cover;
             display: block;
+            loading: lazy;
         }
         .photo-item .photo-name {
             text-align: center;
@@ -542,13 +573,8 @@
             backdrop-filter: blur(12px);
             animation: fadeIn 0.4s ease;
         }
-        @keyframes fadeIn {
-            from { opacity: 0; }
-            to { opacity: 1; }
-        }
-        .lightbox.active {
-            display: flex;
-        }
+        @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+        .lightbox.active { display: flex; }
         .lightbox img {
             max-width: 92%;
             max-height: 88%;
@@ -633,6 +659,15 @@
             perspective: 1000px;
             animation: floatCard 6s ease-in-out infinite;
             background: var(--card-bg);
+            opacity: 0;
+            transform: translateY(30px) scale(0.96);
+            animation: none;
+            transition: opacity 0.8s ease, transform 0.8s ease;
+        }
+        .invitation-card.loaded {
+            opacity: 1;
+            transform: translateY(0) scale(1);
+            animation: floatCard 6s ease-in-out infinite;
         }
         .invitation-card::before {
             content: '';
@@ -897,6 +932,7 @@
             height: 100%;
             object-fit: cover;
             display: block;
+            loading: lazy;
         }
 
         .couple-container {
@@ -1263,6 +1299,179 @@
             color: var(--card-accent);
         }
 
+        /* ===== GALERIE / CARROUSEL ===== */
+        .carousel-section {
+            margin: 18px 0 12px;
+            border-top: 1px solid rgba(184, 134, 11, 0.15);
+            padding-top: 14px;
+        }
+        .carousel-title {
+            font-family: 'Playfair Display', serif;
+            font-size: 1.2rem;
+            color: var(--card-border);
+            letter-spacing: 3px;
+            margin-bottom: 12px;
+            text-transform: uppercase;
+            opacity: 0.8;
+            transition: color 0.6s ease;
+        }
+        .carousel-container {
+            position: relative;
+            border-radius: 16px;
+            overflow: hidden;
+            aspect-ratio: 16/10;
+            background: rgba(0,0,0,0.1);
+            border: 1px solid rgba(184, 134, 11, 0.1);
+        }
+        .carousel-track {
+            display: flex;
+            transition: transform 0.6s cubic-bezier(0.34, 1.56, 0.64, 1);
+            height: 100%;
+            will-change: transform;
+        }
+        .carousel-slide {
+            min-width: 100%;
+            height: 100%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-shrink: 0;
+        }
+        .carousel-slide img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            display: block;
+            loading: lazy;
+        }
+        .carousel-btn {
+            position: absolute;
+            top: 50%;
+            transform: translateY(-50%);
+            background: rgba(0,0,0,0.4);
+            backdrop-filter: blur(4px);
+            border: 1px solid rgba(184, 134, 11, 0.2);
+            color: rgba(255,255,255,0.7);
+            font-size: 1.4rem;
+            padding: 8px 14px;
+            border-radius: 50%;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            z-index: 5;
+            line-height: 1;
+        }
+        .carousel-btn:hover {
+            background: rgba(184, 134, 11, 0.3);
+            color: #fff;
+            transform: translateY(-50%) scale(1.08);
+        }
+        .carousel-btn.prev { left: 8px; }
+        .carousel-btn.next { right: 8px; }
+        .carousel-dots {
+            display: flex;
+            justify-content: center;
+            gap: 8px;
+            margin-top: 10px;
+        }
+        .carousel-dot {
+            width: 10px;
+            height: 10px;
+            border-radius: 50%;
+            border: 1px solid rgba(184, 134, 11, 0.3);
+            background: transparent;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            padding: 0;
+        }
+        .carousel-dot.active {
+            background: #b8860b;
+            border-color: #b8860b;
+            box-shadow: 0 0 15px rgba(184, 134, 11, 0.3);
+            transform: scale(1.2);
+        }
+        .carousel-dot:hover {
+            transform: scale(1.15);
+        }
+
+        /* ===== NOTRE HISTOIRE ===== */
+        .story-section {
+            margin: 16px 0 10px;
+            padding: 16px 14px;
+            border-radius: 16px;
+            background: rgba(212, 175, 55, 0.03);
+            border: 1px solid rgba(184, 134, 11, 0.08);
+            transition: all 0.6s ease;
+        }
+        .story-section:hover {
+            background: rgba(212, 175, 55, 0.06);
+            border-color: rgba(184, 134, 11, 0.15);
+        }
+        .story-title {
+            font-family: 'Playfair Display', serif;
+            font-size: 1.3rem;
+            color: var(--card-border);
+            letter-spacing: 2px;
+            margin-bottom: 10px;
+            text-align: center;
+            transition: color 0.6s ease;
+        }
+        .story-text {
+            color: var(--card-text);
+            font-family: 'Roboto', sans-serif;
+            font-size: 0.95rem;
+            line-height: 1.8;
+            text-align: justify;
+            transition: color 0.6s ease;
+        }
+        .story-text p {
+            margin-bottom: 8px;
+        }
+        .story-timeline {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+            margin-top: 14px;
+            position: relative;
+            padding-left: 28px;
+        }
+        .story-timeline::before {
+            content: '';
+            position: absolute;
+            left: 8px;
+            top: 4px;
+            bottom: 4px;
+            width: 2px;
+            background: linear-gradient(180deg, var(--card-border), transparent);
+            opacity: 0.3;
+        }
+        .timeline-item {
+            position: relative;
+            padding-left: 16px;
+        }
+        .timeline-item::before {
+            content: '✦';
+            position: absolute;
+            left: -22px;
+            top: 0;
+            color: var(--card-border);
+            font-size: 0.8rem;
+            opacity: 0.6;
+        }
+        .timeline-item .date {
+            font-family: 'Amiri', serif;
+            font-size: 0.8rem;
+            color: var(--card-border);
+            font-weight: 700;
+            opacity: 0.7;
+        }
+        .timeline-item .desc {
+            color: var(--card-text);
+            font-family: 'Roboto', sans-serif;
+            font-size: 0.85rem;
+            line-height: 1.6;
+            transition: color 0.6s ease;
+        }
+
         /* ===== RESPONSIVE ===== */
         @media (max-width: 480px) {
             .invitation-card {
@@ -1295,6 +1504,10 @@
             .qr-code { width: 56px; height: 56px; }
             .map-container.visible { height: 150px; }
             .verse-text { font-size: 0.95rem; line-height: 2; }
+            .carousel-container { aspect-ratio: 4/3; }
+            .story-text { font-size: 0.85rem; }
+            .story-timeline { padding-left: 20px; }
+            .timeline-item .desc { font-size: 0.8rem; }
         }
         @media (max-width: 360px) {
             .invite-title { font-size: 1.4rem; letter-spacing: 2px; }
@@ -1317,6 +1530,13 @@
     </style>
 </head>
 <body>
+
+    <!-- ===== LOADER ===== -->
+    <div id="loader">
+        <div class="loader-heart">❤️</div>
+        <div class="loader-text">YOSRA &amp; MOHAMED ALI</div>
+        <div class="loader-spinner"></div>
+    </div>
 
     <!-- Canvas pour les pétales -->
     <canvas id="petalsCanvas"></canvas>
@@ -1378,7 +1598,6 @@
             <!-- Rempli par JavaScript -->
         </div>
 
-        <!-- ===== VERSET CORANIQUE ===== -->
         <div style="border-top:1px solid rgba(184,134,11,0.1); margin: 20px 0 14px;"></div>
         <div class="sidebar-section-title">آية قرآنية</div>
         <div class="verse-container">
@@ -1386,11 +1605,7 @@
             <div class="verse-text">
                 وَمِنْ ءَايَاتِهِۦٓ أَنْ خَلَقَ لَكُم مِّنْ أَنفُسِكُمْ أَزْوَجًا لِّتَسْكُنُواْ إِلَيْهَا وَجَعَلَ بَيْنَكُم مَّوَدَّةً وَرَحْمَةً إِنَّ فِى ذَلِكَ لَآياتٍۢ لِّقَوْم يَتَفَكَّرُونَ
             </div>
-            <div class="verse-reference">—لَيْسَ الزَّوَاجُ لِشَهْوَةٍ وَغَرِيزَةٍ ... إِنَّ الزَّوَاجَ تَعَفُّفٌ وَطُهُورُ....
-              المَالُ يَفْنَى وَالجَمَالُ وَدِيعَةٌ ...
-              
-              وَالجَاهُ يَبْلَى كُلُّ ذَاكَ غُرُورُ....
-              أَمَرَ النَّبِيُّ بِذَاتِ دِينٍ زَوْجَةً ... فَاظْفَرْ بِذَاتِ الدِّينِ هُنَّ الحُورُ —</div>
+            <div class="verse-reference">— سورة الروم، الآية 21 —</div>
         </div>
     </div>
 
@@ -1425,6 +1640,7 @@
                 <img id="coupleImg" 
                      src="https://raw.githubusercontent.com/wkwtunisia/invitation/main/test1.jpg" 
                      alt="YOSRA & MOHAMED ALI" 
+                     loading="lazy"
                      onerror="this.src='https://via.placeholder.com/300x300/8b0000/fcf8f0?text=YOSRA+%26+MOHAMED+ALI'">
             </div>
 
@@ -1434,6 +1650,44 @@
                 <span class="couple-icon right">🤵</span>
             </div>
             <div class="families" id="families">— & leurs familles —</div>
+
+            <div class="divider-light"></div>
+
+            <!-- ===== NOTRE HISTOIRE ===== -->
+            <div class="story-section" id="storySection">
+                <div class="story-title" id="storyTitle">💕 Notre Histoire</div>
+                <div class="story-text" id="storyText">
+                    <p id="storyP1">Yosra et Mohamed Ali se sont rencontrés au détour d'un chemin de vie, portés par la même soif de partage et de découverte. Leurs regards se sont croisés et leurs cœurs ont immédiatement reconnu une évidence.</p>
+                    <p id="storyP2">Au fil des jours, leur complicité s'est renforcée, nourrie de rires, de confidences et de projets communs. Chaque instant partagé a tissé la toile d'un amour profond et sincère.</p>
+                </div>
+                <div class="story-timeline" id="storyTimeline">
+                    <div class="timeline-item">
+                        <div class="date">✦ 2025</div>
+                        <div class="desc" id="tl1">Rencontre et premiers échanges</div>
+                    </div>
+                    <div class="timeline-item">
+                        <div class="date">✦ 2026</div>
+                        <div class="desc" id="tl2">Les fiançailles : un oui pour la vie</div>
+                    </div>
+                    <div class="timeline-item">
+                        <div class="date">✦ 30 Janvier 2027</div>
+                        <div class="desc" id="tl3">Le jour de l'union sacrée</div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- ===== GALERIE / CARROUSEL ===== -->
+            <div class="carousel-section" id="carouselSection">
+                <div class="carousel-title" id="carouselTitle">📸 Souvenirs</div>
+                <div class="carousel-container" id="carouselContainer">
+                    <div class="carousel-track" id="carouselTrack">
+                        <!-- Rempli par JavaScript -->
+                    </div>
+                    <button class="carousel-btn prev" id="carouselPrev">‹</button>
+                    <button class="carousel-btn next" id="carouselNext">›</button>
+                </div>
+                <div class="carousel-dots" id="carouselDots"></div>
+            </div>
 
             <div class="divider-light"></div>
 
@@ -1492,7 +1746,7 @@
             <!-- ===== QR CODE ===== -->
             <div class="qr-container">
                 <div class="qr-code">
-                    <img id="qrImage" src="https://api.qrserver.com/v1/create-qr-code/?size=150x150&data=https://wkwtunisia.github.io/invitation/" alt="QR Code">
+                    <img id="qrImage" src="https://api.qrserver.com/v1/create-qr-code/?size=150x150&data=https://wkwtunisia.github.io/invitation/" alt="QR Code" loading="lazy">
                 </div>
             </div>
 
@@ -1512,7 +1766,7 @@
             'use strict';
 
             // ============================================================
-            //  CONFIGURATION – DATE MISE À JOUR
+            //  CONFIGURATION
             // ============================================================
             const CONFIG = {
                 coupleImage: 'https://raw.githubusercontent.com/wkwtunisia/invitation/main/test1.jpg',
@@ -1529,61 +1783,111 @@
             };
 
             // ============================================================
-            //  COMPTE À REBOURS
+            //  LOADER
             // ============================================================
-            function updateCountdown() {
-                const now = Date.now();
-                let diff = CONFIG.weddingDate - now;
-                if (diff < 0) diff = 0;
+            const loader = document.getElementById('loader');
+            const card = document.getElementById('invitationCard');
 
-                const days = Math.floor(diff / (1000 * 60 * 60 * 24));
-                const hours = Math.floor((diff % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
-                const minutes = Math.floor((diff % (1000 * 60 * 60)) / (1000 * 60));
-                const seconds = Math.floor((diff % (1000 * 60)) / 1000);
-
-                document.getElementById('cdDays').textContent = String(days).padStart(2, '0');
-                document.getElementById('cdHours').textContent = String(hours).padStart(2, '0');
-                document.getElementById('cdMinutes').textContent = String(minutes).padStart(2, '0');
-                document.getElementById('cdSeconds').textContent = String(seconds).padStart(2, '0');
-            }
-            updateCountdown();
-            setInterval(updateCountdown, 1000);
+            // Cache le loader après 2.5 secondes
+            setTimeout(() => {
+                loader.classList.add('hidden');
+                card.classList.add('loaded');
+                // Lancer les animations de fond après le chargement
+                initPetals();
+                initBgParticles();
+            }, 2500);
 
             // ============================================================
-            //  CARTE GOOGLE MAPS
+            //  CARROUSEL
             // ============================================================
-            const mapToggle = document.getElementById('mapToggle');
-            const mapContainer = document.getElementById('mapContainer');
-            let mapVisible = false;
+            const track = document.getElementById('carouselTrack');
+            const dotsContainer = document.getElementById('carouselDots');
+            const prevBtn = document.getElementById('carouselPrev');
+            const nextBtn = document.getElementById('carouselNext');
+            let currentSlide = 0;
+            let slideCount = 0;
+            let autoPlayInterval = null;
 
-            mapToggle.addEventListener('click', function() {
-                mapVisible = !mapVisible;
-                mapContainer.classList.toggle('visible', mapVisible);
-                mapToggle.textContent = mapVisible ? '📍 Fermer la carte' : '📍 Voir sur la carte';
-            });
+            function initCarousel() {
+                // Utiliser les photos de CONFIG
+                const photos = CONFIG.photos;
+                slideCount = photos.length;
 
-            // ============================================================
-            //  PARTAGE SOCIAL
-            // ============================================================
-            const url = encodeURIComponent(CONFIG.invitationUrl);
-            const text = encodeURIComponent('💍 YOSRA & MOHAMED ALI - Mariage le 30 Janvier 2027 🎉');
-
-            document.getElementById('shareWhatsApp').addEventListener('click', function() {
-                window.open(`https://wa.me/?text=${text}%20${url}`, '_blank');
-            });
-            document.getElementById('shareFacebook').addEventListener('click', function() {
-                window.open(`https://www.facebook.com/sharer/sharer.php?u=${url}`, '_blank');
-            });
-            document.getElementById('shareEmail').addEventListener('click', function() {
-                window.location.href = `mailto:?subject=${text}&body=${text}%0A%0A${url}`;
-            });
-            document.getElementById('shareCopy').addEventListener('click', function() {
-                navigator.clipboard.writeText(CONFIG.invitationUrl).then(() => {
-                    const btn = this;
-                    const orig = btn.textContent;
-                    btn.textContent = '✅ Copié !';
-                    setTimeout(() => btn.textContent = orig, 2000);
+                // Remplir le track
+                track.innerHTML = '';
+                photos.forEach((photo, index) => {
+                    const slide = document.createElement('div');
+                    slide.className = 'carousel-slide';
+                    const img = document.createElement('img');
+                    img.src = photo.url;
+                    img.alt = photo.name;
+                    img.loading = 'lazy';
+                    img.onerror = function() {
+                        this.style.display = 'none';
+                        const fallback = document.createElement('div');
+                        fallback.textContent = photo.name;
+                        fallback.style.cssText = 'display:flex; align-items:center; justify-content:center; width:100%; height:100%; color:rgba(255,255,255,0.6); background:rgba(0,0,0,0.2); font-size:1rem;';
+                        this.parentNode.appendChild(fallback);
+                    };
+                    slide.appendChild(img);
+                    track.appendChild(slide);
                 });
+
+                // Créer les dots
+                dotsContainer.innerHTML = '';
+                for (let i = 0; i < slideCount; i++) {
+                    const dot = document.createElement('button');
+                    dot.className = 'carousel-dot' + (i === 0 ? ' active' : '');
+                    dot.dataset.index = i;
+                    dot.addEventListener('click', function() {
+                        goToSlide(parseInt(this.dataset.index));
+                    });
+                    dotsContainer.appendChild(dot);
+                }
+
+                goToSlide(0);
+                startAutoPlay();
+            }
+
+            function goToSlide(index) {
+                if (index < 0) index = slideCount - 1;
+                if (index >= slideCount) index = 0;
+                currentSlide = index;
+                track.style.transform = `translateX(-${index * 100}%)`;
+                // Mettre à jour les dots
+                document.querySelectorAll('.carousel-dot').forEach((dot, i) => {
+                    dot.classList.toggle('active', i === index);
+                });
+            }
+
+            function startAutoPlay() {
+                if (autoPlayInterval) clearInterval(autoPlayInterval);
+                if (slideCount > 1) {
+                    autoPlayInterval = setInterval(() => {
+                        goToSlide(currentSlide + 1);
+                    }, 4000);
+                }
+            }
+
+            function stopAutoPlay() {
+                if (autoPlayInterval) {
+                    clearInterval(autoPlayInterval);
+                    autoPlayInterval = null;
+                }
+            }
+
+            prevBtn.addEventListener('click', function(e) {
+                e.stopPropagation();
+                stopAutoPlay();
+                goToSlide(currentSlide - 1);
+                startAutoPlay();
+            });
+
+            nextBtn.addEventListener('click', function(e) {
+                e.stopPropagation();
+                stopAutoPlay();
+                goToSlide(currentSlide + 1);
+                startAutoPlay();
             });
 
             // ============================================================
@@ -1653,7 +1957,7 @@
             });
 
             // ============================================================
-            //  PHOTOS
+            //  PHOTOS (sidebar)
             // ============================================================
             const photosGrid = document.getElementById('photosGrid');
             photoList = CONFIG.photos;
@@ -1715,12 +2019,12 @@
             });
 
             // ============================================================
-            //  PARTICULES D'OR
+            //  PARTICULES D'OR (optimisées)
             // ============================================================
             const bgCanvas = document.getElementById('bgParticlesCanvas');
             const bgCtx = bgCanvas.getContext('2d');
             let bgParticles = [];
-            const MAX_PARTICLES = 80;
+            const MAX_PARTICLES = 35; // Réduit pour performance
 
             function resizeBgCanvas() {
                 bgCanvas.width = window.innerWidth;
@@ -1736,13 +2040,13 @@
                 reset() {
                     this.x = Math.random() * bgCanvas.width;
                     this.y = Math.random() * bgCanvas.height;
-                    this.size = Math.random() * 3 + 1;
-                    this.speedX = (Math.random() - 0.5) * 0.3;
-                    this.speedY = (Math.random() - 0.5) * 0.3;
-                    this.opacity = Math.random() * 0.3 + 0.05;
-                    this.pulseSpeed = 0.005 + Math.random() * 0.015;
+                    this.size = Math.random() * 2 + 0.8;
+                    this.speedX = (Math.random() - 0.5) * 0.15;
+                    this.speedY = (Math.random() - 0.5) * 0.15;
+                    this.opacity = Math.random() * 0.2 + 0.05;
+                    this.pulseSpeed = 0.005 + Math.random() * 0.01;
                     this.pulseOffset = Math.random() * Math.PI * 2;
-                    this.shape = Math.random() > 0.7 ? 'heart' : 'circle';
+                    this.shape = Math.random() > 0.8 ? 'heart' : 'circle';
                 }
                 update() {
                     this.x += this.speedX;
@@ -1758,15 +2062,15 @@
                     bgCtx.save();
                     bgCtx.globalAlpha = currentOpacity;
                     bgCtx.fillStyle = '#d4af37';
-                    bgCtx.shadowColor = 'rgba(212, 175, 55, 0.2)';
-                    bgCtx.shadowBlur = 15;
+                    bgCtx.shadowColor = 'rgba(212, 175, 55, 0.15)';
+                    bgCtx.shadowBlur = 10;
                     if (this.shape === 'heart') {
                         bgCtx.translate(this.x, this.y);
-                        bgCtx.scale(size / 6, size / 6);
+                        bgCtx.scale(size / 5, size / 5);
                         bgCtx.beginPath();
-                        bgCtx.moveTo(0, -4);
-                        bgCtx.bezierCurveTo(-6, -10, -12, -2, 0, 6);
-                        bgCtx.bezierCurveTo(12, -2, 6, -10, 0, -4);
+                        bgCtx.moveTo(0, -3);
+                        bgCtx.bezierCurveTo(-5, -8, -10, -2, 0, 5);
+                        bgCtx.bezierCurveTo(10, -2, 5, -8, 0, -3);
                         bgCtx.fill();
                     } else {
                         bgCtx.beginPath();
@@ -1779,34 +2083,31 @@
 
             function initBgParticles() {
                 bgParticles = [];
-                const count = Math.min(MAX_PARTICLES, Math.floor(window.innerWidth / 10));
+                const count = Math.min(MAX_PARTICLES, Math.floor(window.innerWidth / 15));
                 for (let i = 0; i < count; i++) {
                     bgParticles.push(new BgParticle());
                 }
             }
-            initBgParticles();
+
+            let bgAnimFrame = null;
 
             function animateBgParticles() {
+                if (!bgCanvas) return;
                 bgCtx.clearRect(0, 0, bgCanvas.width, bgCanvas.height);
                 bgParticles.forEach(p => {
                     p.update();
                     p.draw();
                 });
-                requestAnimationFrame(animateBgParticles);
+                bgAnimFrame = requestAnimationFrame(animateBgParticles);
             }
-            animateBgParticles();
-
-            window.addEventListener('resize', () => {
-                resizeBgCanvas();
-                initBgParticles();
-            });
 
             // ============================================================
-            //  PÉTALES DE FLEURS
+            //  PÉTALES DE FLEURS (optimisés)
             // ============================================================
             const petalsCanvas = document.getElementById('petalsCanvas');
             const petalsCtx = petalsCanvas.getContext('2d');
             let petals = [];
+            const MAX_PETALS = 15; // Réduit pour performance
 
             function resizePetalsCanvas() {
                 petalsCanvas.width = window.innerWidth;
@@ -1822,12 +2123,12 @@
                 reset() {
                     this.x = Math.random() * petalsCanvas.width;
                     this.y = Math.random() * petalsCanvas.height - petalsCanvas.height;
-                    this.size = 8 + Math.random() * 14;
-                    this.speedY = 0.6 + Math.random() * 1.2;
-                    this.speedX = (Math.random() - 0.5) * 0.5;
+                    this.size = 6 + Math.random() * 10;
+                    this.speedY = 0.4 + Math.random() * 0.8;
+                    this.speedX = (Math.random() - 0.5) * 0.3;
                     this.rotation = Math.random() * 360;
-                    this.rotSpeed = (Math.random() - 0.5) * 0.8;
-                    this.opacity = 0.3 + Math.random() * 0.4;
+                    this.rotSpeed = (Math.random() - 0.5) * 0.6;
+                    this.opacity = 0.3 + Math.random() * 0.3;
                     this.color = [
                         'rgba(232, 200, 180, ',
                         'rgba(212, 175, 155, ',
@@ -1840,7 +2141,7 @@
                 }
                 update() {
                     this.y += this.speedY;
-                    this.x += this.speedX + Math.sin(this.wobbleOffset) * 0.3;
+                    this.x += this.speedX + Math.sin(this.wobbleOffset) * 0.2;
                     this.rotation += this.rotSpeed;
                     this.wobbleOffset += this.wobble;
                     if (this.y > petalsCanvas.height + 50) {
@@ -1869,28 +2170,85 @@
 
             function initPetals() {
                 petals = [];
-                const count = Math.min(35, Math.floor(window.innerWidth / 20));
+                const count = Math.min(MAX_PETALS, Math.floor(window.innerWidth / 30));
                 for (let i = 0; i < count; i++) {
                     const p = new Petal();
                     p.y = Math.random() * petalsCanvas.height;
                     petals.push(p);
                 }
             }
-            initPetals();
+
+            let petalsAnimFrame = null;
 
             function animatePetals() {
+                if (!petalsCanvas) return;
                 petalsCtx.clearRect(0, 0, petalsCanvas.width, petalsCanvas.height);
                 petals.forEach(p => {
                     p.update();
                     p.draw();
                 });
-                requestAnimationFrame(animatePetals);
+                petalsAnimFrame = requestAnimationFrame(animatePetals);
             }
-            animatePetals();
 
-            window.addEventListener('resize', () => {
-                resizePetalsCanvas();
-                initPetals();
+            // Démarrer les animations après le loader
+            // Les fonctions sont appelées après le loader dans setTimeout
+
+            // ============================================================
+            //  COMPTE À REBOURS
+            // ============================================================
+            function updateCountdown() {
+                const now = Date.now();
+                let diff = CONFIG.weddingDate - now;
+                if (diff < 0) diff = 0;
+
+                const days = Math.floor(diff / (1000 * 60 * 60 * 24));
+                const hours = Math.floor((diff % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+                const minutes = Math.floor((diff % (1000 * 60 * 60)) / (1000 * 60));
+                const seconds = Math.floor((diff % (1000 * 60)) / 1000);
+
+                document.getElementById('cdDays').textContent = String(days).padStart(2, '0');
+                document.getElementById('cdHours').textContent = String(hours).padStart(2, '0');
+                document.getElementById('cdMinutes').textContent = String(minutes).padStart(2, '0');
+                document.getElementById('cdSeconds').textContent = String(seconds).padStart(2, '0');
+            }
+            updateCountdown();
+            setInterval(updateCountdown, 1000);
+
+            // ============================================================
+            //  CARTE GOOGLE MAPS
+            // ============================================================
+            const mapToggle = document.getElementById('mapToggle');
+            const mapContainer = document.getElementById('mapContainer');
+            let mapVisible = false;
+
+            mapToggle.addEventListener('click', function() {
+                mapVisible = !mapVisible;
+                mapContainer.classList.toggle('visible', mapVisible);
+                mapToggle.textContent = mapVisible ? '📍 Fermer la carte' : '📍 Voir sur la carte';
+            });
+
+            // ============================================================
+            //  PARTAGE SOCIAL
+            // ============================================================
+            const url = encodeURIComponent(CONFIG.invitationUrl);
+            const text = encodeURIComponent('💍 YOSRA & MOHAMED ALI - Mariage le 30 Janvier 2027 🎉');
+
+            document.getElementById('shareWhatsApp').addEventListener('click', function() {
+                window.open(`https://wa.me/?text=${text}%20${url}`, '_blank');
+            });
+            document.getElementById('shareFacebook').addEventListener('click', function() {
+                window.open(`https://www.facebook.com/sharer/sharer.php?u=${url}`, '_blank');
+            });
+            document.getElementById('shareEmail').addEventListener('click', function() {
+                window.location.href = `mailto:?subject=${text}&body=${text}%0A%0A${url}`;
+            });
+            document.getElementById('shareCopy').addEventListener('click', function() {
+                navigator.clipboard.writeText(CONFIG.invitationUrl).then(() => {
+                    const btn = this;
+                    const orig = btn.textContent;
+                    btn.textContent = '✅ Copié !';
+                    setTimeout(() => btn.textContent = orig, 2000);
+                });
             });
 
             // ============================================================
@@ -1913,7 +2271,14 @@
                     daysLabel: 'Jours',
                     hoursLabel: 'Heures',
                     minutesLabel: 'Min',
-                    secondsLabel: 'Sec'
+                    secondsLabel: 'Sec',
+                    storyTitle: '💕 Notre Histoire',
+                    storyP1: 'Yosra et Mohamed Ali se sont rencontrés au détour d\'un chemin de vie, portés par la même soif de partage et de découverte. Leurs regards se sont croisés et leurs cœurs ont immédiatement reconnu une évidence.',
+                    storyP2: 'Au fil des jours, leur complicité s\'est renforcée, nourrie de rires, de confidences et de projets communs. Chaque instant partagé a tissé la toile d\'un amour profond et sincère.',
+                    tl1: 'Rencontre et premiers échanges',
+                    tl2: 'Les fiançailles : un oui pour la vie',
+                    tl3: 'Le jour de l\'union sacrée',
+                    carouselTitle: '📸 Souvenirs'
                 },
                 en: {
                     blessing: 'In the name of God, the Most Gracious, the Most Merciful',
@@ -1931,7 +2296,14 @@
                     daysLabel: 'Days',
                     hoursLabel: 'Hours',
                     minutesLabel: 'Min',
-                    secondsLabel: 'Sec'
+                    secondsLabel: 'Sec',
+                    storyTitle: '💕 Our Story',
+                    storyP1: 'Yosra and Mohamed Ali met along the path of life, driven by the same thirst for sharing and discovery. Their eyes met and their hearts immediately recognized an evidence.',
+                    storyP2: 'Over the days, their bond grew stronger, nourished by laughter, confidences and shared projects. Every moment together wove the fabric of a deep and sincere love.',
+                    tl1: 'Meeting and first exchanges',
+                    tl2: 'The engagement: a yes for life',
+                    tl3: 'The day of the sacred union',
+                    carouselTitle: '📸 Memories'
                 },
                 ar: {
                     blessing: 'بسم الله الرحمن الرحيم',
@@ -1949,7 +2321,14 @@
                     daysLabel: 'أيام',
                     hoursLabel: 'ساعات',
                     minutesLabel: 'دقائق',
-                    secondsLabel: 'ثواني'
+                    secondsLabel: 'ثواني',
+                    storyTitle: '💕 قصتنا',
+                    storyP1: 'التقى يسرى ومحمد علي في طريق الحياة، يجمعهما نفس العطش للمشاركة والاكتشاف. تبادلت نظراتهما وتعرفت قلوبهما على الفور على بديهة.',
+                    storyP2: 'ومع مرور الأيام، تعززت علاقتهما، تغذيها الضحكات والثقة والمشاريع المشتركة. كل لحظة قضاها معًا نسجت نسيج حب عميق وصادق.',
+                    tl1: 'اللقاء والتبادل الأول',
+                    tl2: 'الخطوبة: نعم للحياة',
+                    tl3: 'يوم الاتحاد المقدس',
+                    carouselTitle: '📸 ذكريات'
                 }
             };
 
@@ -1973,7 +2352,14 @@
                 cdDaysLabel: document.getElementById('cdDaysLabel'),
                 cdHoursLabel: document.getElementById('cdHoursLabel'),
                 cdMinutesLabel: document.getElementById('cdMinutesLabel'),
-                cdSecondsLabel: document.getElementById('cdSecondsLabel')
+                cdSecondsLabel: document.getElementById('cdSecondsLabel'),
+                storyTitle: document.getElementById('storyTitle'),
+                storyP1: document.getElementById('storyP1'),
+                storyP2: document.getElementById('storyP2'),
+                tl1: document.getElementById('tl1'),
+                tl2: document.getElementById('tl2'),
+                tl3: document.getElementById('tl3'),
+                carouselTitle: document.getElementById('carouselTitle')
             };
 
             if (CONFIG.coupleImage) {
@@ -2003,6 +2389,13 @@
                 elements.cdHoursLabel.textContent = t.hoursLabel;
                 elements.cdMinutesLabel.textContent = t.minutesLabel;
                 elements.cdSecondsLabel.textContent = t.secondsLabel;
+                elements.storyTitle.textContent = t.storyTitle;
+                elements.storyP1.textContent = t.storyP1;
+                elements.storyP2.textContent = t.storyP2;
+                elements.tl1.textContent = t.tl1;
+                elements.tl2.textContent = t.tl2;
+                elements.tl3.textContent = t.tl3;
+                elements.carouselTitle.textContent = t.carouselTitle;
 
                 if (!isRevealed) {
                     elements.scratchHint.textContent = t.scratchHint;
@@ -2071,11 +2464,11 @@
                 scratchCtx.font = '1.6rem serif';
                 scratchCtx.textAlign = 'center';
                 scratchCtx.textBaseline = 'middle';
-                for (let i = 0; i < 25; i++) {
+                for (let i = 0; i < 20; i++) {
                     const x = Math.random() * w;
                     const y = Math.random() * h;
                     const f = flowers[Math.floor(Math.random() * flowers.length)];
-                    scratchCtx.fillStyle = `rgba(255,215,0,${0.08 + Math.random() * 0.1})`;
+                    scratchCtx.fillStyle = `rgba(255,215,0,${0.08 + Math.random() * 0.08})`;
                     scratchCtx.fillText(f, x, y);
                 }
                 const hintText = currentLang === 'fr' ? 'Grattez ici' :
@@ -2150,7 +2543,7 @@
                 const data = imageData.data;
                 let transparent = 0;
                 const total = data.length / 4;
-                const step = 3;
+                const step = 4;
                 for (let i = 3; i < data.length; i += 4 * step) {
                     if (data[i] < 128) transparent++;
                 }
@@ -2168,10 +2561,10 @@
                 isRevealed = true;
 
                 playTraditionalSound();
-                launchConfetti(350);
-                setTimeout(() => launchConfetti(250), 500);
-                setTimeout(() => launchConfetti(150), 1000);
-                setTimeout(() => launchConfetti(80), 1600);
+                launchConfetti(250);
+                setTimeout(() => launchConfetti(180), 500);
+                setTimeout(() => launchConfetti(100), 1000);
+                setTimeout(() => launchConfetti(60), 1600);
 
                 scratchCtx.globalCompositeOperation = 'destination-out';
                 scratchCtx.fillStyle = '#ffffff';
@@ -2354,11 +2747,11 @@
                     this.x = x;
                     this.y = y;
                     const angle = Math.random() * 2 * Math.PI;
-                    const speed = 5 + Math.random() * 14;
+                    const speed = 5 + Math.random() * 12;
                     this.vx = Math.cos(angle) * speed * (0.5 + Math.random() * 0.8);
                     this.vy = Math.sin(angle) * speed * (0.5 + Math.random() * 0.8) - 4;
                     this.gravity = 0.12 + Math.random() * 0.08;
-                    this.size = 5 + Math.random() * 12;
+                    this.size = 5 + Math.random() * 10;
                     this.life = 1;
                     this.decay = 0.005 + Math.random() * 0.01;
                     this.rotation = Math.random() * 360;
@@ -2414,8 +2807,8 @@
                 const cy = rect.top + rect.height / 2;
                 for (let i = 0; i < count; i++) {
                     confettiPieces.push(new Particle(
-                        cx + (Math.random() - 0.5) * 60,
-                        cy + (Math.random() - 0.5) * 60
+                        cx + (Math.random() - 0.5) * 50,
+                        cy + (Math.random() - 0.5) * 50
                     ));
                 }
                 if (!confettiActive) {
@@ -2482,9 +2875,17 @@
                 resizeScratchCanvas();
             });
 
-            function init() {
+            // Initialisation différée (après le loader)
+            setTimeout(() => {
                 resizeConfettiCanvas();
                 resizeScratchCanvas();
+                initCarousel();
+                // Démarrer les animations de fond
+                initBgParticles();
+                animateBgParticles();
+                initPetals();
+                animatePetals();
+
                 document.addEventListener('click', function initAudio() {
                     if (!audioCtx) {
                         try {
@@ -2493,14 +2894,13 @@
                         } catch (_) {}
                     }
                 }, { once: true });
-            }
+            }, 2600);
 
-            window.addEventListener('load', init);
             document.querySelectorAll('.lang-btn').forEach(btn => {
                 btn.addEventListener('click', drawScratchBackground);
             });
 
-            console.log('💍 Invitation mise à jour : 30 Janvier 2027 + verset coranique dans la sidebar');
+            console.log('💍 Invitation améliorée : loader, carrousel, histoire, performances optimisées');
 
         })();
     </script>
