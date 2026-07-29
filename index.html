@@ -1,0 +1,1216 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Invitation Mariage - Grattez pour découvrir</title>
+    <link href="https://fonts.googleapis.com/css2?family=Amiri:ital,wght@0,400;0,700;1,700&family=Playfair+Display:wght@400;700;900&family=Roboto:wght@300;400&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            background: #1a0f0a;
+            padding: 20px;
+            font-family: 'Amiri', 'Playfair Display', serif;
+            overflow-x: hidden;
+            position: relative;
+        }
+
+        body::before {
+            content: '';
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-image:
+                radial-gradient(circle at 20% 30%, rgba(212, 175, 55, 0.08) 0%, transparent 40%),
+                radial-gradient(circle at 80% 70%, rgba(212, 175, 55, 0.08) 0%, transparent 40%),
+                repeating-linear-gradient(45deg, transparent, transparent 40px, rgba(212, 175, 55, 0.02) 40px, rgba(212, 175, 55, 0.02) 41px),
+                repeating-linear-gradient(-45deg, transparent, transparent 40px, rgba(212, 175, 55, 0.02) 40px, rgba(212, 175, 55, 0.02) 41px);
+            z-index: 0;
+            pointer-events: none;
+        }
+
+        #confettiCanvas {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: 1000;
+            opacity: 0;
+            transition: opacity 0.5s ease;
+        }
+        #confettiCanvas.active {
+            opacity: 1;
+        }
+
+        .language-selector {
+            display: flex;
+            gap: 12px;
+            margin-bottom: 20px;
+            z-index: 10;
+            position: relative;
+        }
+        .lang-btn {
+            background: rgba(252, 248, 240, 0.15);
+            backdrop-filter: blur(8px);
+            border: 2px solid #b8860b;
+            color: #fcf8f0;
+            padding: 6px 18px;
+            border-radius: 40px;
+            font-family: 'Amiri', serif;
+            font-size: 1rem;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.3);
+        }
+        .lang-btn:hover {
+            background: rgba(184, 134, 11, 0.4);
+            transform: scale(1.05);
+        }
+        .lang-btn.active {
+            background: #b8860b;
+            color: #1a0f0a;
+            border-color: #fcf8f0;
+            box-shadow: 0 0 20px rgba(184, 134, 11, 0.5);
+        }
+
+        .music-toggle {
+            display: none;
+            margin-top: 12px;
+            z-index: 10;
+            background: rgba(252, 248, 240, 0.15);
+            backdrop-filter: blur(8px);
+            border: 2px solid #b8860b;
+            color: #fcf8f0;
+            padding: 8px 20px;
+            border-radius: 40px;
+            font-family: 'Amiri', serif;
+            font-size: 1rem;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            letter-spacing: 1px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.3);
+        }
+        .music-toggle:hover {
+            background: rgba(184, 134, 11, 0.4);
+            transform: scale(1.05);
+        }
+        .music-toggle.visible {
+            display: inline-block;
+        }
+        .music-toggle.playing {
+            background: #b8860b;
+            color: #1a0f0a;
+            border-color: #fcf8f0;
+        }
+
+        .invitation-card {
+            max-width: 620px;
+            width: 100%;
+            background: #fcf8f0;
+            border-radius: 30px;
+            position: relative;
+            padding: 45px 35px 40px;
+            z-index: 1;
+            box-shadow:
+                0 30px 80px rgba(0, 0, 0, 0.7),
+                0 0 0 3px #b8860b,
+                0 0 0 8px #fcf8f0,
+                0 0 0 11px #8b0000,
+                0 0 0 16px #b8860b;
+            transition: transform 0.4s cubic-bezier(0.34, 1.56, 0.64, 1), box-shadow 0.5s ease;
+            transform-style: preserve-3d;
+            perspective: 800px;
+            animation: floatCard 4s ease-in-out infinite;
+        }
+
+        @keyframes floatCard {
+            0%, 100% { transform: translateY(0px) rotateX(2deg); }
+            50% { transform: translateY(-12px) rotateX(-1deg); }
+        }
+
+        .invitation-card:hover {
+            box-shadow:
+                0 40px 100px rgba(0, 0, 0, 0.8),
+                0 0 0 3px #d4af37,
+                0 0 0 8px #fcf8f0,
+                0 0 0 11px #8b0000,
+                0 0 0 16px #d4af37;
+        }
+
+        .card-inner-border {
+            position: absolute;
+            top: 15px;
+            left: 15px;
+            right: 15px;
+            bottom: 15px;
+            border: 2px solid #c49a6c;
+            border-radius: 18px;
+            pointer-events: none;
+            opacity: 0.6;
+            background-image:
+                repeating-linear-gradient(45deg, transparent, transparent 8px, rgba(196, 154, 108, 0.1) 8px, rgba(196, 154, 108, 0.1) 9px),
+                repeating-linear-gradient(-45deg, transparent, transparent 8px, rgba(196, 154, 108, 0.1) 8px, rgba(196, 154, 108, 0.1) 9px);
+            z-index: 0;
+        }
+
+        .card-decoration {
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            pointer-events: none;
+            z-index: 1;
+            overflow: hidden;
+            border-radius: 30px;
+        }
+
+        .ornament-corner {
+            position: absolute;
+            font-size: 2.2rem;
+            opacity: 0.6;
+            text-shadow: 0 0 20px rgba(184, 134, 11, 0.3);
+        }
+        .ornament-corner.tl { top: 18px; left: 22px; }
+        .ornament-corner.tr { top: 18px; right: 22px; }
+        .ornament-corner.bl { bottom: 18px; left: 22px; }
+        .ornament-corner.br { bottom: 18px; right: 22px; }
+
+        .flower-side {
+            position: absolute;
+            font-size: 1.6rem;
+            opacity: 0.3;
+            color: #b8860b;
+        }
+        .flower-side.left { top: 50%; left: 8px; transform: translateY(-50%) rotate(-15deg); }
+        .flower-side.right { top: 50%; right: 8px; transform: translateY(-50%) rotate(15deg); }
+
+        .center-filigrane {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%) scale(1.6);
+            font-size: 8rem;
+            color: #c49a6c;
+            opacity: 0.06;
+            z-index: 0;
+            font-weight: 900;
+            letter-spacing: 20px;
+        }
+
+        .card-content {
+            position: relative;
+            z-index: 2;
+            text-align: center;
+        }
+
+        .ornament-top {
+            font-size: 1.8rem;
+            color: #b8860b;
+            letter-spacing: 12px;
+            margin-bottom: 4px;
+            opacity: 0.8;
+            text-shadow: 0 0 15px rgba(184, 134, 11, 0.2);
+        }
+
+        .blessing {
+            font-family: 'Amiri', serif;
+            font-size: 1.4rem;
+            color: #8b0000;
+            font-weight: 700;
+            letter-spacing: 2px;
+            margin-bottom: 4px;
+            opacity: 0.9;
+        }
+
+        .invite-title {
+            font-family: 'Playfair Display', serif;
+            font-size: 2.6rem;
+            font-weight: 900;
+            color: #8b0000;
+            text-transform: uppercase;
+            letter-spacing: 3px;
+            background: linear-gradient(135deg, #8b0000 0%, #b8860b 50%, #8b0000 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            filter: drop-shadow(0 2px 4px rgba(139, 0, 0, 0.3));
+            margin-bottom: 2px;
+        }
+
+        .invite-sub {
+            font-size: 1rem;
+            color: #7a5a3a;
+            letter-spacing: 6px;
+            font-weight: 400;
+            text-transform: uppercase;
+            border-top: 1px solid #c49a6c;
+            border-bottom: 1px solid #c49a6c;
+            display: inline-block;
+            padding: 6px 18px;
+            margin: 6px auto 12px;
+        }
+
+        .divider {
+            width: 100px;
+            height: 3px;
+            background: linear-gradient(90deg, transparent, #b8860b, #8b0000, #b8860b, transparent);
+            margin: 12px auto 16px;
+            border-radius: 2px;
+        }
+
+        .invite-text {
+            font-size: 1.05rem;
+            color: #4a3525;
+            font-weight: 400;
+            line-height: 1.8;
+            max-width: 380px;
+            margin: 0 auto 14px;
+            font-family: 'Roboto', sans-serif;
+            font-style: italic;
+            background: rgba(212, 175, 55, 0.05);
+            padding: 10px 14px;
+            border-radius: 12px;
+            border-left: 3px solid #b8860b;
+            border-right: 3px solid #b8860b;
+        }
+
+        .couple-photo {
+            width: 100%;
+            max-width: 220px;
+            margin: 6px auto 10px;
+            border-radius: 50% 50% 50% 50% / 60% 60% 40% 40%;
+            overflow: hidden;
+            border: 4px solid #b8860b;
+            box-shadow: 0 8px 30px rgba(0,0,0,0.3), 0 0 0 2px #fcf8f0, 0 0 0 6px #8b0000;
+            transition: transform 0.4s ease;
+            aspect-ratio: 1/1;
+            background: #fcf8f0;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        .couple-photo img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            display: block;
+        }
+        .couple-photo:hover {
+            transform: scale(1.04) rotate(-2deg);
+        }
+
+        .couple-container {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 14px;
+            margin: 6px 0 2px;
+        }
+        .couple-icon {
+            font-size: 2.8rem;
+            line-height: 1;
+            opacity: 0.8;
+        }
+        .couple-icon.left { transform: scaleX(-1); }
+
+        .couple-names {
+            font-family: 'Playfair Display', serif;
+            font-size: 2.8rem;
+            font-weight: 900;
+            color: #4a1a1a;
+            text-shadow: 0 2px 10px rgba(139, 0, 0, 0.15);
+            letter-spacing: 1px;
+        }
+        .couple-names span {
+            color: #b8860b;
+            margin: 0 10px;
+            font-weight: 400;
+        }
+
+        .families {
+            font-family: 'Amiri', serif;
+            font-size: 1.1rem;
+            color: #7a5a3a;
+            letter-spacing: 3px;
+            margin-top: 2px;
+            font-style: italic;
+        }
+
+        .divider-light {
+            width: 60px;
+            height: 1px;
+            background: #c49a6c;
+            margin: 14px auto 16px;
+            opacity: 0.5;
+        }
+
+        .date-wrapper {
+            position: relative;
+            margin-top: 16px;
+            border-top: 2px solid #d4af37;
+            padding-top: 16px;
+            border-image: linear-gradient(90deg, transparent, #d4af37, transparent) 1;
+            min-height: 140px;
+        }
+
+        .date-content {
+            position: relative;
+            z-index: 1;
+            padding: 8px 0;
+        }
+
+        .date-main {
+            font-family: 'Amiri', serif;
+            font-size: 2.8rem;
+            font-weight: 700;
+            color: #4a1a1a;
+            line-height: 1.2;
+            position: relative;
+        }
+
+        .date-main .day-number {
+            font-size: 4.8rem;
+            font-weight: 900;
+            color: #b8860b;
+            display: block;
+            margin-top: -8px;
+            text-shadow: 0 0 30px rgba(184, 134, 11, 0.4);
+            letter-spacing: 6px;
+        }
+
+        .date-main .month-year {
+            font-size: 1.6rem;
+            letter-spacing: 8px;
+            color: #8b0000;
+            font-weight: 700;
+            text-transform: uppercase;
+            margin-top: 0px;
+            background: linear-gradient(135deg, #8b0000, #b8860b);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .date-details {
+            font-size: 1.05rem;
+            color: #4a3525;
+            margin-top: 10px;
+            line-height: 1.8;
+            font-family: 'Roboto', sans-serif;
+            font-weight: 300;
+            letter-spacing: 1px;
+        }
+
+        .date-details i {
+            font-style: normal;
+            display: inline-block;
+            margin: 0 6px;
+            color: #b8860b;
+        }
+
+        .date-details .highlight {
+            color: #8b0000;
+            font-weight: 700;
+        }
+
+        #scratchCanvas {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100% !important;
+            height: 100% !important;
+            border-radius: 12px;
+            z-index: 2;
+            cursor: pointer;
+            touch-action: none;
+            box-shadow: inset 0 0 30px rgba(0,0,0,0.2);
+            pointer-events: auto;
+            display: block;
+        }
+
+        .scratch-hint {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            z-index: 3;
+            pointer-events: none;
+            font-family: 'Amiri', serif;
+            font-size: 1.3rem;
+            color: #fcf8f0;
+            text-shadow: 0 2px 20px rgba(0,0,0,0.8);
+            background: rgba(139,0,0,0.3);
+            padding: 10px 24px;
+            border-radius: 60px;
+            border: 2px solid rgba(212,175,55,0.6);
+            backdrop-filter: blur(4px);
+            letter-spacing: 2px;
+            transition: opacity 0.8s ease;
+            white-space: nowrap;
+        }
+        .scratch-hint.hidden {
+            opacity: 0;
+        }
+
+        .shimmer-text {
+            display: inline-block;
+            background: linear-gradient(90deg, #b8860b, #ffd700, #b8860b, #ffd700);
+            background-size: 300% 100%;
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            animation: shimmerMove 3s linear infinite;
+            font-weight: 900;
+        }
+
+        @keyframes shimmerMove {
+            0% { background-position: 0% 50%; }
+            100% { background-position: 300% 50%; }
+        }
+
+        @media (max-width: 600px) {
+            .invitation-card { padding: 30px 18px 28px; }
+            .invite-title { font-size: 1.8rem; }
+            .couple-container { gap: 8px; }
+            .couple-icon { font-size: 2rem; }
+            .couple-names { font-size: 2rem; }
+            .couple-names span { margin: 0 4px; }
+            .invite-text { font-size: 0.9rem; padding: 8px 10px; }
+            .date-main { font-size: 2rem; }
+            .date-main .day-number { font-size: 3.6rem; }
+            .date-main .month-year { font-size: 1.2rem; letter-spacing: 4px; }
+            .ornament-corner { font-size: 1.6rem; }
+            .center-filigrane { font-size: 5rem; }
+            .card-inner-border { top: 8px; left: 8px; right: 8px; bottom: 8px; }
+            .invite-sub { font-size: 0.8rem; letter-spacing: 3px; padding: 4px 12px; }
+            .scratch-hint { font-size: 1rem; padding: 6px 16px; white-space: normal; text-align: center; }
+            .flower-side { display: none; }
+            .couple-photo { max-width: 150px; }
+            .language-selector { gap: 6px; flex-wrap: wrap; justify-content: center; }
+            .lang-btn { font-size: 0.8rem; padding: 4px 12px; }
+            .music-toggle { font-size: 0.8rem; padding: 6px 14px; }
+        }
+        @media (max-width: 400px) {
+            .invite-title { font-size: 1.5rem; }
+            .couple-names { font-size: 1.6rem; }
+            .date-main .day-number { font-size: 2.8rem; }
+            .invitation-card { padding: 20px 12px 20px; }
+            .couple-photo { max-width: 120px; }
+        }
+    </style>
+</head>
+<body>
+
+    <div class="language-selector">
+        <button class="lang-btn active" data-lang="fr">🇫🇷 Français</button>
+        <button class="lang-btn" data-lang="en">🇬🇧 English</button>
+        <button class="lang-btn" data-lang="ar">🇸🇦 العربية</button>
+    </div>
+
+    <button class="music-toggle" id="musicToggle">🔊 Couper la musique</button>
+
+    <canvas id="confettiCanvas"></canvas>
+
+    <div class="invitation-card" id="invitationCard" tabindex="0" role="button" aria-label="Invitation">
+
+        <div class="card-inner-border"></div>
+        <div class="card-decoration">
+            <div class="ornament-corner tl">🌹</div>
+            <div class="ornament-corner tr">🌺</div>
+            <div class="ornament-corner bl">🌸</div>
+            <div class="ornament-corner br">🌷</div>
+            <div class="flower-side left">🌿</div>
+            <div class="flower-side right">🌿</div>
+            <div class="center-filigrane">✦ ✦ ✦</div>
+        </div>
+
+        <div class="card-content">
+            <div class="ornament-top">✧ ✧ ✧</div>
+            <div class="blessing" id="blessing">بسم الله الرحمن الرحيم</div>
+            <div class="invite-title" id="title">Mariage d'Or</div>
+            <div class="invite-sub" id="subtitle">— Tradition & élégance —</div>
+            <div class="divider"></div>
+
+            <p class="invite-text" id="inviteText">
+                « L'amour est la plus belle des mélodies.<br>
+                Nous avons hâte de la partager avec vous,<br>
+                le temps d'une célébration empreinte de traditions. »
+            </p>
+
+            <!-- Photo du couple - chargeable depuis GitHub -->
+            <div class="couple-photo">
+                <img id="coupleImg" 
+                     src="https://raw.githubusercontent.com/your-username/your-repo/main/couple.jpg" 
+                     alt="Leila & Youssef" 
+                     onerror="this.src='https://via.placeholder.com/300x300/8b0000/fcf8f0?text=Leila+%26+Youssef'">
+            </div>
+
+            <div class="couple-container">
+                <span class="couple-icon left">👰</span>
+                <div class="couple-names">Leila <span>&amp;</span> Youssef</div>
+                <span class="couple-icon right">🤵</span>
+            </div>
+            <div class="families" id="families">— & leurs familles —</div>
+
+            <div class="divider-light"></div>
+
+            <div class="date-wrapper" id="dateWrapper">
+                <div class="date-content">
+                    <div class="date-main">
+                        <span id="dayLabel">Le Samedi</span>
+                        <span class="day-number shimmer-text">15</span>
+                        <span class="month-year" id="monthYearLabel">Août 2026</span>
+                    </div>
+                    <div class="date-details" id="dateDetails">
+                        <i>🕌</i> à <span class="highlight">17h00</span> · Palais El Bahr <i>🕌</i><br />
+                        <span style="font-size: 0.9rem; opacity: 0.8;" id="eventDesc">Soirée andalouse & dîner traditionnel</span>
+                    </div>
+                </div>
+                <canvas id="scratchCanvas"></canvas>
+                <div class="scratch-hint" id="scratchHint">☪ Frottez pour découvrir</div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        (function() {
+            'use strict';
+
+            // ============================================
+            //  CONFIGURATION – MODIFIEZ CES URLs
+            // ============================================
+            const CONFIG = {
+                // URL de la photo du couple (hébergée sur GitHub, etc.)
+                coupleImage: 'https://raw.githubusercontent.com/your-username/your-repo/main/couple.jpg',
+                // URL du fichier audio (MP3, WAV, etc.) – si vous voulez une musique personnalisée.
+                // Si vous laissez vide, le script génère une mélodie synthétique.
+                musicFile: '' // exemple: 'https://raw.githubusercontent.com/your-username/your-repo/main/mariage.mp3'
+            };
+
+            // ============================================
+            //  TRADUCTIONS
+            // ============================================
+            const translations = {
+                fr: {
+                    blessing: 'بسم الله الرحمن الرحيم',
+                    title: 'Mariage d\'Or',
+                    subtitle: '— Tradition & élégance —',
+                    inviteText: '« L\'amour est la plus belle des mélodies.<br>Nous avons hâte de la partager avec vous,<br>le temps d\'une célébration empreinte de traditions. »',
+                    families: '— & leurs familles —',
+                    dayLabel: 'Le Samedi',
+                    monthYear: 'Août 2026',
+                    dateDetails: '<i>🕌</i> à <span class="highlight">17h00</span> · Palais El Bahr <i>🕌</i><br><span style="font-size: 0.9rem; opacity: 0.8;">Soirée andalouse & dîner traditionnel</span>',
+                    scratchHint: '☪ Frottez pour découvrir',
+                    musicToggle: '🔊 Couper la musique',
+                    musicOff: '🔇 Musique coupée'
+                },
+                en: {
+                    blessing: 'In the name of God, the Most Gracious, the Most Merciful',
+                    title: 'Golden Wedding',
+                    subtitle: '— Tradition & elegance —',
+                    inviteText: '« Love is the most beautiful melody.<br>We can\'t wait to share it with you,<br>during a celebration steeped in tradition. »',
+                    families: '— & their families —',
+                    dayLabel: 'Saturday',
+                    monthYear: 'August 2026',
+                    dateDetails: '<i>🕌</i> at <span class="highlight">5:00 PM</span> · El Bahr Palace <i>🕌</i><br><span style="font-size: 0.9rem; opacity: 0.8;">Andalusian evening & traditional dinner</span>',
+                    scratchHint: '☪ Scratch to reveal',
+                    musicToggle: '🔊 Turn off music',
+                    musicOff: '🔇 Music off'
+                },
+                ar: {
+                    blessing: 'بسم الله الرحمن الرحيم',
+                    title: 'عرس الذهب',
+                    subtitle: '— تقاليد و أناقة —',
+                    inviteText: '« الحب هو أجمل الألحان.<br>نتشوق لمشاركته معكم،<br>في احتفال مليء بالتقاليد. »',
+                    families: '— و عائلاتهم —',
+                    dayLabel: 'السبت',
+                    monthYear: 'أغسطس 2026',
+                    dateDetails: '<i>🕌</i> الساعة <span class="highlight">17:00</span> · قصر البحر <i>🕌</i><br><span style="font-size: 0.9rem; opacity: 0.8;">أمسية أندلسية و عشاء تقليدي</span>',
+                    scratchHint: '☪ افرك للكشف',
+                    musicToggle: '🔊 إيقاف الموسيقى',
+                    musicOff: '🔇 الموسيقى متوقفة'
+                }
+            };
+
+            // ============================================
+            //  RÉFÉRENCES DOM
+            // ============================================
+            const elements = {
+                blessing: document.getElementById('blessing'),
+                title: document.getElementById('title'),
+                subtitle: document.getElementById('subtitle'),
+                inviteText: document.getElementById('inviteText'),
+                families: document.getElementById('families'),
+                dayLabel: document.getElementById('dayLabel'),
+                monthYearLabel: document.getElementById('monthYearLabel'),
+                dateDetails: document.getElementById('dateDetails'),
+                scratchHint: document.getElementById('scratchHint'),
+                musicToggle: document.getElementById('musicToggle'),
+                coupleImg: document.getElementById('coupleImg')
+            };
+
+            // Charger l'image depuis la config
+            if (CONFIG.coupleImage) {
+                elements.coupleImg.src = CONFIG.coupleImage;
+            }
+
+            // ============================================
+            //  LANGUE
+            // ============================================
+            let currentLang = 'fr';
+
+            function setLanguage(lang) {
+                currentLang = lang;
+                const t = translations[lang];
+                if (!t) return;
+
+                elements.blessing.textContent = t.blessing;
+                elements.title.textContent = t.title;
+                elements.subtitle.textContent = t.subtitle;
+                elements.inviteText.innerHTML = t.inviteText;
+                elements.families.textContent = t.families;
+                elements.dayLabel.textContent = t.dayLabel;
+                elements.monthYearLabel.textContent = t.monthYear;
+                elements.dateDetails.innerHTML = t.dateDetails;
+                elements.scratchHint.textContent = t.scratchHint;
+
+                // Mettre à jour le bouton musique
+                if (!isRevealed) {
+                    elements.musicToggle.textContent = t.musicToggle;
+                } else {
+                    elements.musicToggle.textContent = musicPlaying ? t.musicToggle : t.musicOff;
+                }
+
+                document.querySelectorAll('.lang-btn').forEach(btn => {
+                    btn.classList.toggle('active', btn.dataset.lang === lang);
+                });
+
+                // Redessiner le scratch (pour le texte central)
+                drawScratchBackground();
+            }
+
+            document.querySelectorAll('.lang-btn').forEach(btn => {
+                btn.addEventListener('click', function(e) {
+                    e.stopPropagation();
+                    const lang = this.dataset.lang;
+                    if (lang !== currentLang) setLanguage(lang);
+                });
+            });
+
+            // ============================================
+            //  CANVAS DE GRATTAGE (fonctionnel !)
+            // ============================================
+            const scratchCanvas = document.getElementById('scratchCanvas');
+            const scratchCtx = scratchCanvas.getContext('2d');
+            const dateWrapper = document.getElementById('dateWrapper');
+            const hint = document.getElementById('scratchHint');
+
+            let isRevealed = false;
+            let isDrawing = false;
+            let lastX = 0, lastY = 0;
+
+            function resizeScratchCanvas() {
+                const rect = dateWrapper.getBoundingClientRect();
+                const w = rect.width;
+                const h = rect.height;
+                if (w === 0 || h === 0) return;
+                scratchCanvas.width = w;
+                scratchCanvas.height = h;
+                scratchCanvas.style.width = w + 'px';
+                scratchCanvas.style.height = h + 'px';
+                drawScratchBackground();
+            }
+
+            function drawScratchBackground() {
+                const w = scratchCanvas.width;
+                const h = scratchCanvas.height;
+                if (w === 0 || h === 0) return;
+
+                const grad = scratchCtx.createLinearGradient(0, 0, w, h);
+                grad.addColorStop(0, '#b8860b');
+                grad.addColorStop(0.3, '#d4af37');
+                grad.addColorStop(0.6, '#b8860b');
+                grad.addColorStop(0.8, '#8b6914');
+                grad.addColorStop(1, '#b8860b');
+                scratchCtx.fillStyle = grad;
+                scratchCtx.fillRect(0, 0, w, h);
+
+                const flowers = ['🌹', '🌺', '🌸', '🌷', '🌿'];
+                scratchCtx.font = '1.8rem serif';
+                scratchCtx.textAlign = 'center';
+                scratchCtx.textBaseline = 'middle';
+                for (let i = 0; i < 20; i++) {
+                    const x = Math.random() * w;
+                    const y = Math.random() * h;
+                    const f = flowers[Math.floor(Math.random() * flowers.length)];
+                    scratchCtx.fillStyle = 'rgba(255,215,0,0.15)';
+                    scratchCtx.fillText(f, x, y);
+                }
+                const hintText = currentLang === 'fr' ? 'Grattez ici' :
+                                 currentLang === 'en' ? 'Scratch here' :
+                                 'افرك هنا';
+                scratchCtx.fillStyle = 'rgba(255,215,0,0.20)';
+                scratchCtx.font = 'bold 2rem Amiri, serif';
+                scratchCtx.fillText('☪ ' + hintText, w/2, h/2);
+                scratchCtx.shadowColor = 'rgba(255,215,0,0.3)';
+                scratchCtx.shadowBlur = 20;
+                scratchCtx.strokeStyle = 'rgba(255,215,0,0.2)';
+                scratchCtx.lineWidth = 2;
+                scratchCtx.strokeRect(4, 4, w-8, h-8);
+            }
+
+            function getPosition(e) {
+                const rect = scratchCanvas.getBoundingClientRect();
+                const clientX = e.touches ? e.touches[0].clientX : e.clientX;
+                const clientY = e.touches ? e.touches[0].clientY : e.clientY;
+                return {
+                    x: (clientX - rect.left) * (scratchCanvas.width / rect.width),
+                    y: (clientY - rect.top) * (scratchCanvas.height / rect.height)
+                };
+            }
+
+            function startDraw(e) {
+                e.preventDefault();
+                if (isRevealed) return;
+                isDrawing = true;
+                const pos = getPosition(e);
+                lastX = pos.x;
+                lastY = pos.y;
+                hint.classList.add('hidden');
+            }
+
+            function draw(e) {
+                e.preventDefault();
+                if (!isDrawing || isRevealed) return;
+                const pos = getPosition(e);
+                const x = pos.x;
+                const y = pos.y;
+
+                scratchCtx.globalCompositeOperation = 'destination-out';
+                scratchCtx.beginPath();
+                scratchCtx.arc(x, y, 18, 0, Math.PI * 2);
+                scratchCtx.fill();
+                if (lastX && lastY) {
+                    scratchCtx.lineWidth = 36;
+                    scratchCtx.lineCap = 'round';
+                    scratchCtx.lineJoin = 'round';
+                    scratchCtx.beginPath();
+                    scratchCtx.moveTo(lastX, lastY);
+                    scratchCtx.lineTo(x, y);
+                    scratchCtx.stroke();
+                }
+                lastX = x;
+                lastY = y;
+
+                checkScratchProgress();
+            }
+
+            function stopDraw(e) {
+                e.preventDefault();
+                isDrawing = false;
+                lastX = 0;
+                lastY = 0;
+            }
+
+            function checkScratchProgress() {
+                if (isRevealed) return;
+                const imageData = scratchCtx.getImageData(0, 0, scratchCanvas.width, scratchCanvas.height);
+                const data = imageData.data;
+                let transparent = 0;
+                const total = data.length / 4;
+                const step = 4;
+                for (let i = 3; i < data.length; i += 4 * step) {
+                    if (data[i] < 128) transparent++;
+                }
+                const percent = transparent / (total / step);
+                if (percent > 0.38) {
+                    revealDate();
+                }
+            }
+
+            // ============================================
+            //  RÉVÉLATION
+            // ============================================
+            function revealDate() {
+                if (isRevealed) return;
+                isRevealed = true;
+
+                // Son court (jingle)
+                playTraditionalSound();
+
+                // Confettis
+                launchConfetti(280);
+                setTimeout(() => launchConfetti(200), 400);
+                setTimeout(() => launchConfetti(120), 900);
+
+                // Effacer le scratch
+                scratchCtx.globalCompositeOperation = 'destination-out';
+                scratchCtx.fillStyle = '#ffffff';
+                scratchCtx.fillRect(0, 0, scratchCanvas.width, scratchCanvas.height);
+                hint.classList.add('hidden');
+                scratchCanvas.style.pointerEvents = 'none';
+
+                // Lancer la musique de fond (avec ou sans fichier)
+                setTimeout(() => {
+                    playBackgroundMusic();
+                    elements.musicToggle.classList.add('visible');
+                }, 800);
+            }
+
+            // ============================================
+            //  MUSIQUE (avec fichier externe ou synthétique)
+            // ============================================
+            let audioCtx = null;
+            let musicPlaying = false;
+            let musicInterval = null;
+            let musicNodes = [];
+            let audioElement = null; // pour lecture de fichier
+
+            function playBackgroundMusic() {
+                if (musicPlaying) return;
+                // Si un fichier audio est configuré, on l'utilise
+                if (CONFIG.musicFile) {
+                    if (!audioElement) {
+                        audioElement = new Audio(CONFIG.musicFile);
+                        audioElement.loop = true;
+                        audioElement.volume = 0.5;
+                    }
+                    audioElement.play().then(() => {
+                        musicPlaying = true;
+                        elements.musicToggle.classList.add('playing');
+                        elements.musicToggle.textContent = translations[currentLang].musicToggle;
+                    }).catch(err => {
+                        console.warn('Impossible de jouer le fichier audio, fallback sur synthétique.', err);
+                        playSyntheticMusic();
+                    });
+                } else {
+                    playSyntheticMusic();
+                }
+            }
+
+            function playSyntheticMusic() {
+                if (musicPlaying) return;
+                try {
+                    if (!audioCtx) {
+                        audioCtx = new(window.AudioContext || window.webkitAudioContext)();
+                    }
+                    if (audioCtx.state === 'suspended') {
+                        audioCtx.resume();
+                    }
+
+                    const notes = [
+                        { freq: 261.63, dur: 0.3 },
+                        { freq: 293.66, dur: 0.3 },
+                        { freq: 329.63, dur: 0.4 },
+                        { freq: 392.00, dur: 0.3 },
+                        { freq: 440.00, dur: 0.4 },
+                        { freq: 523.25, dur: 0.5 },
+                        { freq: 493.88, dur: 0.3 },
+                        { freq: 440.00, dur: 0.4 },
+                        { freq: 392.00, dur: 0.3 },
+                        { freq: 349.23, dur: 0.3 },
+                        { freq: 329.63, dur: 0.4 },
+                        { freq: 293.66, dur: 0.3 },
+                        { freq: 261.63, dur: 0.6 },
+                    ];
+
+                    let currentNote = 0;
+                    const playNote = () => {
+                        if (!musicPlaying) return;
+                        const note = notes[currentNote];
+                        const osc = audioCtx.createOscillator();
+                        const gain = audioCtx.createGain();
+                        osc.type = 'sine';
+                        osc.frequency.value = note.freq;
+                        gain.gain.setValueAtTime(0.15, audioCtx.currentTime);
+                        gain.gain.exponentialRampToValueAtTime(0.001, audioCtx.currentTime + note.dur);
+                        osc.connect(gain);
+                        gain.connect(audioCtx.destination);
+                        osc.start();
+                        osc.stop(audioCtx.currentTime + note.dur);
+                        musicNodes.push({ osc, gain });
+                        setTimeout(() => {
+                            musicNodes = musicNodes.filter(n => n.osc.context.state !== 'closed');
+                        }, 1000);
+                        currentNote = (currentNote + 1) % notes.length;
+                        if (musicPlaying) {
+                            musicInterval = setTimeout(playNote, note.dur * 1000 + 80);
+                        }
+                    };
+
+                    musicPlaying = true;
+                    elements.musicToggle.classList.add('playing');
+                    elements.musicToggle.textContent = translations[currentLang].musicToggle;
+                    playNote();
+
+                } catch (e) {
+                    console.warn('Erreur audio synthétique:', e);
+                }
+            }
+
+            function stopBackgroundMusic() {
+                musicPlaying = false;
+                if (musicInterval) {
+                    clearTimeout(musicInterval);
+                    musicInterval = null;
+                }
+                if (audioElement) {
+                    audioElement.pause();
+                    audioElement.currentTime = 0;
+                }
+                musicNodes.forEach(({ osc, gain }) => {
+                    try { osc.stop(); gain.disconnect(); } catch (_) {}
+                });
+                musicNodes = [];
+                elements.musicToggle.classList.remove('playing');
+                elements.musicToggle.textContent = translations[currentLang].musicOff;
+            }
+
+            // ============================================
+            //  JINGLE COURT
+            // ============================================
+            function playTraditionalSound() {
+                try {
+                    if (!audioCtx) {
+                        audioCtx = new(window.AudioContext || window.webkitAudioContext)();
+                    }
+                    if (audioCtx.state === 'suspended') {
+                        audioCtx.resume();
+                    }
+                    const now = audioCtx.currentTime;
+                    const notes = [
+                        { freq: 180, time: 0.00, dur: 0.12, vol: 0.20 },
+                        { freq: 240, time: 0.10, dur: 0.10, vol: 0.18 },
+                        { freq: 300, time: 0.20, dur: 0.15, vol: 0.22 },
+                        { freq: 360, time: 0.35, dur: 0.12, vol: 0.20 },
+                        { freq: 450, time: 0.48, dur: 0.20, vol: 0.25 },
+                        { freq: 300, time: 0.68, dur: 0.18, vol: 0.20 },
+                    ];
+                    notes.forEach(n => {
+                        const osc = audioCtx.createOscillator();
+                        const gain = audioCtx.createGain();
+                        osc.type = 'sine';
+                        osc.frequency.value = n.freq;
+                        gain.gain.setValueAtTime(n.vol, now + n.time);
+                        gain.gain.exponentialRampToValueAtTime(0.001, now + n.time + n.dur);
+                        osc.connect(gain);
+                        gain.connect(audioCtx.destination);
+                        osc.start(now + n.time);
+                        osc.stop(now + n.time + n.dur + 0.02);
+                    });
+                    const percs = [0.05, 0.20, 0.38, 0.55, 0.72];
+                    percs.forEach(t => {
+                        const bufferSize = audioCtx.sampleRate * 0.03;
+                        const buffer = audioCtx.createBuffer(1, bufferSize, audioCtx.sampleRate);
+                        const data = buffer.getChannelData(0);
+                        for (let i = 0; i < bufferSize; i++) data[i] = (Math.random() * 2 - 1) * 0.12;
+                        const noise = audioCtx.createBufferSource();
+                        noise.buffer = buffer;
+                        const gainN = audioCtx.createGain();
+                        gainN.gain.setValueAtTime(0.12, now + t);
+                        gainN.gain.exponentialRampToValueAtTime(0.001, now + t + 0.06);
+                        noise.connect(gainN);
+                        gainN.connect(audioCtx.destination);
+                        noise.start(now + t);
+                        noise.stop(now + t + 0.07);
+                    });
+                } catch (e) {}
+            }
+
+            // ============================================
+            //  CONFETTIS
+            // ============================================
+            const confettiCanvas = document.getElementById('confettiCanvas');
+            const confettiCtx = confettiCanvas.getContext('2d');
+            let confettiPieces = [];
+            let confettiActive = false;
+            let animFrameId = null;
+
+            function resizeConfettiCanvas() {
+                confettiCanvas.width = window.innerWidth;
+                confettiCanvas.height = window.innerHeight;
+            }
+
+            class Particle {
+                constructor(x, y) {
+                    this.x = x;
+                    this.y = y;
+                    const angle = Math.random() * 2 * Math.PI;
+                    const speed = 6 + Math.random() * 14;
+                    this.vx = Math.cos(angle) * speed * (0.6 + Math.random() * 0.8);
+                    this.vy = Math.sin(angle) * speed * (0.6 + Math.random() * 0.8) - 4;
+                    this.gravity = 0.15 + Math.random() * 0.1;
+                    this.size = 6 + Math.random() * 12;
+                    this.life = 1;
+                    this.decay = 0.008 + Math.random() * 0.012;
+                    this.rotation = Math.random() * 360;
+                    this.rotSpeed = (Math.random() - 0.5) * 10;
+                    const colors = ['#D4AF37', '#FFD700', '#8B0000', '#B8860B', '#FCF8F0', '#CD853F', '#C49A6C'];
+                    this.color = colors[Math.floor(Math.random() * colors.length)];
+                    this.shape = Math.random() > 0.6 ? 'star' : 'circle';
+                }
+                update() {
+                    this.x += this.vx;
+                    this.vy += this.gravity;
+                    this.y += this.vy;
+                    this.vx *= 0.99;
+                    this.life -= this.decay;
+                    this.rotation += this.rotSpeed;
+                    return this.life > 0.01 && this.y < confettiCanvas.height + 50;
+                }
+                draw(ctx) {
+                    ctx.save();
+                    ctx.globalAlpha = Math.max(0, this.life * 0.9);
+                    ctx.translate(this.x, this.y);
+                    ctx.rotate((this.rotation * Math.PI) / 180);
+                    ctx.fillStyle = this.color;
+                    ctx.shadowColor = 'rgba(212, 175, 55, 0.3)';
+                    ctx.shadowBlur = 15;
+                    if (this.shape === 'star') {
+                        const points = 5;
+                        const outerR = this.size / 2;
+                        const innerR = outerR * 0.4;
+                        ctx.beginPath();
+                        for (let i = 0; i < points * 2; i++) {
+                            const radius = i % 2 === 0 ? outerR : innerR;
+                            const angle = (i * Math.PI) / points - Math.PI / 2;
+                            const x = Math.cos(angle) * radius;
+                            const y = Math.sin(angle) * radius;
+                            if (i === 0) ctx.moveTo(x, y);
+                            else ctx.lineTo(x, y);
+                        }
+                        ctx.closePath();
+                        ctx.fill();
+                    } else {
+                        ctx.beginPath();
+                        ctx.arc(0, 0, this.size / 2, 0, Math.PI * 2);
+                        ctx.fill();
+                        ctx.shadowBlur = 25;
+                        ctx.fillStyle = '#FFFFFF';
+                        ctx.globalAlpha = Math.max(0, this.life * 0.3);
+                        ctx.beginPath();
+                        ctx.arc(-this.size * 0.2, -this.size * 0.2, this.size * 0.15, 0, Math.PI * 2);
+                        ctx.fill();
+                    }
+                    ctx.restore();
+                }
+            }
+
+            function launchConfetti(count) {
+                const rect = dateWrapper.getBoundingClientRect();
+                const cx = rect.left + rect.width / 2;
+                const cy = rect.top + rect.height / 2;
+                for (let i = 0; i < count; i++) {
+                    confettiPieces.push(new Particle(
+                        cx + (Math.random() - 0.5) * 40,
+                        cy + (Math.random() - 0.5) * 40
+                    ));
+                }
+                if (!confettiActive) {
+                    confettiActive = true;
+                    confettiCanvas.classList.add('active');
+                    animateConfetti();
+                }
+            }
+
+            function animateConfetti() {
+                if (!confettiActive) {
+                    if (animFrameId) {
+                        cancelAnimationFrame(animFrameId);
+                        animFrameId = null;
+                    }
+                    confettiCtx.clearRect(0, 0, confettiCanvas.width, confettiCanvas.height);
+                    return;
+                }
+                confettiCtx.clearRect(0, 0, confettiCanvas.width, confettiCanvas.height);
+                let alive = false;
+                for (let i = confettiPieces.length - 1; i >= 0; i--) {
+                    const p = confettiPieces[i];
+                    const isAlive = p.update();
+                    if (isAlive) { p.draw(confettiCtx); alive = true; }
+                    else { confettiPieces.splice(i, 1); }
+                }
+                if (alive || confettiPieces.length > 0) {
+                    animFrameId = requestAnimationFrame(animateConfetti);
+                } else {
+                    confettiActive = false;
+                    confettiCanvas.classList.remove('active');
+                    if (animFrameId) {
+                        cancelAnimationFrame(animFrameId);
+                        animFrameId = null;
+                    }
+                    confettiCtx.clearRect(0, 0, confettiCanvas.width, confettiCanvas.height);
+                }
+            }
+
+            // ============================================
+            //  ÉVÉNEMENTS & INIT
+            // ============================================
+            scratchCanvas.addEventListener('mousedown', startDraw);
+            scratchCanvas.addEventListener('mousemove', draw);
+            scratchCanvas.addEventListener('mouseup', stopDraw);
+            scratchCanvas.addEventListener('mouseleave', stopDraw);
+
+            scratchCanvas.addEventListener('touchstart', startDraw, { passive: false });
+            scratchCanvas.addEventListener('touchmove', draw, { passive: false });
+            scratchCanvas.addEventListener('touchend', stopDraw, { passive: false });
+            scratchCanvas.addEventListener('touchcancel', stopDraw, { passive: false });
+
+            elements.musicToggle.addEventListener('click', function(e) {
+                e.stopPropagation();
+                if (musicPlaying) {
+                    stopBackgroundMusic();
+                } else {
+                    playBackgroundMusic();
+                }
+            });
+
+            window.addEventListener('resize', () => {
+                resizeConfettiCanvas();
+                resizeScratchCanvas();
+            });
+
+            function init() {
+                resizeConfettiCanvas();
+                resizeScratchCanvas();
+                // Initialiser l'audio context au premier clic
+                document.addEventListener('click', function initAudio() {
+                    if (!audioCtx) {
+                        try {
+                            audioCtx = new(window.AudioContext || window.webkitAudioContext)();
+                            if (audioCtx.state === 'suspended') audioCtx.resume();
+                        } catch (_) {}
+                    }
+                }, { once: true });
+            }
+
+            window.addEventListener('load', init);
+
+            // Redessiner le scratch après changement de langue
+            document.querySelectorAll('.lang-btn').forEach(btn => {
+                btn.addEventListener('click', drawScratchBackground);
+            });
+
+            console.log('💍 Invitation prête ! Grattage fonctionnel, photo et musique depuis GitHub.');
+        })();
+    </script>
+
+</body>
+</html>
