@@ -2,7 +2,7 @@
 <html lang="fr">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=yes">
     <title>Invitation Mariage - Grattez pour découvrir</title>
     <link href="https://fonts.googleapis.com/css2?family=Amiri:ital,wght@0,400;0,700;1,700&family=Playfair+Display:wght@400;700;900&family=Roboto:wght@300;400&display=swap" rel="stylesheet">
     <style>
@@ -19,10 +19,23 @@
             justify-content: center;
             align-items: center;
             background: #1a0f0a;
-            padding: 20px;
+            padding: 15px;
             font-family: 'Amiri', 'Playfair Display', serif;
             overflow-x: hidden;
             position: relative;
+            transition: background 0.5s ease;
+        }
+
+        /* ===== PARTICULES D'ARRIÈRE-PLAN ===== */
+        #bgParticlesCanvas {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: 0;
+            opacity: 0.5;
         }
 
         body::before {
@@ -56,59 +69,68 @@
             opacity: 1;
         }
 
+        /* ===== SÉLECTEUR DE LANGUE ===== */
         .language-selector {
             display: flex;
-            gap: 12px;
-            margin-bottom: 20px;
+            gap: 10px;
+            margin-bottom: 18px;
             z-index: 10;
             position: relative;
+            flex-wrap: wrap;
+            justify-content: center;
         }
         .lang-btn {
-            background: rgba(252, 248, 240, 0.15);
+            background: rgba(252, 248, 240, 0.12);
             backdrop-filter: blur(8px);
             border: 2px solid #b8860b;
             color: #fcf8f0;
-            padding: 6px 18px;
+            padding: 6px 16px;
             border-radius: 40px;
             font-family: 'Amiri', serif;
-            font-size: 1rem;
+            font-size: clamp(0.8rem, 2vw, 1rem);
             cursor: pointer;
-            transition: all 0.3s ease;
+            transition: all 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
             text-transform: uppercase;
             letter-spacing: 1px;
             box-shadow: 0 2px 10px rgba(0,0,0,0.3);
+            transform: scale(1);
         }
         .lang-btn:hover {
             background: rgba(184, 134, 11, 0.4);
-            transform: scale(1.05);
+            transform: scale(1.08);
         }
         .lang-btn.active {
             background: #b8860b;
             color: #1a0f0a;
             border-color: #fcf8f0;
-            box-shadow: 0 0 20px rgba(184, 134, 11, 0.5);
+            box-shadow: 0 0 25px rgba(184, 134, 11, 0.6);
+            transform: scale(1.05);
+        }
+        .lang-btn:active {
+            transform: scale(0.95);
         }
 
         .music-toggle {
             display: none;
-            margin-top: 12px;
+            margin-top: 10px;
             z-index: 10;
-            background: rgba(252, 248, 240, 0.15);
+            background: rgba(252, 248, 240, 0.12);
             backdrop-filter: blur(8px);
             border: 2px solid #b8860b;
             color: #fcf8f0;
-            padding: 8px 20px;
+            padding: 7px 18px;
             border-radius: 40px;
             font-family: 'Amiri', serif;
-            font-size: 1rem;
+            font-size: clamp(0.8rem, 2vw, 1rem);
             cursor: pointer;
-            transition: all 0.3s ease;
+            transition: all 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
             letter-spacing: 1px;
             box-shadow: 0 2px 10px rgba(0,0,0,0.3);
+            transform: scale(1);
         }
         .music-toggle:hover {
             background: rgba(184, 134, 11, 0.4);
-            transform: scale(1.05);
+            transform: scale(1.08);
         }
         .music-toggle.visible {
             display: inline-block;
@@ -117,15 +139,20 @@
             background: #b8860b;
             color: #1a0f0a;
             border-color: #fcf8f0;
+            box-shadow: 0 0 25px rgba(184, 134, 11, 0.5);
+        }
+        .music-toggle:active {
+            transform: scale(0.95);
         }
 
+        /* ===== CARTE PRINCIPALE ===== */
         .invitation-card {
             max-width: 620px;
             width: 100%;
             background: #fcf8f0;
             border-radius: 30px;
             position: relative;
-            padding: 45px 35px 40px;
+            padding: clamp(25px, 6vw, 45px) clamp(18px, 4vw, 35px) clamp(25px, 5vw, 40px);
             z-index: 1;
             box-shadow:
                 0 30px 80px rgba(0, 0, 0, 0.7),
@@ -133,15 +160,15 @@
                 0 0 0 8px #fcf8f0,
                 0 0 0 11px #8b0000,
                 0 0 0 16px #b8860b;
-            transition: transform 0.4s cubic-bezier(0.34, 1.56, 0.64, 1), box-shadow 0.5s ease;
+            transition: transform 0.5s cubic-bezier(0.34, 1.56, 0.64, 1), box-shadow 0.5s ease;
             transform-style: preserve-3d;
             perspective: 800px;
-            animation: floatCard 4s ease-in-out infinite;
+            animation: floatCard 5s ease-in-out infinite;
         }
 
         @keyframes floatCard {
-            0%, 100% { transform: translateY(0px) rotateX(2deg); }
-            50% { transform: translateY(-12px) rotateX(-1deg); }
+            0%, 100% { transform: translateY(0px) rotateX(2deg) scale(1); }
+            50% { transform: translateY(-14px) rotateX(-1deg) scale(1.01); }
         }
 
         .invitation-card:hover {
@@ -151,24 +178,27 @@
                 0 0 0 8px #fcf8f0,
                 0 0 0 11px #8b0000,
                 0 0 0 16px #d4af37;
+            transform: scale(1.01) translateY(-4px);
         }
 
+        /* ===== BORDURE INTÉRIEURE ===== */
         .card-inner-border {
             position: absolute;
-            top: 15px;
-            left: 15px;
-            right: 15px;
-            bottom: 15px;
+            top: 12px;
+            left: 12px;
+            right: 12px;
+            bottom: 12px;
             border: 2px solid #c49a6c;
             border-radius: 18px;
             pointer-events: none;
-            opacity: 0.6;
+            opacity: 0.5;
             background-image:
-                repeating-linear-gradient(45deg, transparent, transparent 8px, rgba(196, 154, 108, 0.1) 8px, rgba(196, 154, 108, 0.1) 9px),
-                repeating-linear-gradient(-45deg, transparent, transparent 8px, rgba(196, 154, 108, 0.1) 8px, rgba(196, 154, 108, 0.1) 9px);
+                repeating-linear-gradient(45deg, transparent, transparent 8px, rgba(196, 154, 108, 0.08) 8px, rgba(196, 154, 108, 0.08) 9px),
+                repeating-linear-gradient(-45deg, transparent, transparent 8px, rgba(196, 154, 108, 0.08) 8px, rgba(196, 154, 108, 0.08) 9px);
             z-index: 0;
         }
 
+        /* ===== DÉCORS ===== */
         .card-decoration {
             position: absolute;
             top: 0;
@@ -183,37 +213,64 @@
 
         .ornament-corner {
             position: absolute;
-            font-size: 2.2rem;
-            opacity: 0.6;
+            font-size: clamp(1.6rem, 4vw, 2.4rem);
+            opacity: 0.5;
             text-shadow: 0 0 20px rgba(184, 134, 11, 0.3);
+            animation: cornerPulse 4s ease-in-out infinite;
         }
-        .ornament-corner.tl { top: 18px; left: 22px; }
-        .ornament-corner.tr { top: 18px; right: 22px; }
-        .ornament-corner.bl { bottom: 18px; left: 22px; }
-        .ornament-corner.br { bottom: 18px; right: 22px; }
+        .ornament-corner.tl { top: 15px; left: 18px; animation-delay: 0s; }
+        .ornament-corner.tr { top: 15px; right: 18px; animation-delay: 1s; }
+        .ornament-corner.bl { bottom: 15px; left: 18px; animation-delay: 2s; }
+        .ornament-corner.br { bottom: 15px; right: 18px; animation-delay: 3s; }
+
+        @keyframes cornerPulse {
+            0%, 100% { transform: scale(1) rotate(0deg); opacity: 0.5; }
+            50% { transform: scale(1.2) rotate(5deg); opacity: 0.8; }
+        }
 
         .flower-side {
             position: absolute;
-            font-size: 1.6rem;
-            opacity: 0.3;
+            font-size: clamp(1.2rem, 3vw, 1.8rem);
+            opacity: 0.25;
             color: #b8860b;
+            animation: flowerSway 6s ease-in-out infinite;
         }
-        .flower-side.left { top: 50%; left: 8px; transform: translateY(-50%) rotate(-15deg); }
-        .flower-side.right { top: 50%; right: 8px; transform: translateY(-50%) rotate(15deg); }
+        .flower-side.left { top: 50%; left: 6px; transform: translateY(-50%) rotate(-15deg); }
+        .flower-side.right { top: 50%; right: 6px; transform: translateY(-50%) rotate(15deg); }
+        .flower-side.left { animation-delay: 0s; }
+        .flower-side.right { animation-delay: 3s; }
+
+        @keyframes flowerSway {
+            0%, 100% { transform: translateY(-50%) rotate(-15deg) scale(1); }
+            50% { transform: translateY(-60%) rotate(-25deg) scale(1.1); }
+        }
+        .flower-side.right {
+            animation-name: flowerSwayRight;
+        }
+        @keyframes flowerSwayRight {
+            0%, 100% { transform: translateY(-50%) rotate(15deg) scale(1); }
+            50% { transform: translateY(-60%) rotate(25deg) scale(1.1); }
+        }
 
         .center-filigrane {
             position: absolute;
             top: 50%;
             left: 50%;
             transform: translate(-50%, -50%) scale(1.6);
-            font-size: 8rem;
+            font-size: clamp(5rem, 15vw, 8rem);
             color: #c49a6c;
-            opacity: 0.06;
+            opacity: 0.05;
             z-index: 0;
             font-weight: 900;
             letter-spacing: 20px;
+            animation: filigraneRotate 30s linear infinite;
+        }
+        @keyframes filigraneRotate {
+            0% { transform: translate(-50%, -50%) scale(1.6) rotate(0deg); }
+            100% { transform: translate(-50%, -50%) scale(1.6) rotate(360deg); }
         }
 
+        /* ===== CONTENU ===== */
         .card-content {
             position: relative;
             z-index: 2;
@@ -221,17 +278,22 @@
         }
 
         .ornament-top {
-            font-size: 1.8rem;
+            font-size: clamp(1.4rem, 3.5vw, 1.8rem);
             color: #b8860b;
-            letter-spacing: 12px;
+            letter-spacing: clamp(8px, 2vw, 12px);
             margin-bottom: 4px;
             opacity: 0.8;
             text-shadow: 0 0 15px rgba(184, 134, 11, 0.2);
+            animation: shimmer 3s ease-in-out infinite;
+        }
+        @keyframes shimmer {
+            0%, 100% { opacity: 0.8; }
+            50% { opacity: 1; text-shadow: 0 0 30px rgba(184, 134, 11, 0.4); }
         }
 
         .blessing {
             font-family: 'Amiri', serif;
-            font-size: 1.4rem;
+            font-size: clamp(1.1rem, 2.5vw, 1.4rem);
             color: #8b0000;
             font-weight: 700;
             letter-spacing: 2px;
@@ -241,7 +303,7 @@
 
         .invite-title {
             font-family: 'Playfair Display', serif;
-            font-size: 2.6rem;
+            font-size: clamp(1.8rem, 5vw, 2.6rem);
             font-weight: 900;
             color: #8b0000;
             text-transform: uppercase;
@@ -252,31 +314,41 @@
             background-clip: text;
             filter: drop-shadow(0 2px 4px rgba(139, 0, 0, 0.3));
             margin-bottom: 2px;
+            animation: titleGlow 4s ease-in-out infinite;
+        }
+        @keyframes titleGlow {
+            0%, 100% { filter: drop-shadow(0 2px 4px rgba(139, 0, 0, 0.3)); }
+            50% { filter: drop-shadow(0 0 20px rgba(184, 134, 11, 0.3)); }
         }
 
         .invite-sub {
-            font-size: 1rem;
+            font-size: clamp(0.7rem, 1.8vw, 1rem);
             color: #7a5a3a;
-            letter-spacing: 6px;
+            letter-spacing: clamp(3px, 1.2vw, 6px);
             font-weight: 400;
             text-transform: uppercase;
             border-top: 1px solid #c49a6c;
             border-bottom: 1px solid #c49a6c;
             display: inline-block;
-            padding: 6px 18px;
+            padding: 4px 14px;
             margin: 6px auto 12px;
         }
 
         .divider {
-            width: 100px;
+            width: clamp(60px, 20vw, 100px);
             height: 3px;
             background: linear-gradient(90deg, transparent, #b8860b, #8b0000, #b8860b, transparent);
-            margin: 12px auto 16px;
+            margin: 10px auto 14px;
             border-radius: 2px;
+            animation: dividerPulse 3s ease-in-out infinite;
+        }
+        @keyframes dividerPulse {
+            0%, 100% { opacity: 1; transform: scaleX(1); }
+            50% { opacity: 0.6; transform: scaleX(0.9); }
         }
 
         .invite-text {
-            font-size: 1.05rem;
+            font-size: clamp(0.85rem, 2.2vw, 1.05rem);
             color: #4a3525;
             font-weight: 400;
             line-height: 1.8;
@@ -289,22 +361,36 @@
             border-radius: 12px;
             border-left: 3px solid #b8860b;
             border-right: 3px solid #b8860b;
+            transition: all 0.3s ease;
+        }
+        .invite-text:hover {
+            background: rgba(212, 175, 55, 0.1);
+            transform: scale(1.02);
         }
 
         .couple-photo {
             width: 100%;
-            max-width: 220px;
+            max-width: min(220px, 50vw);
             margin: 6px auto 10px;
             border-radius: 50% 50% 50% 50% / 60% 60% 40% 40%;
             overflow: hidden;
             border: 4px solid #b8860b;
             box-shadow: 0 8px 30px rgba(0,0,0,0.3), 0 0 0 2px #fcf8f0, 0 0 0 6px #8b0000;
-            transition: transform 0.4s ease;
+            transition: transform 0.5s cubic-bezier(0.34, 1.56, 0.64, 1), box-shadow 0.5s ease;
             aspect-ratio: 1/1;
             background: #fcf8f0;
             display: flex;
             align-items: center;
             justify-content: center;
+            animation: photoFloat 6s ease-in-out infinite;
+        }
+        @keyframes photoFloat {
+            0%, 100% { transform: translateY(0px) rotate(0deg); }
+            50% { transform: translateY(-8px) rotate(2deg); }
+        }
+        .couple-photo:hover {
+            transform: scale(1.06) rotate(-3deg);
+            box-shadow: 0 12px 40px rgba(0,0,0,0.4), 0 0 0 2px #fcf8f0, 0 0 0 8px #b8860b;
         }
         .couple-photo img {
             width: 100%;
@@ -312,41 +398,56 @@
             object-fit: cover;
             display: block;
         }
-        .couple-photo:hover {
-            transform: scale(1.04) rotate(-2deg);
-        }
 
         .couple-container {
             display: flex;
             align-items: center;
             justify-content: center;
-            gap: 14px;
+            gap: clamp(8px, 2vw, 14px);
             margin: 6px 0 2px;
         }
         .couple-icon {
-            font-size: 2.8rem;
+            font-size: clamp(2rem, 5vw, 2.8rem);
             line-height: 1;
             opacity: 0.8;
+            animation: iconBounce 4s ease-in-out infinite;
         }
-        .couple-icon.left { transform: scaleX(-1); }
+        .couple-icon.left { transform: scaleX(-1); animation-delay: 0s; }
+        .couple-icon.right { animation-delay: 2s; }
+        @keyframes iconBounce {
+            0%, 100% { transform: scale(1) translateY(0); }
+            50% { transform: scale(1.2) translateY(-6px); }
+        }
+        .couple-icon.left {
+            animation-name: iconBounceLeft;
+        }
+        @keyframes iconBounceLeft {
+            0%, 100% { transform: scaleX(-1) scale(1) translateY(0); }
+            50% { transform: scaleX(-1) scale(1.2) translateY(-6px); }
+        }
 
         .couple-names {
             font-family: 'Playfair Display', serif;
-            font-size: 2.8rem;
+            font-size: clamp(1.8rem, 5vw, 2.8rem);
             font-weight: 900;
             color: #4a1a1a;
             text-shadow: 0 2px 10px rgba(139, 0, 0, 0.15);
             letter-spacing: 1px;
+            animation: nameGlow 3s ease-in-out infinite;
+        }
+        @keyframes nameGlow {
+            0%, 100% { text-shadow: 0 2px 10px rgba(139, 0, 0, 0.15); }
+            50% { text-shadow: 0 0 30px rgba(184, 134, 11, 0.2); }
         }
         .couple-names span {
             color: #b8860b;
-            margin: 0 10px;
+            margin: 0 clamp(4px, 1.5vw, 10px);
             font-weight: 400;
         }
 
         .families {
             font-family: 'Amiri', serif;
-            font-size: 1.1rem;
+            font-size: clamp(0.9rem, 2vw, 1.1rem);
             color: #7a5a3a;
             letter-spacing: 3px;
             margin-top: 2px;
@@ -354,31 +455,32 @@
         }
 
         .divider-light {
-            width: 60px;
+            width: clamp(40px, 15vw, 60px);
             height: 1px;
             background: #c49a6c;
-            margin: 14px auto 16px;
+            margin: 12px auto 14px;
             opacity: 0.5;
         }
 
+        /* ===== ZONE DATE ===== */
         .date-wrapper {
             position: relative;
-            margin-top: 16px;
+            margin-top: 14px;
             border-top: 2px solid #d4af37;
-            padding-top: 16px;
+            padding-top: 14px;
             border-image: linear-gradient(90deg, transparent, #d4af37, transparent) 1;
-            min-height: 140px;
+            min-height: 130px;
         }
 
         .date-content {
             position: relative;
             z-index: 1;
-            padding: 8px 0;
+            padding: 6px 0;
         }
 
         .date-main {
             font-family: 'Amiri', serif;
-            font-size: 2.8rem;
+            font-size: clamp(2rem, 5vw, 2.8rem);
             font-weight: 700;
             color: #4a1a1a;
             line-height: 1.2;
@@ -386,18 +488,18 @@
         }
 
         .date-main .day-number {
-            font-size: 4.8rem;
+            font-size: clamp(3rem, 8vw, 4.8rem);
             font-weight: 900;
             color: #b8860b;
             display: block;
-            margin-top: -8px;
+            margin-top: -6px;
             text-shadow: 0 0 30px rgba(184, 134, 11, 0.4);
-            letter-spacing: 6px;
+            letter-spacing: 4px;
         }
 
         .date-main .month-year {
-            font-size: 1.6rem;
-            letter-spacing: 8px;
+            font-size: clamp(1rem, 2.5vw, 1.6rem);
+            letter-spacing: clamp(4px, 1.5vw, 8px);
             color: #8b0000;
             font-weight: 700;
             text-transform: uppercase;
@@ -409,9 +511,9 @@
         }
 
         .date-details {
-            font-size: 1.05rem;
+            font-size: clamp(0.85rem, 2vw, 1.05rem);
             color: #4a3525;
-            margin-top: 10px;
+            margin-top: 8px;
             line-height: 1.8;
             font-family: 'Roboto', sans-serif;
             font-weight: 300;
@@ -421,7 +523,7 @@
         .date-details i {
             font-style: normal;
             display: inline-block;
-            margin: 0 6px;
+            margin: 0 4px;
             color: #b8860b;
         }
 
@@ -430,6 +532,7 @@
             font-weight: 700;
         }
 
+        /* ===== CANVAS DE GRATTAGE ===== */
         #scratchCanvas {
             position: absolute;
             top: 0;
@@ -443,6 +546,7 @@
             box-shadow: inset 0 0 30px rgba(0,0,0,0.2);
             pointer-events: auto;
             display: block;
+            transition: opacity 0.8s ease;
         }
 
         .scratch-hint {
@@ -453,20 +557,27 @@
             z-index: 3;
             pointer-events: none;
             font-family: 'Amiri', serif;
-            font-size: 1.3rem;
+            font-size: clamp(1rem, 2.5vw, 1.3rem);
             color: #fcf8f0;
             text-shadow: 0 2px 20px rgba(0,0,0,0.8);
             background: rgba(139,0,0,0.3);
-            padding: 10px 24px;
+            padding: 8px 20px;
             border-radius: 60px;
             border: 2px solid rgba(212,175,55,0.6);
             backdrop-filter: blur(4px);
             letter-spacing: 2px;
-            transition: opacity 0.8s ease;
+            transition: opacity 0.8s ease, transform 0.8s ease;
             white-space: nowrap;
+            animation: hintPulse 2.5s ease-in-out infinite;
+        }
+        @keyframes hintPulse {
+            0%, 100% { transform: translate(-50%, -50%) scale(1); opacity: 0.9; }
+            50% { transform: translate(-50%, -50%) scale(1.05); opacity: 1; }
         }
         .scratch-hint.hidden {
             opacity: 0;
+            transform: translate(-50%, -50%) scale(0.8);
+            pointer-events: none;
         }
 
         .shimmer-text {
@@ -479,44 +590,106 @@
             animation: shimmerMove 3s linear infinite;
             font-weight: 900;
         }
-
         @keyframes shimmerMove {
             0% { background-position: 0% 50%; }
             100% { background-position: 300% 50%; }
         }
 
-        @media (max-width: 600px) {
-            .invitation-card { padding: 30px 18px 28px; }
-            .invite-title { font-size: 1.8rem; }
-            .couple-container { gap: 8px; }
-            .couple-icon { font-size: 2rem; }
-            .couple-names { font-size: 2rem; }
-            .couple-names span { margin: 0 4px; }
-            .invite-text { font-size: 0.9rem; padding: 8px 10px; }
-            .date-main { font-size: 2rem; }
-            .date-main .day-number { font-size: 3.6rem; }
-            .date-main .month-year { font-size: 1.2rem; letter-spacing: 4px; }
-            .ornament-corner { font-size: 1.6rem; }
-            .center-filigrane { font-size: 5rem; }
-            .card-inner-border { top: 8px; left: 8px; right: 8px; bottom: 8px; }
-            .invite-sub { font-size: 0.8rem; letter-spacing: 3px; padding: 4px 12px; }
-            .scratch-hint { font-size: 1rem; padding: 6px 16px; white-space: normal; text-align: center; }
+        /* ===== RESPONSIVE ===== */
+        @media (max-width: 480px) {
+            .invitation-card {
+                padding: 20px 14px 22px;
+                border-radius: 20px;
+            }
+            .card-inner-border {
+                top: 8px;
+                left: 8px;
+                right: 8px;
+                bottom: 8px;
+                border-radius: 12px;
+            }
+            .ornament-corner {
+                font-size: 1.2rem;
+                opacity: 0.3;
+            }
+            .ornament-corner.tl { top: 8px; left: 10px; }
+            .ornament-corner.tr { top: 8px; right: 10px; }
+            .ornament-corner.bl { bottom: 8px; left: 10px; }
+            .ornament-corner.br { bottom: 8px; right: 10px; }
             .flower-side { display: none; }
-            .couple-photo { max-width: 150px; }
-            .language-selector { gap: 6px; flex-wrap: wrap; justify-content: center; }
-            .lang-btn { font-size: 0.8rem; padding: 4px 12px; }
-            .music-toggle { font-size: 0.8rem; padding: 6px 14px; }
+            .center-filigrane {
+                font-size: 4rem;
+                letter-spacing: 10px;
+            }
+            .couple-photo {
+                max-width: 130px;
+                border-width: 3px;
+            }
+            .scratch-hint {
+                font-size: 0.9rem;
+                padding: 6px 14px;
+                white-space: normal;
+                text-align: center;
+            }
+            .music-toggle, .lang-btn {
+                font-size: 0.75rem;
+                padding: 5px 12px;
+            }
+            .language-selector {
+                gap: 6px;
+            }
         }
-        @media (max-width: 400px) {
-            .invite-title { font-size: 1.5rem; }
-            .couple-names { font-size: 1.6rem; }
-            .date-main .day-number { font-size: 2.8rem; }
-            .invitation-card { padding: 20px 12px 20px; }
-            .couple-photo { max-width: 120px; }
+
+        @media (max-width: 360px) {
+            .invite-title {
+                font-size: 1.4rem;
+            }
+            .couple-names {
+                font-size: 1.4rem;
+            }
+            .date-main .day-number {
+                font-size: 2.6rem;
+            }
+            .couple-photo {
+                max-width: 100px;
+            }
+            .invite-text {
+                font-size: 0.75rem;
+                padding: 6px 8px;
+            }
+            .date-details {
+                font-size: 0.75rem;
+            }
+        }
+
+        /* ===== ANIMATION D'ENTRÉE DE LA DATE ===== */
+        .date-content {
+            opacity: 0;
+            transform: translateY(20px) scale(0.95);
+            transition: opacity 0.9s cubic-bezier(0.34, 1.56, 0.64, 1), transform 0.9s cubic-bezier(0.34, 1.56, 0.64, 1);
+        }
+        .date-content.revealed {
+            opacity: 1;
+            transform: translateY(0) scale(1);
+        }
+
+        /* ===== BOUTON COUPER MUSIQUE ===== */
+        .music-toggle {
+            transition: all 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
+        }
+        .music-toggle.visible {
+            animation: fadeInUp 0.6s ease forwards;
+        }
+        @keyframes fadeInUp {
+            0% { opacity: 0; transform: translateY(20px) scale(0.9); }
+            100% { opacity: 1; transform: translateY(0) scale(1); }
         }
     </style>
 </head>
 <body>
+
+    <!-- Canvas pour particules d'arrière-plan -->
+    <canvas id="bgParticlesCanvas"></canvas>
 
     <div class="language-selector">
         <button class="lang-btn active" data-lang="fr">🇫🇷 Français</button>
@@ -554,17 +727,16 @@
                 le temps d'une célébration empreinte de traditions. »
             </p>
 
-            <!-- Photo du couple depuis GitHub (test1.jpg) -->
             <div class="couple-photo">
                 <img id="coupleImg" 
-                     src="" 
-                     alt="Leila & Youssef" 
+                     src="https://raw.githubusercontent.com/wkwtunisia/invitation/main/test1.jpg" 
+                     alt="YOSRA & MOHAMED ALI" 
                      onerror="this.src='https://via.placeholder.com/300x300/8b0000/fcf8f0?text=Leila+%26+Youssef'">
             </div>
 
             <div class="couple-container">
                 <span class="couple-icon left">👰</span>
-                <div class="couple-names">Leila <span>&amp;</span> Youssef</div>
+                <div class="couple-names">YOSRA <span>&amp;</span> MOHAMED ALI</div>
                 <span class="couple-icon right">🤵</span>
             </div>
             <div class="families" id="families">— & leurs familles —</div>
@@ -572,7 +744,7 @@
             <div class="divider-light"></div>
 
             <div class="date-wrapper" id="dateWrapper">
-                <div class="date-content">
+                <div class="date-content" id="dateContent">
                     <div class="date-main">
                         <span id="dayLabel">Le Samedi</span>
                         <span class="day-number shimmer-text">15</span>
@@ -594,15 +766,73 @@
             'use strict';
 
             // ============================================================
-            //  CONFIGURATION – MODIFIEZ CES URLs AVEC VOS FICHIERS GITHUB
+            //  CONFIGURATION – URLs de vos fichiers GitHub
             // ============================================================
             const CONFIG = {
-                // URL de la photo du couple (test1.jpg)
-                coupleImage: 'https://raw.githubusercontent.com/wkwtunisia/invitation
-/main/test1.jpg',
-                // URL du fichier audio (test.mp3)
+                coupleImage: 'https://raw.githubusercontent.com/wkwtunisia/invitation/main/test1.jpg',
                 musicFile: 'https://raw.githubusercontent.com/wkwtunisia/invitation/main/test.mp3'
             };
+
+            // ============================================================
+            //  PARTICULES D'ARRIÈRE-PLAN
+            // ============================================================
+            const bgCanvas = document.getElementById('bgParticlesCanvas');
+            const bgCtx = bgCanvas.getContext('2d');
+            let bgParticles = [];
+
+            function resizeBgCanvas() {
+                bgCanvas.width = window.innerWidth;
+                bgCanvas.height = window.innerHeight;
+            }
+            window.addEventListener('resize', resizeBgCanvas);
+            resizeBgCanvas();
+
+            class BgParticle {
+                constructor() {
+                    this.x = Math.random() * bgCanvas.width;
+                    this.y = Math.random() * bgCanvas.height;
+                    this.size = Math.random() * 3 + 1;
+                    this.speedX = (Math.random() - 0.5) * 0.3;
+                    this.speedY = (Math.random() - 0.5) * 0.3;
+                    this.opacity = Math.random() * 0.3 + 0.1;
+                }
+                update() {
+                    this.x += this.speedX;
+                    this.y += this.speedY;
+                    if (this.x < 0 || this.x > bgCanvas.width) this.speedX *= -1;
+                    if (this.y < 0 || this.y > bgCanvas.height) this.speedY *= -1;
+                }
+                draw() {
+                    bgCtx.beginPath();
+                    bgCtx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
+                    bgCtx.fillStyle = `rgba(212, 175, 55, ${this.opacity})`;
+                    bgCtx.fill();
+                }
+            }
+
+            function initBgParticles() {
+                bgParticles = [];
+                const count = Math.min(80, Math.floor(window.innerWidth / 10));
+                for (let i = 0; i < count; i++) {
+                    bgParticles.push(new BgParticle());
+                }
+            }
+            initBgParticles();
+
+            function animateBgParticles() {
+                bgCtx.clearRect(0, 0, bgCanvas.width, bgCanvas.height);
+                bgParticles.forEach(p => {
+                    p.update();
+                    p.draw();
+                });
+                requestAnimationFrame(animateBgParticles);
+            }
+            animateBgParticles();
+
+            window.addEventListener('resize', () => {
+                resizeBgCanvas();
+                initBgParticles();
+            });
 
             // ============================================================
             //  TRADUCTIONS
@@ -663,10 +893,10 @@
                 dateDetails: document.getElementById('dateDetails'),
                 scratchHint: document.getElementById('scratchHint'),
                 musicToggle: document.getElementById('musicToggle'),
-                coupleImg: document.getElementById('coupleImg')
+                coupleImg: document.getElementById('coupleImg'),
+                dateContent: document.getElementById('dateContent')
             };
 
-            // Charger la photo depuis la config
             if (CONFIG.coupleImage) {
                 elements.coupleImg.src = CONFIG.coupleImage;
             }
@@ -713,7 +943,7 @@
             });
 
             // ============================================================
-            //  CANVAS DE GRATTAGE (100% fonctionnel)
+            //  CANVAS DE GRATTAGE
             // ============================================================
             const scratchCanvas = document.getElementById('scratchCanvas');
             const scratchCtx = scratchCanvas.getContext('2d');
@@ -861,6 +1091,9 @@
                 hint.classList.add('hidden');
                 scratchCanvas.style.pointerEvents = 'none';
 
+                // Révéler la date avec animation
+                elements.dateContent.classList.add('revealed');
+
                 setTimeout(() => {
                     playBackgroundMusic();
                     elements.musicToggle.classList.add('visible');
@@ -868,7 +1101,7 @@
             }
 
             // ============================================================
-            //  MUSIQUE (fichier test.mp3 depuis GitHub)
+            //  MUSIQUE
             // ============================================================
             let audioCtx = null;
             let musicPlaying = false;
@@ -879,7 +1112,6 @@
             function playBackgroundMusic() {
                 if (musicPlaying) return;
 
-                // Utiliser le fichier audio test.mp3
                 if (CONFIG.musicFile) {
                     if (!audioElement) {
                         audioElement = new Audio(CONFIG.musicFile);
@@ -1028,6 +1260,8 @@
                 confettiCanvas.width = window.innerWidth;
                 confettiCanvas.height = window.innerHeight;
             }
+            window.addEventListener('resize', resizeConfettiCanvas);
+            resizeConfettiCanvas();
 
             class Particle {
                 constructor(x, y) {
@@ -1187,7 +1421,7 @@
                 btn.addEventListener('click', drawScratchBackground);
             });
 
-            console.log('💍 Invitation prête !');
+            console.log('💍 Invitation prête avec animations améliorées !');
             console.log('📷 Photo: ' + CONFIG.coupleImage);
             console.log('🎵 Musique: ' + (CONFIG.musicFile || 'synthétique'));
 
