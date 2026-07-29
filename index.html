@@ -66,7 +66,6 @@
             --gold-gradient: linear-gradient(135deg, #d4af37, #f0d080, #d4af37);
             --countdown-bg: rgba(255,215,0,0.08);
         }
-        /* ===== THÈME NUIT ÉTOILÉE ===== */
         body.theme-starry {
             --card-bg: rgba(10, 8, 20, 0.95);
             --card-text: #d0cce8;
@@ -109,7 +108,6 @@
             transition: background 0.6s ease;
         }
 
-        /* ===== BACKGROUND ANIMÉ ===== */
         body::before {
             content: '';
             position: fixed;
@@ -364,12 +362,41 @@
             margin: 10px auto 0;
         }
 
+        .palette-section-title {
+            color: rgba(252, 248, 240, 0.7);
+            text-align: center;
+            font-weight: 300;
+            letter-spacing: 2px;
+            font-size: 0.9rem;
+            margin: 0 0 16px;
+            font-family: 'Roboto', sans-serif;
+            text-transform: uppercase;
+        }
+
         .color-options {
             display: flex;
             justify-content: center;
             gap: 14px;
-            margin: 16px 0 22px;
+            margin: 0 0 22px;
             flex-wrap: wrap;
+        }
+        .color-item {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 4px;
+            cursor: pointer;
+        }
+        .color-label {
+            color: rgba(252, 248, 240, 0.6);
+            font-size: 0.6rem;
+            font-family: 'Roboto', sans-serif;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            transition: color 0.3s ease;
+        }
+        .color-item:hover .color-label {
+            color: #fcf8f0;
         }
         .color-btn {
             width: 44px;
@@ -457,6 +484,46 @@
             left: 0;
             right: 0;
             backdrop-filter: blur(4px);
+        }
+
+        /* ===== VERSET CORANIQUE ===== */
+        .verse-container {
+            background: rgba(255,255,255,0.03);
+            border-radius: 16px;
+            padding: 16px 14px;
+            border: 1px solid rgba(184, 134, 11, 0.1);
+            text-align: center;
+            margin: 6px 0 10px;
+            transition: all 0.4s ease;
+        }
+        .verse-container:hover {
+            border-color: rgba(184, 134, 11, 0.3);
+            background: rgba(255,255,255,0.06);
+        }
+        .verse-text {
+            font-family: 'Amiri', serif;
+            font-size: 1.15rem;
+            line-height: 2.2;
+            color: #fcf8f0;
+            direction: rtl;
+            font-weight: 400;
+            text-shadow: 0 0 20px rgba(184, 134, 11, 0.05);
+        }
+        .verse-reference {
+            font-family: 'Amiri', serif;
+            font-size: 0.8rem;
+            color: rgba(212, 175, 55, 0.5);
+            margin-top: 8px;
+            letter-spacing: 2px;
+            font-style: italic;
+        }
+        .verse-title {
+            color: rgba(212, 175, 55, 0.7);
+            font-size: 0.8rem;
+            font-family: 'Roboto', sans-serif;
+            text-transform: uppercase;
+            letter-spacing: 3px;
+            margin-bottom: 8px;
         }
 
         /* ===== LIGHTBOX ===== */
@@ -1196,68 +1263,6 @@
             color: var(--card-accent);
         }
 
-        /* ===== CANVAS DE GRATTAGE ===== */
-        #scratchCanvas {
-            position: absolute;
-            inset: 0;
-            border-radius: 14px;
-            z-index: 2;
-            cursor: pointer;
-            touch-action: none;
-            box-shadow: inset 0 0 40px rgba(0,0,0,0.15);
-            pointer-events: auto;
-            display: block;
-            transition: opacity 0.8s ease;
-        }
-
-        .scratch-hint {
-            position: absolute;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%);
-            z-index: 3;
-            pointer-events: none;
-            font-family: 'Amiri', serif;
-            font-size: clamp(1rem, 2.5vw, 1.3rem);
-            color: #fcf8f0;
-            text-shadow: 0 2px 30px rgba(0,0,0,0.6);
-            background: rgba(139,0,0,0.2);
-            padding: 8px 24px;
-            border-radius: 60px;
-            border: 1.5px solid rgba(212,175,55,0.4);
-            backdrop-filter: blur(6px);
-            letter-spacing: 2px;
-            transition: all 0.8s cubic-bezier(0.34, 1.56, 0.64, 1);
-            white-space: nowrap;
-            animation: hintPulse 3s ease-in-out infinite;
-        }
-        @keyframes hintPulse {
-            0%, 100% { transform: translate(-50%, -50%) scale(1); opacity: 0.85; }
-            50% { transform: translate(-50%, -50%) scale(1.04); opacity: 1; }
-        }
-        .scratch-hint.hidden {
-            opacity: 0 !important;
-            transform: translate(-50%, -50%) scale(0.8) !important;
-            pointer-events: none !important;
-            animation: none !important;
-        }
-
-        .shimmer-text {
-            display: inline-block;
-            background: linear-gradient(90deg, var(--card-border), #ffd700, var(--card-border), #ffd700);
-            background-size: 300% 100%;
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            background-clip: text;
-            animation: shimmerMove 4s linear infinite;
-            font-weight: 900;
-            transition: background 0.6s ease;
-        }
-        @keyframes shimmerMove {
-            0% { background-position: 0% 50%; }
-            100% { background-position: 300% 50%; }
-        }
-
         /* ===== RESPONSIVE ===== */
         @media (max-width: 480px) {
             .invitation-card {
@@ -1289,6 +1294,7 @@
             .countdown-item .number { font-size: 1.4rem; }
             .qr-code { width: 56px; height: 56px; }
             .map-container.visible { height: 150px; }
+            .verse-text { font-size: 0.95rem; line-height: 2; }
         }
         @media (max-width: 360px) {
             .invite-title { font-size: 1.4rem; letter-spacing: 2px; }
@@ -1299,6 +1305,7 @@
             .date-details { font-size: 0.72rem; }
             .countdown-item { min-width: 32px; }
             .countdown-item .number { font-size: 1.2rem; }
+            .verse-text { font-size: 0.85rem; }
         }
         @media (min-width: 768px) {
             .top-controls { gap: 12px; }
@@ -1345,18 +1352,45 @@
         <button class="sidebar-close" id="sidebarClose">✕</button>
         <div class="sidebar-title">✨ Personnalisation</div>
 
-        <div class="sidebar-section-title">🎨 Thèmes</div>
+        <div class="palette-section-title">🎨 Palettes suggérées</div>
         <div class="color-options">
-            <div class="color-btn black" data-color="black" title="Noir Élégant"></div>
-            <div class="color-btn white" data-color="white" title="Blanc Pur"></div>
-            <div class="color-btn red" data-color="red" title="Rouge Passion"></div>
-            <div class="color-btn starry" data-color="starry" title="Nuit Étoilée"></div>
+            <div class="color-item" data-color="black">
+                <div class="color-btn black"></div>
+                <span class="color-label">Élégance</span>
+            </div>
+            <div class="color-item" data-color="white">
+                <div class="color-btn white"></div>
+                <span class="color-label">Pureté</span>
+            </div>
+            <div class="color-item" data-color="red">
+                <div class="color-btn red"></div>
+                <span class="color-label">Passion</span>
+            </div>
+            <div class="color-item" data-color="starry">
+                <div class="color-btn starry"></div>
+                <span class="color-label">Étoilée</span>
+            </div>
         </div>
 
         <div style="border-top:1px solid rgba(184,134,11,0.1); margin: 18px 0 14px;"></div>
         <div class="sidebar-section-title">📸 Photos de fiançailles</div>
         <div class="photos-grid" id="photosGrid">
             <!-- Rempli par JavaScript -->
+        </div>
+
+        <!-- ===== VERSET CORANIQUE ===== -->
+        <div style="border-top:1px solid rgba(184,134,11,0.1); margin: 20px 0 14px;"></div>
+        <div class="sidebar-section-title">آية قرآنية</div>
+        <div class="verse-container">
+            <div class="verse-title">— سورة الروم —</div>
+            <div class="verse-text">
+                وَمِنْ ءَايَاتِهِۦٓ أَنْ خَلَقَ لَكُم مِّنْ أَنفُسِكُمْ أَزْوَجًا لِّتَسْكُنُواْ إِلَيْهَا وَجَعَلَ بَيْنَكُم مَّوَدَّةً وَرَحْمَةً إِنَّ فِى ذَلِكَ لَآياتٍۢ لِّقَوْم يَتَفَكَّرُونَ
+            </div>
+            <div class="verse-reference">—لَيْسَ الزَّوَاجُ لِشَهْوَةٍ وَغَرِيزَةٍ ... إِنَّ الزَّوَاجَ تَعَفُّفٌ وَطُهُورُ....
+              المَالُ يَفْنَى وَالجَمَالُ وَدِيعَةٌ ...
+              
+              وَالجَاهُ يَبْلَى كُلُّ ذَاكَ غُرُورُ....
+              أَمَرَ النَّبِيُّ بِذَاتِ دِينٍ زَوْجَةً ... فَاظْفَرْ بِذَاتِ الدِّينِ هُنَّ الحُورُ —</div>
         </div>
     </div>
 
@@ -1382,9 +1416,9 @@
             <div class="divider"></div>
 
             <p class="invite-text" id="inviteText">
-                « L'amour est la plus belle des mélodies.<br>
-                Nous avons hâte de la partager avec vous,<br>
-                le temps d'une célébration empreinte de traditions. »
+                « Nous avons l'immense joie<br>
+                de vous inviter à célébrer<br>
+                notre mariage. »
             </p>
 
             <div class="couple-photo">
@@ -1407,7 +1441,7 @@
                 <div class="date-content" id="dateContent">
                     <div class="date-main">
                         <span id="dayLabel">Le Samedi</span>
-                        <span class="day-number shimmer-text">16</span>
+                        <span class="day-number shimmer-text">30</span>
                         <span class="month-year" id="monthYearLabel">Janvier 2027</span>
                     </div>
                     <div class="date-details" id="dateDetails">
@@ -1478,12 +1512,12 @@
             'use strict';
 
             // ============================================================
-            //  CONFIGURATION
+            //  CONFIGURATION – DATE MISE À JOUR
             // ============================================================
             const CONFIG = {
                 coupleImage: 'https://raw.githubusercontent.com/wkwtunisia/invitation/main/test1.jpg',
                 musicFile: 'https://raw.githubusercontent.com/wkwtunisia/invitation/main/test.mp3',
-                weddingDate: new Date('2027-01-16T20:00:00+01:00').getTime(),
+                weddingDate: new Date('2027-01-30T20:00:00+01:00').getTime(),
                 photos: [
                     { name: 'photo1', url: 'https://raw.githubusercontent.com/wkwtunisia/invitation/main/photo1.jpg' },
                     { name: 'photo2', url: 'https://raw.githubusercontent.com/wkwtunisia/invitation/main/photo2.jpg' },
@@ -1532,7 +1566,7 @@
             //  PARTAGE SOCIAL
             // ============================================================
             const url = encodeURIComponent(CONFIG.invitationUrl);
-            const text = encodeURIComponent('💍 YOSRA & MOHAMED ALI - Mariage le 16 Janvier 2027 🎉');
+            const text = encodeURIComponent('💍 YOSRA & MOHAMED ALI - Mariage le 30 Janvier 2027 🎉');
 
             document.getElementById('shareWhatsApp').addEventListener('click', function() {
                 window.open(`https://wa.me/?text=${text}%20${url}`, '_blank');
@@ -1650,9 +1684,9 @@
             });
 
             // ============================================================
-            //  COULEURS / THÈMES
+            //  PALETTES / THEMES
             // ============================================================
-            const colorBtns = document.querySelectorAll('.color-btn');
+            const colorItems = document.querySelectorAll('.color-item');
             let currentTheme = '';
 
             function setTheme(color) {
@@ -1660,13 +1694,16 @@
                 if (color) {
                     document.body.classList.add('theme-' + color);
                 }
-                colorBtns.forEach(btn => {
-                    btn.classList.toggle('active', btn.dataset.color === color);
+                colorItems.forEach(item => {
+                    const btn = item.querySelector('.color-btn');
+                    const isActive = item.dataset.color === color;
+                    btn.classList.toggle('active', isActive);
                 });
                 currentTheme = color;
             }
-            colorBtns.forEach(btn => {
-                btn.addEventListener('click', function(e) {
+
+            colorItems.forEach(item => {
+                item.addEventListener('click', function(e) {
                     e.stopPropagation();
                     const color = this.dataset.color;
                     if (currentTheme === color) {
@@ -1678,7 +1715,7 @@
             });
 
             // ============================================================
-            //  PARTICULES D'OR (améliorées)
+            //  PARTICULES D'OR
             // ============================================================
             const bgCanvas = document.getElementById('bgParticlesCanvas');
             const bgCtx = bgCanvas.getContext('2d');
@@ -1822,7 +1859,6 @@
                     petalsCtx.ellipse(0, 0, this.size / 2, this.size / 4, 0, 0, Math.PI * 2);
                     petalsCtx.fillStyle = this.color + this.opacity + ')';
                     petalsCtx.fill();
-                    // deuxième pétale
                     petalsCtx.beginPath();
                     petalsCtx.ellipse(this.size * 0.2, -this.size * 0.1, this.size / 3, this.size / 5, 0.3, 0, Math.PI * 2);
                     petalsCtx.fillStyle = this.color + (this.opacity * 0.6) + ')';
@@ -1865,7 +1901,7 @@
                     blessing: 'بسم الله الرحمن الرحيم',
                     title: 'Mariage d\'Or',
                     subtitle: '— Tradition & élégance —',
-                    inviteText: '« L\'amour est la plus belle des mélodies.<br>Nous avons hâte de la partager avec vous,<br>le temps d\'une célébration empreinte de traditions. »',
+                    inviteText: '« Nous avons l\'immense joie<br>de vous inviter à célébrer<br>notre mariage. »',
                     families: '— & leurs familles —',
                     dayLabel: 'Le Samedi',
                     monthYear: 'Janvier 2027',
@@ -1883,7 +1919,7 @@
                     blessing: 'In the name of God, the Most Gracious, the Most Merciful',
                     title: 'Golden Wedding',
                     subtitle: '— Tradition & elegance —',
-                    inviteText: '« Love is the most beautiful melody.<br>We can\'t wait to share it with you,<br>during a celebration steeped in tradition. »',
+                    inviteText: '« We have the immense joy<br>to invite you to celebrate<br>our wedding. »',
                     families: '— & their families —',
                     dayLabel: 'Saturday',
                     monthYear: 'January 2027',
@@ -1901,7 +1937,7 @@
                     blessing: 'بسم الله الرحمن الرحيم',
                     title: 'عرس الذهب',
                     subtitle: '— تقاليد و أناقة —',
-                    inviteText: '« الحب هو أجمل الألحان.<br>نتشوق لمشاركته معكم،<br>في احتفال مليء بالتقاليد. »',
+                    inviteText: '« يشرفنا دعوتكم<br>للاحتفال بزفافنا<br>في حفل مليء بالتقاليد. »',
                     families: '— و عائلاتهم —',
                     dayLabel: 'السبت',
                     monthYear: 'يناير 2027',
@@ -2464,8 +2500,7 @@
                 btn.addEventListener('click', drawScratchBackground);
             });
 
-            console.log('💍 Invitation ultime avec toutes les améliorations !');
-            console.log('📅 Compte à rebours, carte, partage, pétales, QR code, thème étoilé');
+            console.log('💍 Invitation mise à jour : 30 Janvier 2027 + verset coranique dans la sidebar');
 
         })();
     </script>
