@@ -1,10 +1,10 @@
 <!DOCTYPE html>
 <html lang="fr">
 <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=yes" />
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=yes">
     <title>Invitation Mariage - YOSRA & MOHAMED ALI</title>
-    <link href="https://fonts.googleapis.com/css2?family=Amiri:ital,wght@0,400;0,700;1,700&family=Playfair+Display:wght@400;600;700;900&family=Roboto:wght@300;400;500&display=swap" rel="stylesheet" />
+    <link href="https://fonts.googleapis.com/css2?family=Amiri:ital,wght@0,400;0,700;1,700&family=Playfair+Display:wght@400;600;700;900&family=Roboto:wght@300;400;500&display=swap" rel="stylesheet">
     <style>
         /* ===== LOADER ===== */
         #loader {
@@ -30,22 +30,11 @@
             text-shadow: 0 0 60px rgba(139, 0, 0, 0.3);
         }
         @keyframes heartbeat {
-            0%,
-            100% {
-                transform: scale(1);
-            }
-            14% {
-                transform: scale(1.3);
-            }
-            28% {
-                transform: scale(1);
-            }
-            42% {
-                transform: scale(1.3);
-            }
-            70% {
-                transform: scale(1);
-            }
+            0%, 100% { transform: scale(1); }
+            14% { transform: scale(1.3); }
+            28% { transform: scale(1); }
+            42% { transform: scale(1.3); }
+            70% { transform: scale(1); }
         }
         .loader-text {
             font-family: 'Amiri', serif;
@@ -56,13 +45,8 @@
             animation: pulseText 1.8s ease-in-out infinite;
         }
         @keyframes pulseText {
-            0%,
-            100% {
-                opacity: 0.4;
-            }
-            50% {
-                opacity: 1;
-            }
+            0%, 100% { opacity: 0.4; }
+            50% { opacity: 1; }
         }
         .loader-spinner {
             margin-top: 16px;
@@ -74,9 +58,7 @@
             animation: spin 0.9s linear infinite;
         }
         @keyframes spin {
-            to {
-                transform: rotate(360deg);
-            }
+            to { transform: rotate(360deg); }
         }
         .loader-countdown {
             font-family: 'Playfair Display', serif;
@@ -98,17 +80,17 @@
             z-index: 99998;
             background: rgba(184, 134, 11, 0.95);
             color: #0d0a08;
-            padding: 14px 32px;
+            padding: 12px 28px;
             border-radius: 60px;
             font-family: 'Roboto', sans-serif;
-            font-size: 1.1rem;
+            font-size: 1rem;
             font-weight: 600;
             letter-spacing: 1px;
             cursor: pointer;
             border: none;
-            box-shadow: 0 4px 30px rgba(0, 0, 0, 0.6);
+            box-shadow: 0 4px 30px rgba(0,0,0,0.6);
             opacity: 0;
-            transition: opacity 0.5s ease, transform 0.3s ease;
+            transition: opacity 0.5s ease;
             pointer-events: none;
             backdrop-filter: blur(4px);
         }
@@ -138,7 +120,7 @@
             --card-families-color: #7a5a3a;
             --gold-gradient: linear-gradient(135deg, #b8860b, #d4af37, #b8860b);
             --shadow-glow: 0 0 40px rgba(184, 134, 11, 0.2);
-            --countdown-bg: rgba(0, 0, 0, 0.2);
+            --countdown-bg: rgba(0,0,0,0.2);
         }
 
         /* ===== THEMES ===== */
@@ -154,7 +136,7 @@
             --card-name-color: #f0e6d0;
             --card-families-color: #bbb0a0;
             --gold-gradient: linear-gradient(135deg, #9a8a7a, #ccc0b0, #9a8a7a);
-            --countdown-bg: rgba(255, 255, 255, 0.05);
+            --countdown-bg: rgba(255,255,255,0.05);
         }
         body.theme-white {
             --card-bg: rgba(255, 255, 255, 0.94);
@@ -168,7 +150,7 @@
             --card-name-color: #3a3a3a;
             --card-families-color: #888;
             --gold-gradient: linear-gradient(135deg, #d4c8b8, #e8ddd0, #d4c8b8);
-            --countdown-bg: rgba(0, 0, 0, 0.04);
+            --countdown-bg: rgba(0,0,0,0.04);
         }
         body.theme-red {
             --card-bg: rgba(100, 10, 10, 0.95);
@@ -182,7 +164,7 @@
             --card-name-color: #fcf8f0;
             --card-families-color: #e8d4b0;
             --gold-gradient: linear-gradient(135deg, #d4af37, #f0d080, #d4af37);
-            --countdown-bg: rgba(255, 215, 0, 0.08);
+            --countdown-bg: rgba(255,215,0,0.08);
         }
         body.theme-starry {
             --card-bg: rgba(10, 8, 20, 0.95);
@@ -198,19 +180,11 @@
             --gold-gradient: linear-gradient(135deg, #4a3a8a, #7a6acd, #4a3a8a);
             --countdown-bg: rgba(106, 90, 205, 0.15);
         }
-        body.theme-starry .invitation-card::before {
-            opacity: 0.15;
-        }
-        body.theme-starry .invitation-card::after {
-            opacity: 0.85;
-        }
+        body.theme-starry .invitation-card::before { opacity: 0.15; }
+        body.theme-starry .invitation-card::after { opacity: 0.85; }
 
         /* ===== BASE ===== */
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
+        * { margin: 0; padding: 0; box-sizing: border-box; }
 
         body {
             min-height: 100vh;
@@ -230,7 +204,8 @@
             content: '';
             position: fixed;
             inset: 0;
-            background: radial-gradient(ellipse at 20% 50%, rgba(184, 134, 11, 0.06) 0%, transparent 60%),
+            background:
+                radial-gradient(ellipse at 20% 50%, rgba(184, 134, 11, 0.06) 0%, transparent 60%),
                 radial-gradient(ellipse at 80% 50%, rgba(184, 134, 11, 0.06) 0%, transparent 60%),
                 radial-gradient(ellipse at 50% 0%, rgba(139, 0, 0, 0.04) 0%, transparent 50%);
             z-index: 0;
@@ -238,15 +213,8 @@
             animation: bgBreath 8s ease-in-out infinite;
         }
         @keyframes bgBreath {
-            0%,
-            100% {
-                opacity: 0.6;
-                transform: scale(1);
-            }
-            50% {
-                opacity: 1;
-                transform: scale(1.05);
-            }
+            0%, 100% { opacity: 0.6; transform: scale(1); }
+            50% { opacity: 1; transform: scale(1.05); }
         }
 
         /* ===== PÉTALES ===== */
@@ -284,9 +252,7 @@
             opacity: 0;
             transition: opacity 0.8s ease;
         }
-        #confettiCanvas.active {
-            opacity: 1;
-        }
+        #confettiCanvas.active { opacity: 1; }
 
         /* ===== TOP CONTROLS ===== */
         .top-controls {
@@ -304,7 +270,7 @@
             gap: 6px;
             flex-wrap: wrap;
             justify-content: center;
-            background: rgba(0, 0, 0, 0.3);
+            background: rgba(0,0,0,0.3);
             backdrop-filter: blur(12px);
             padding: 4px 6px;
             border-radius: 50px;
@@ -360,7 +326,7 @@
 
         .music-toggle {
             display: none;
-            background: rgba(0, 0, 0, 0.3);
+            background: rgba(0,0,0,0.3);
             backdrop-filter: blur(12px);
             border: 1px solid rgba(184, 134, 11, 0.2);
             color: rgba(252, 248, 240, 0.7);
@@ -389,7 +355,7 @@
         }
 
         .sidebar-toggle {
-            background: rgba(0, 0, 0, 0.3);
+            background: rgba(0,0,0,0.3);
             backdrop-filter: blur(12px);
             border: 1px solid rgba(184, 134, 11, 0.2);
             color: rgba(252, 248, 240, 0.7);
@@ -412,14 +378,8 @@
         }
 
         @keyframes fadeSlideIn {
-            0% {
-                opacity: 0;
-                transform: translateY(10px) scale(0.9);
-            }
-            100% {
-                opacity: 1;
-                transform: translateY(0) scale(1);
-            }
+            0% { opacity: 0; transform: translateY(10px) scale(0.9); }
+            100% { opacity: 1; transform: translateY(0) scale(1); }
         }
 
         /* ===== SIDEBAR ===== */
@@ -436,22 +396,13 @@
             transition: right 0.5s cubic-bezier(0.34, 1.56, 0.64, 1);
             padding: 24px 20px;
             overflow-y: auto;
-            box-shadow: -10px 0 60px rgba(0, 0, 0, 0.6);
+            box-shadow: -10px 0 60px rgba(0,0,0,0.6);
             border-left: 1px solid rgba(184, 134, 11, 0.15);
         }
-        .sidebar-overlay.open {
-            right: 0;
-        }
-        .sidebar-overlay::-webkit-scrollbar {
-            width: 4px;
-        }
-        .sidebar-overlay::-webkit-scrollbar-track {
-            background: transparent;
-        }
-        .sidebar-overlay::-webkit-scrollbar-thumb {
-            background: #b8860b;
-            border-radius: 4px;
-        }
+        .sidebar-overlay.open { right: 0; }
+        .sidebar-overlay::-webkit-scrollbar { width: 4px; }
+        .sidebar-overlay::-webkit-scrollbar-track { background: transparent; }
+        .sidebar-overlay::-webkit-scrollbar-thumb { background: #b8860b; border-radius: 4px; }
 
         .sidebar-close {
             position: absolute;
@@ -522,9 +473,7 @@
             letter-spacing: 0.5px;
             transition: color 0.3s ease;
         }
-        .color-item:hover .color-label {
-            color: #fcf8f0;
-        }
+        .color-item:hover .color-label { color: #fcf8f0; }
         .color-btn {
             width: 44px;
             height: 44px;
@@ -532,7 +481,7 @@
             border: 3px solid rgba(252, 248, 240, 0.15);
             cursor: pointer;
             transition: all 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
-            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
+            box-shadow: 0 4px 20px rgba(0,0,0,0.3);
             position: relative;
         }
         .color-btn::after {
@@ -543,23 +492,15 @@
             border: 2px solid transparent;
             transition: all 0.4s ease;
         }
-        .color-btn:hover {
-            transform: scale(1.12);
-        }
+        .color-btn:hover { transform: scale(1.12); }
         .color-btn.active::after {
             border-color: #d4af37;
             box-shadow: 0 0 30px rgba(212, 175, 55, 0.3);
         }
-        .color-btn.black {
-            background: #1a1816;
-        }
-        .color-btn.white {
-            background: #f5f0e8;
-        }
-        .color-btn.red {
-            background: #8b0000;
-        }
-        .color-btn.starry {
+        .color-btn.black { background: #1a1816; }
+        .color-btn.white { background: #f5f0e8; }
+        .color-btn.red { background: #8b0000; }
+        .color-btn.starry { 
             background: radial-gradient(circle at 30% 30%, #2a1a4a, #0a0820);
             border-color: #6a5acd;
         }
@@ -583,7 +524,7 @@
             margin-top: 6px;
         }
         .photo-item {
-            background: rgba(255, 255, 255, 0.04);
+            background: rgba(255,255,255,0.04);
             border-radius: 14px;
             overflow: hidden;
             border: 1px solid rgba(184, 134, 11, 0.15);
@@ -597,7 +538,7 @@
         .photo-item:hover {
             transform: scale(1.05) translateY(-3px);
             border-color: #b8860b;
-            box-shadow: 0 8px 30px rgba(0, 0, 0, 0.4);
+            box-shadow: 0 8px 30px rgba(0,0,0,0.4);
         }
         .photo-item img {
             width: 100%;
@@ -611,7 +552,7 @@
             color: rgba(252, 248, 240, 0.6);
             font-size: 0.65rem;
             padding: 4px 0;
-            background: rgba(0, 0, 0, 0.4);
+            background: rgba(0,0,0,0.4);
             letter-spacing: 0.5px;
             font-family: 'Roboto', sans-serif;
             position: absolute;
@@ -623,7 +564,7 @@
 
         /* ===== VERSET CORANIQUE ===== */
         .verse-container {
-            background: rgba(255, 255, 255, 0.03);
+            background: rgba(255,255,255,0.03);
             border-radius: 16px;
             padding: 16px 14px;
             border: 1px solid rgba(184, 134, 11, 0.1);
@@ -633,7 +574,7 @@
         }
         .verse-container:hover {
             border-color: rgba(184, 134, 11, 0.3);
-            background: rgba(255, 255, 255, 0.06);
+            background: rgba(255,255,255,0.06);
         }
         .verse-text {
             font-family: 'Amiri', serif;
@@ -669,7 +610,7 @@
             left: 0;
             width: 100%;
             height: 100%;
-            background: rgba(0, 0, 0, 0.92);
+            background: rgba(0,0,0,0.92);
             z-index: 9999;
             justify-content: center;
             align-items: center;
@@ -677,17 +618,8 @@
             backdrop-filter: blur(12px);
             animation: fadeIn 0.4s ease;
         }
-        @keyframes fadeIn {
-            from {
-                opacity: 0;
-            }
-            to {
-                opacity: 1;
-            }
-        }
-        .lightbox.active {
-            display: flex;
-        }
+        @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+        .lightbox.active { display: flex; }
         .lightbox img {
             max-width: 92%;
             max-height: 88%;
@@ -698,26 +630,20 @@
             animation: zoomIn 0.5s cubic-bezier(0.34, 1.56, 0.64, 1);
         }
         @keyframes zoomIn {
-            from {
-                transform: scale(0.8);
-                opacity: 0;
-            }
-            to {
-                transform: scale(1);
-                opacity: 1;
-            }
+            from { transform: scale(0.8); opacity: 0; }
+            to { transform: scale(1); opacity: 1; }
         }
         .lightbox-close {
             position: absolute;
             top: 24px;
             right: 32px;
             font-size: 2.8rem;
-            color: rgba(255, 255, 255, 0.6);
+            color: rgba(255,255,255,0.6);
             cursor: pointer;
             transition: all 0.4s ease;
             background: none;
             border: none;
-            text-shadow: 0 0 30px rgba(0, 0, 0, 0.5);
+            text-shadow: 0 0 30px rgba(0,0,0,0.5);
         }
         .lightbox-close:hover {
             color: #fff;
@@ -731,7 +657,7 @@
             color: rgba(252, 248, 240, 0.8);
             font-family: 'Amiri', serif;
             font-size: 1.1rem;
-            background: rgba(0, 0, 0, 0.4);
+            background: rgba(0,0,0,0.4);
             padding: 6px 24px;
             border-radius: 40px;
             border: 1px solid rgba(184, 134, 11, 0.2);
@@ -741,9 +667,9 @@
             position: absolute;
             top: 50%;
             transform: translateY(-50%);
-            background: rgba(0, 0, 0, 0.3);
+            background: rgba(0,0,0,0.3);
             border: 1px solid rgba(184, 134, 11, 0.15);
-            color: rgba(255, 255, 255, 0.6);
+            color: rgba(255,255,255,0.6);
             font-size: 2rem;
             padding: 12px 18px;
             border-radius: 50%;
@@ -756,12 +682,8 @@
             color: #fff;
             transform: translateY(-50%) scale(1.05);
         }
-        .lightbox-nav.prev {
-            left: 20px;
-        }
-        .lightbox-nav.next {
-            right: 20px;
-        }
+        .lightbox-nav.prev { left: 20px; }
+        .lightbox-nav.next { right: 20px; }
 
         /* ===== CARTE ===== */
         .invitation-card {
@@ -771,7 +693,8 @@
             position: relative;
             padding: clamp(28px, 6vw, 48px) clamp(20px, 4.5vw, 38px) clamp(28px, 5.5vw, 42px);
             z-index: 1;
-            box-shadow: 0 40px 100px rgba(0, 0, 0, 0.6),
+            box-shadow:
+                0 40px 100px rgba(0, 0, 0, 0.6),
                 0 0 0 2px var(--card-border),
                 0 0 0 6px var(--card-bg),
                 0 0 0 9px var(--card-accent),
@@ -815,42 +738,22 @@
             transition: opacity 0.6s ease;
             pointer-events: none;
         }
-        body.theme-black .invitation-card::before {
-            opacity: 0.2;
-        }
-        body.theme-black .invitation-card::after {
-            opacity: 0.8;
-        }
-        body.theme-white .invitation-card::before {
-            opacity: 0.25;
-        }
-        body.theme-white .invitation-card::after {
-            opacity: 0.4;
-        }
-        body.theme-red .invitation-card::before {
-            opacity: 0.2;
-        }
-        body.theme-red .invitation-card::after {
-            opacity: 0.7;
-        }
-        body.theme-starry .invitation-card::before {
-            opacity: 0.1;
-        }
-        body.theme-starry .invitation-card::after {
-            opacity: 0.85;
-        }
+        body.theme-black .invitation-card::before { opacity: 0.2; }
+        body.theme-black .invitation-card::after { opacity: 0.8; }
+        body.theme-white .invitation-card::before { opacity: 0.25; }
+        body.theme-white .invitation-card::after { opacity: 0.4; }
+        body.theme-red .invitation-card::before { opacity: 0.2; }
+        body.theme-red .invitation-card::after { opacity: 0.7; }
+        body.theme-starry .invitation-card::before { opacity: 0.1; }
+        body.theme-starry .invitation-card::after { opacity: 0.85; }
 
         @keyframes floatCard {
-            0%,
-            100% {
-                transform: translateY(0px) rotateX(1.5deg);
-            }
-            50% {
-                transform: translateY(-12px) rotateX(-0.5deg);
-            }
+            0%, 100% { transform: translateY(0px) rotateX(1.5deg); }
+            50% { transform: translateY(-12px) rotateX(-0.5deg); }
         }
         .invitation-card:hover {
-            box-shadow: 0 50px 120px rgba(0, 0, 0, 0.7),
+            box-shadow:
+                0 50px 120px rgba(0, 0, 0, 0.7),
                 0 0 0 2px var(--card-border),
                 0 0 0 6px var(--card-bg),
                 0 0 0 9px var(--card-accent),
@@ -866,7 +769,8 @@
             border-radius: 20px;
             pointer-events: none;
             opacity: 0.4;
-            background-image: repeating-linear-gradient(45deg, transparent, transparent 10px, rgba(196, 154, 108, 0.04) 10px, rgba(196, 154, 108, 0.04) 11px),
+            background-image:
+                repeating-linear-gradient(45deg, transparent, transparent 10px, rgba(196, 154, 108, 0.04) 10px, rgba(196, 154, 108, 0.04) 11px),
                 repeating-linear-gradient(-45deg, transparent, transparent 10px, rgba(196, 154, 108, 0.04) 10px, rgba(196, 154, 108, 0.04) 11px);
             z-index: 0;
             transition: border-color 0.6s ease;
@@ -890,36 +794,13 @@
             color: var(--card-border);
             transition: color 0.6s ease;
         }
-        .ornament-corner.tl {
-            top: 18px;
-            left: 22px;
-            animation-delay: 0s;
-        }
-        .ornament-corner.tr {
-            top: 18px;
-            right: 22px;
-            animation-delay: 1.25s;
-        }
-        .ornament-corner.bl {
-            bottom: 18px;
-            left: 22px;
-            animation-delay: 2.5s;
-        }
-        .ornament-corner.br {
-            bottom: 18px;
-            right: 22px;
-            animation-delay: 3.75s;
-        }
+        .ornament-corner.tl { top: 18px; left: 22px; animation-delay: 0s; }
+        .ornament-corner.tr { top: 18px; right: 22px; animation-delay: 1.25s; }
+        .ornament-corner.bl { bottom: 18px; left: 22px; animation-delay: 2.5s; }
+        .ornament-corner.br { bottom: 18px; right: 22px; animation-delay: 3.75s; }
         @keyframes cornerPulse {
-            0%,
-            100% {
-                transform: scale(1) rotate(0deg);
-                opacity: 0.35;
-            }
-            50% {
-                transform: scale(1.15) rotate(4deg);
-                opacity: 0.6;
-            }
+            0%, 100% { transform: scale(1) rotate(0deg); opacity: 0.35; }
+            50% { transform: scale(1.15) rotate(4deg); opacity: 0.6; }
         }
 
         .flower-side {
@@ -930,42 +811,18 @@
             animation: flowerSway 7s ease-in-out infinite;
             transition: color 0.6s ease;
         }
-        .flower-side.left {
-            top: 50%;
-            left: 8px;
-            transform: translateY(-50%) rotate(-12deg);
-        }
-        .flower-side.right {
-            top: 50%;
-            right: 8px;
-            transform: translateY(-50%) rotate(12deg);
-        }
-        .flower-side.left {
-            animation-delay: 0s;
-        }
-        .flower-side.right {
-            animation-delay: 3.5s;
-        }
+        .flower-side.left { top: 50%; left: 8px; transform: translateY(-50%) rotate(-12deg); }
+        .flower-side.right { top: 50%; right: 8px; transform: translateY(-50%) rotate(12deg); }
+        .flower-side.left { animation-delay: 0s; }
+        .flower-side.right { animation-delay: 3.5s; }
         @keyframes flowerSway {
-            0%,
-            100% {
-                transform: translateY(-50%) rotate(-12deg) scale(1);
-            }
-            50% {
-                transform: translateY(-55%) rotate(-20deg) scale(1.08);
-            }
+            0%, 100% { transform: translateY(-50%) rotate(-12deg) scale(1); }
+            50% { transform: translateY(-55%) rotate(-20deg) scale(1.08); }
         }
-        .flower-side.right {
-            animation-name: flowerSwayRight;
-        }
+        .flower-side.right { animation-name: flowerSwayRight; }
         @keyframes flowerSwayRight {
-            0%,
-            100% {
-                transform: translateY(-50%) rotate(12deg) scale(1);
-            }
-            50% {
-                transform: translateY(-55%) rotate(20deg) scale(1.08);
-            }
+            0%, 100% { transform: translateY(-50%) rotate(12deg) scale(1); }
+            50% { transform: translateY(-55%) rotate(20deg) scale(1.08); }
         }
 
         .center-filigrane {
@@ -984,12 +841,8 @@
             user-select: none;
         }
         @keyframes filigraneRotate {
-            0% {
-                transform: translate(-50%, -50%) scale(1.4) rotate(0deg);
-            }
-            100% {
-                transform: translate(-50%, -50%) scale(1.4) rotate(360deg);
-            }
+            0% { transform: translate(-50%, -50%) scale(1.4) rotate(0deg); }
+            100% { transform: translate(-50%, -50%) scale(1.4) rotate(360deg); }
         }
 
         /* ===== CONTENU ===== */
@@ -1009,15 +862,8 @@
             transition: color 0.6s ease;
         }
         @keyframes shimmerText {
-            0%,
-            100% {
-                opacity: 0.7;
-                text-shadow: none;
-            }
-            50% {
-                opacity: 1;
-                text-shadow: 0 0 40px rgba(184, 134, 11, 0.2);
-            }
+            0%, 100% { opacity: 0.7; text-shadow: none; }
+            50% { opacity: 1; text-shadow: 0 0 40px rgba(184, 134, 11, 0.2); }
         }
 
         .blessing {
@@ -1048,13 +894,8 @@
             transition: background 0.6s ease;
         }
         @keyframes titleShine {
-            0%,
-            100% {
-                filter: drop-shadow(0 2px 8px rgba(139, 0, 0, 0.15));
-            }
-            50% {
-                filter: drop-shadow(0 0 30px rgba(184, 134, 11, 0.15));
-            }
+            0%, 100% { filter: drop-shadow(0 2px 8px rgba(139, 0, 0, 0.15)); }
+            50% { filter: drop-shadow(0 0 30px rgba(184, 134, 11, 0.15)); }
         }
 
         .invite-sub {
@@ -1082,15 +923,8 @@
             transition: background 0.6s ease;
         }
         @keyframes dividerPulse {
-            0%,
-            100% {
-                opacity: 0.8;
-                transform: scaleX(1);
-            }
-            50% {
-                opacity: 0.4;
-                transform: scaleX(0.85);
-            }
+            0%, 100% { opacity: 0.8; transform: scaleX(1); }
+            50% { opacity: 0.4; transform: scaleX(0.85); }
         }
 
         .invite-text {
@@ -1121,7 +955,7 @@
             border-radius: 50% 50% 50% 50% / 60% 60% 40% 40%;
             overflow: hidden;
             border: 4px solid var(--card-border);
-            box-shadow: 0 8px 40px rgba(0, 0, 0, 0.25), 0 0 0 2px var(--card-bg), 0 0 0 6px var(--card-accent);
+            box-shadow: 0 8px 40px rgba(0,0,0,0.25), 0 0 0 2px var(--card-bg), 0 0 0 6px var(--card-accent);
             transition: all 0.6s cubic-bezier(0.34, 1.56, 0.64, 1);
             aspect-ratio: 1/1;
             background: var(--card-bg);
@@ -1131,17 +965,12 @@
             animation: photoFloat 7s ease-in-out infinite;
         }
         @keyframes photoFloat {
-            0%,
-            100% {
-                transform: translateY(0px) rotate(0deg);
-            }
-            50% {
-                transform: translateY(-8px) rotate(1.5deg);
-            }
+            0%, 100% { transform: translateY(0px) rotate(0deg); }
+            50% { transform: translateY(-8px) rotate(1.5deg); }
         }
         .couple-photo:hover {
             transform: scale(1.05) rotate(-2deg);
-            box-shadow: 0 12px 50px rgba(0, 0, 0, 0.3), 0 0 0 2px var(--card-bg), 0 0 0 8px var(--card-border);
+            box-shadow: 0 12px 50px rgba(0,0,0,0.3), 0 0 0 2px var(--card-bg), 0 0 0 8px var(--card-border);
         }
         .couple-photo img {
             width: 100%;
@@ -1165,33 +994,16 @@
             animation: iconDance 5s ease-in-out infinite;
             transition: color 0.6s ease;
         }
-        .couple-icon.left {
-            transform: scaleX(-1);
-            animation-delay: 0s;
-        }
-        .couple-icon.right {
-            animation-delay: 2.5s;
-        }
+        .couple-icon.left { transform: scaleX(-1); animation-delay: 0s; }
+        .couple-icon.right { animation-delay: 2.5s; }
         @keyframes iconDance {
-            0%,
-            100% {
-                transform: scale(1) translateY(0);
-            }
-            50% {
-                transform: scale(1.15) translateY(-6px);
-            }
+            0%, 100% { transform: scale(1) translateY(0); }
+            50% { transform: scale(1.15) translateY(-6px); }
         }
-        .couple-icon.left {
-            animation-name: iconDanceLeft;
-        }
+        .couple-icon.left { animation-name: iconDanceLeft; }
         @keyframes iconDanceLeft {
-            0%,
-            100% {
-                transform: scaleX(-1) scale(1) translateY(0);
-            }
-            50% {
-                transform: scaleX(-1) scale(1.15) translateY(-6px);
-            }
+            0%, 100% { transform: scaleX(-1) scale(1) translateY(0); }
+            50% { transform: scaleX(-1) scale(1.15) translateY(-6px); }
         }
 
         .couple-names {
@@ -1205,13 +1017,8 @@
             transition: color 0.6s ease;
         }
         @keyframes nameGlow {
-            0%,
-            100% {
-                text-shadow: 0 2px 20px rgba(139, 0, 0, 0.08);
-            }
-            50% {
-                text-shadow: 0 0 40px rgba(184, 134, 11, 0.12);
-            }
+            0%, 100% { text-shadow: 0 2px 20px rgba(139, 0, 0, 0.08); }
+            50% { text-shadow: 0 0 40px rgba(184, 134, 11, 0.12); }
         }
         .couple-names span {
             color: var(--card-border);
@@ -1327,7 +1134,7 @@
             z-index: 2;
             cursor: pointer;
             touch-action: none;
-            box-shadow: inset 0 0 40px rgba(0, 0, 0, 0.15);
+            box-shadow: inset 0 0 40px rgba(0,0,0,0.15);
             pointer-events: auto;
             display: block;
             transition: opacity 0.8s ease;
@@ -1343,11 +1150,11 @@
             font-family: 'Amiri', serif;
             font-size: clamp(1rem, 2.5vw, 1.3rem);
             color: #fcf8f0;
-            text-shadow: 0 2px 30px rgba(0, 0, 0, 0.6);
-            background: rgba(139, 0, 0, 0.2);
+            text-shadow: 0 2px 30px rgba(0,0,0,0.6);
+            background: rgba(139,0,0,0.2);
             padding: 8px 24px;
             border-radius: 60px;
-            border: 1.5px solid rgba(212, 175, 55, 0.4);
+            border: 1.5px solid rgba(212,175,55,0.4);
             backdrop-filter: blur(6px);
             letter-spacing: 2px;
             transition: all 0.8s cubic-bezier(0.34, 1.56, 0.64, 1);
@@ -1355,15 +1162,8 @@
             animation: hintPulse 3s ease-in-out infinite;
         }
         @keyframes hintPulse {
-            0%,
-            100% {
-                transform: translate(-50%, -50%) scale(1);
-                opacity: 0.85;
-            }
-            50% {
-                transform: translate(-50%, -50%) scale(1.04);
-                opacity: 1;
-            }
+            0%, 100% { transform: translate(-50%, -50%) scale(1); opacity: 0.85; }
+            50% { transform: translate(-50%, -50%) scale(1.04); opacity: 1; }
         }
         .scratch-hint.hidden {
             opacity: 0 !important;
@@ -1384,12 +1184,8 @@
             transition: background 0.6s ease;
         }
         @keyframes shimmerMove {
-            0% {
-                background-position: 0% 50%;
-            }
-            100% {
-                background-position: 300% 50%;
-            }
+            0% { background-position: 0% 50%; }
+            100% { background-position: 300% 50%; }
         }
 
         /* ===== COMPTE À REBOURS ===== */
@@ -1493,7 +1289,7 @@
             padding: 4px 12px;
             border-radius: 30px;
             border: 1px solid rgba(184, 134, 11, 0.15);
-            background: rgba(255, 255, 255, 0.04);
+            background: rgba(255,255,255,0.04);
             color: var(--card-text);
             font-size: 0.7rem;
             font-family: 'Roboto', sans-serif;
@@ -1507,9 +1303,7 @@
             transform: translateY(-2px);
             border-color: var(--card-border);
         }
-        .social-btn .icon {
-            font-size: 1rem;
-        }
+        .social-btn .icon { font-size: 1rem; }
 
         /* ===== GOOGLE MAPS ===== */
         .map-container {
@@ -1517,7 +1311,7 @@
             border-radius: 16px;
             overflow: hidden;
             border: 2px solid var(--card-border);
-            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.15);
+            box-shadow: 0 4px 20px rgba(0,0,0,0.15);
             transition: all 0.4s ease;
             height: 0;
             opacity: 0;
@@ -1571,7 +1365,7 @@
             border-radius: 16px;
             overflow: hidden;
             aspect-ratio: 16/10;
-            background: rgba(0, 0, 0, 0.1);
+            background: rgba(0,0,0,0.1);
             border: 1px solid rgba(184, 134, 11, 0.1);
         }
         .carousel-track {
@@ -1599,10 +1393,10 @@
             position: absolute;
             top: 50%;
             transform: translateY(-50%);
-            background: rgba(0, 0, 0, 0.4);
+            background: rgba(0,0,0,0.4);
             backdrop-filter: blur(4px);
             border: 1px solid rgba(184, 134, 11, 0.2);
-            color: rgba(255, 255, 255, 0.7);
+            color: rgba(255,255,255,0.7);
             font-size: 1.4rem;
             padding: 8px 14px;
             border-radius: 50%;
@@ -1616,12 +1410,8 @@
             color: #fff;
             transform: translateY(-50%) scale(1.08);
         }
-        .carousel-btn.prev {
-            left: 8px;
-        }
-        .carousel-btn.next {
-            right: 8px;
-        }
+        .carousel-btn.prev { left: 8px; }
+        .carousel-btn.next { right: 8px; }
         .carousel-dots {
             display: flex;
             justify-content: center;
@@ -1729,167 +1519,59 @@
 
         /* ===== RESPONSIVE ===== */
         @media (max-width: 480px) {
-            .invitation-card {
-                padding: 20px 14px 22px;
-                border-radius: 24px;
-            }
-            .invitation-card::before,
-            .invitation-card::after {
-                border-radius: 24px;
-            }
-            .card-inner-border {
-                inset: 10px;
-                border-radius: 14px;
-            }
-            .card-decoration {
-                border-radius: 24px;
-            }
-            .ornament-corner {
-                font-size: 1.1rem;
-                opacity: 0.25;
-            }
-            .ornament-corner.tl {
-                top: 12px;
-                left: 14px;
-            }
-            .ornament-corner.tr {
-                top: 12px;
-                right: 14px;
-            }
-            .ornament-corner.bl {
-                bottom: 12px;
-                left: 14px;
-            }
-            .ornament-corner.br {
-                bottom: 12px;
-                right: 14px;
-            }
-            .flower-side {
-                display: none;
-            }
-            .center-filigrane {
-                font-size: 3.5rem;
-                letter-spacing: 10px;
-            }
-            .couple-photo {
-                max-width: 120px;
-                border-width: 3px;
-            }
-            .scratch-hint {
-                font-size: 0.85rem;
-                padding: 5px 14px;
-                white-space: normal;
-                text-align: center;
-            }
-            .sidebar-overlay {
-                max-width: 100%;
-                padding: 16px;
-            }
-            .photos-grid {
-                grid-template-columns: repeat(auto-fill, minmax(75px, 1fr));
-                gap: 8px;
-            }
-            .color-btn {
-                width: 38px;
-                height: 38px;
-            }
-            .lightbox-nav {
-                font-size: 1.2rem;
-                padding: 8px 12px;
-            }
-            .lightbox-nav.prev {
-                left: 8px;
-            }
-            .lightbox-nav.next {
-                right: 8px;
-            }
-            .countdown-item {
-                min-width: 40px;
-            }
-            .countdown-item .number {
-                font-size: 1.4rem;
-            }
-            .qr-code {
-                width: 56px;
-                height: 56px;
-            }
-            .map-container.visible {
-                height: 150px;
-            }
-            .verse-text {
-                font-size: 0.95rem;
-                line-height: 2;
-            }
-            .carousel-container {
-                aspect-ratio: 4/3;
-            }
-            .story-text {
-                font-size: 0.85rem;
-            }
-            .story-timeline {
-                padding-left: 20px;
-            }
-            .timeline-item .desc {
-                font-size: 0.8rem;
-            }
+            .invitation-card { padding: 20px 14px 22px; border-radius: 24px; }
+            .invitation-card::before, .invitation-card::after { border-radius: 24px; }
+            .card-inner-border { inset: 10px; border-radius: 14px; }
+            .card-decoration { border-radius: 24px; }
+            .ornament-corner { font-size: 1.1rem; opacity: 0.25; }
+            .ornament-corner.tl { top: 12px; left: 14px; }
+            .ornament-corner.tr { top: 12px; right: 14px; }
+            .ornament-corner.bl { bottom: 12px; left: 14px; }
+            .ornament-corner.br { bottom: 12px; right: 14px; }
+            .flower-side { display: none; }
+            .center-filigrane { font-size: 3.5rem; letter-spacing: 10px; }
+            .couple-photo { max-width: 120px; border-width: 3px; }
+            .scratch-hint { font-size: 0.85rem; padding: 5px 14px; white-space: normal; text-align: center; }
+            .sidebar-overlay { max-width: 100%; padding: 16px; }
+            .photos-grid { grid-template-columns: repeat(auto-fill, minmax(75px, 1fr)); gap: 8px; }
+            .color-btn { width: 38px; height: 38px; }
+            .lightbox-nav { font-size: 1.2rem; padding: 8px 12px; }
+            .lightbox-nav.prev { left: 8px; }
+            .lightbox-nav.next { right: 8px; }
+            .countdown-item { min-width: 40px; }
+            .countdown-item .number { font-size: 1.4rem; }
+            .qr-code { width: 56px; height: 56px; }
+            .map-container.visible { height: 150px; }
+            .verse-text { font-size: 0.95rem; line-height: 2; }
+            .carousel-container { aspect-ratio: 4/3; }
+            .story-text { font-size: 0.85rem; }
+            .story-timeline { padding-left: 20px; }
+            .timeline-item .desc { font-size: 0.8rem; }
         }
         @media (max-width: 360px) {
-            .invite-title {
-                font-size: 1.4rem;
-                letter-spacing: 2px;
-            }
-            .couple-names {
-                font-size: 1.4rem;
-            }
-            .date-main .day-number {
-                font-size: 2.4rem;
-            }
-            .couple-photo {
-                max-width: 90px;
-            }
-            .invite-text {
-                font-size: 0.72rem;
-                padding: 6px 8px;
-            }
-            .date-details {
-                font-size: 0.72rem;
-            }
-            .countdown-item {
-                min-width: 32px;
-            }
-            .countdown-item .number {
-                font-size: 1.2rem;
-            }
-            .verse-text {
-                font-size: 0.85rem;
-            }
+            .invite-title { font-size: 1.4rem; letter-spacing: 2px; }
+            .couple-names { font-size: 1.4rem; }
+            .date-main .day-number { font-size: 2.4rem; }
+            .couple-photo { max-width: 90px; }
+            .invite-text { font-size: 0.72rem; padding: 6px 8px; }
+            .date-details { font-size: 0.72rem; }
+            .countdown-item { min-width: 32px; }
+            .countdown-item .number { font-size: 1.2rem; }
+            .verse-text { font-size: 0.85rem; }
         }
         @media (min-width: 768px) {
-            .top-controls {
-                gap: 12px;
-            }
-            .language-selector {
-                padding: 5px 10px;
-            }
-            .lang-btn {
-                padding: 8px 20px;
-                font-size: 0.95rem;
-            }
-            .music-toggle {
-                padding: 8px 20px;
-                font-size: 0.95rem;
-            }
-            .sidebar-toggle {
-                padding: 8px 16px;
-                font-size: 1.4rem;
-            }
+            .top-controls { gap: 12px; }
+            .language-selector { padding: 5px 10px; }
+            .lang-btn { padding: 8px 20px; font-size: 0.95rem; }
+            .music-toggle { padding: 8px 20px; font-size: 0.95rem; }
+            .sidebar-toggle { padding: 8px 16px; font-size: 1.4rem; }
         }
     </style>
 </head>
 <body>
 
-    <!-- ===== BOUTON DE LECTURE SI AUTOPLAY BLOQUÉ ===== -->
-    <button id="clickToPlay">🎵 Cliquez pour lancer la musique</button>
+    <!-- ===== BOUTON DE LECTURE ===== -->
+    <button id="clickToPlay" class="show">🎵 Cliquez pour lancer la musique</button>
 
     <!-- ===== LOADER ===== -->
     <div id="loader">
@@ -1924,7 +1606,7 @@
         <button class="lightbox-close" id="lightboxClose">✕</button>
         <button class="lightbox-nav prev" id="lightboxPrev">‹</button>
         <button class="lightbox-nav next" id="lightboxNext">›</button>
-        <img id="lightboxImg" src="" alt="Photo agrandie" />
+        <img id="lightboxImg" src="" alt="Photo agrandie">
         <div class="photo-name-lightbox" id="lightboxName"></div>
     </div>
 
@@ -1998,11 +1680,11 @@
             </p>
 
             <div class="couple-photo">
-                <img id="coupleImg"
-                src="https://raw.githubusercontent.com/wkwtunisia/invitation/main/test1.jpg"
-                alt="YOSRA & MOHAMED ALI"
-                loading="lazy"
-                onerror="this.src='https://via.placeholder.com/300x300/8b0000/fcf8f0?text=YOSRA+%26+MOHAMED+ALI'" />
+                <img id="coupleImg" 
+                     src="https://raw.githubusercontent.com/wkwtunisia/invitation/main/test1.jpg" 
+                     alt="YOSRA & MOHAMED ALI" 
+                     loading="lazy"
+                     onerror="this.src='https://via.placeholder.com/300x300/8b0000/fcf8f0?text=YOSRA+%26+MOHAMED+ALI'">
             </div>
 
             <div class="couple-container">
@@ -2023,11 +1705,11 @@
                 </div>
                 <div class="story-timeline" id="storyTimeline">
                     <div class="timeline-item">
-                        <div class="date">✦ 2025</div>
+                        <div class="date">✦ 2022</div>
                         <div class="desc" id="tl1">Rencontre et premiers échanges</div>
                     </div>
                     <div class="timeline-item">
-                        <div class="date">✦ 2026</div>
+                        <div class="date">✦ 2023</div>
                         <div class="desc" id="tl2">Les fiançailles : un oui pour la vie</div>
                     </div>
                     <div class="timeline-item">
@@ -2098,441 +1780,404 @@
             <!-- ===== GOOGLE MAPS ===== -->
             <button class="map-toggle" id="mapToggle">📍 Voir sur la carte</button>
             <div class="map-container" id="mapContainer">
-                <iframe
-                src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3194.2!2d10.2697!3d36.8157!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x12fd341a6a2b1b1d%3A0x8e2a8b9c7a4e9b5f!2sLa%20Marsa%2C%20Tunisie!5e0!3m2!1sfr!2sfr!4v1700000000000"
-                allowfullscreen=""
-                loading="lazy">
-            </iframe>
-        </div>
-
-        <!-- ===== QR CODE ===== -->
-        <div class="qr-container">
-            <div class="qr-code">
-                <img id="qrImage" src="https://api.qrserver.com/v1/create-qr-code/?size=150x150&data=https://wkwtunisia.github.io/invitation/" alt="QR Code" loading="lazy" />
+                <iframe 
+                    src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3194.2!2d10.2697!3d36.8157!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x12fd341a6a2b1b1d%3A0x8e2a8b9c7a4e9b5f!2sLa%20Marsa%2C%20Tunisie!5e0!3m2!1sfr!2sfr!4v1700000000000" 
+                    allowfullscreen="" 
+                    loading="lazy">
+                </iframe>
             </div>
-        </div>
 
-        <!-- ===== PARTAGE SOCIAL ===== -->
-        <div class="social-share">
-            <button class="social-btn" id="shareWhatsApp"><span class="icon">📱</span> WhatsApp</button>
-            <button class="social-btn" id="shareFacebook"><span class="icon">📘</span> Facebook</button>
-            <button class="social-btn" id="shareEmail"><span class="icon">✉️</span> Email</button>
-            <button class="social-btn" id="shareCopy"><span class="icon">📋</span> Copier lien</button>
-        </div>
+            <!-- ===== QR CODE ===== -->
+            <div class="qr-container">
+                <div class="qr-code">
+                    <img id="qrImage" src="https://api.qrserver.com/v1/create-qr-code/?size=150x150&data=https://wkwtunisia.github.io/invitation/" alt="QR Code" loading="lazy">
+                </div>
+            </div>
 
+            <!-- ===== PARTAGE SOCIAL ===== -->
+            <div class="social-share">
+                <button class="social-btn" id="shareWhatsApp"><span class="icon">📱</span> WhatsApp</button>
+                <button class="social-btn" id="shareFacebook"><span class="icon">📘</span> Facebook</button>
+                <button class="social-btn" id="shareEmail"><span class="icon">✉️</span> Email</button>
+                <button class="social-btn" id="shareCopy"><span class="icon">📋</span> Copier lien</button>
+            </div>
+
+        </div>
     </div>
-</div>
 
-<script>
-    (function() {
-        'use strict';
+    <script>
+        (function() {
+            'use strict';
 
-        // ================================================================
-        //  CONFIGURATION – FICHIERS AUDIO
-        //  test1.mp3 pour l'initial, test.mp3 pour la musique principale
-        // ================================================================
-        var CONFIG = {
-            coupleImage: 'https://raw.githubusercontent.com/wkwtunisia/invitation/main/test1.jpg',
-            loadingMusicFile: 'https://raw.githubusercontent.com/wkwtunisia/invitation/main/test1.mp3',
-            mainMusicFile: 'https://raw.githubusercontent.com/wkwtunisia/invitation/main/test.mp3',
-            weddingDate: new Date('2027-01-30T20:00:00+01:00').getTime(),
-            photos: [
-                { name: 'photo1', url: 'https://raw.githubusercontent.com/wkwtunisia/invitation/main/photo1.jpg' },
-                { name: 'photo2', url: 'https://raw.githubusercontent.com/wkwtunisia/invitation/main/photo2.jpg' },
-                { name: 'photo3', url: 'https://raw.githubusercontent.com/wkwtunisia/invitation/main/photo3.jpg' },
-                { name: 'photo4', url: 'https://raw.githubusercontent.com/wkwtunisia/invitation/main/photo4.jpg' },
-                { name: 'photo5', url: 'https://raw.githubusercontent.com/wkwtunisia/invitation/main/photo5.jpg' }
-            ],
-            invitationUrl: 'https://wkwtunisia.github.io/invitation/'
-        };
-
-        // ================================================================
-        //  AUDIO – Web Audio API pour une lecture fiable sur mobile
-        // ================================================================
-        var audioCtx = null;
-        var currentSource = null;
-        var isPlaying = false;
-        var isPaused = false;
-        var audioBuffer = null;
-        var gainNode = null;
-        var startTime = 0;
-        var pauseTime = 0;
-        var isMainMusic = false; // false = loading (test1), true = main (test.mp3)
-
-        var clickToPlayBtn = document.getElementById('clickToPlay');
-        var musicToggleBtn = document.getElementById('musicToggle');
-
-        // ----------------------------------------------------------------
-        //  Fonction pour charger et jouer un fichier audio via Web Audio API
-        // ----------------------------------------------------------------
-        function loadAndPlayAudio(url, loop, onSuccess, onError) {
-            if (!audioCtx) {
-                try {
-                    audioCtx = new(window.AudioContext || window.webkitAudioContext)();
-                } catch (e) {
-                    console.error('Web Audio API non supportée', e);
-                    if (onError) onError(e);
-                    return;
-                }
-            }
-
-            if (audioCtx.state === 'suspended') {
-                audioCtx.resume().then(function() {
-                    loadAndPlayAudio(url, loop, onSuccess, onError);
-                }).catch(function(e) {
-                    console.warn('Impossible de reprendre AudioContext', e);
-                    if (onError) onError(e);
-                });
-                return;
-            }
-
-            if (currentSource) {
-                try { currentSource.stop(); } catch (_) {}
-                currentSource = null;
-            }
-
-            if (!gainNode) {
-                gainNode = audioCtx.createGain();
-                gainNode.gain.value = 0.5;
-                gainNode.connect(audioCtx.destination);
-            }
-
-            // Si le buffer est déjà chargé et que c'est le même fichier, on le joue
-            if (audioBuffer) {
-                playBuffer(buffer, loop);
-                if (onSuccess) onSuccess();
-                return;
-            }
-
-            fetch(url)
-                .then(function(response) {
-                    if (!response.ok) throw new Error('HTTP error ' + response.status);
-                    return response.arrayBuffer();
-                })
-                .then(function(arrayBuffer) {
-                    return audioCtx.decodeAudioData(arrayBuffer);
-                })
-                .then(function(buffer) {
-                    audioBuffer = buffer;
-                    playBuffer(buffer, loop);
-                    if (onSuccess) onSuccess();
-                })
-                .catch(function(err) {
-                    console.error('Erreur de chargement audio:', err);
-                    if (onError) onError(err);
-                });
-        }
-
-        function playBuffer(buffer, loop) {
-            if (!audioCtx || !gainNode) return;
-            if (audioCtx.state === 'suspended') {
-                audioCtx.resume().then(function() {
-                    playBuffer(buffer, loop);
-                });
-                return;
-            }
-
-            if (currentSource) {
-                try { currentSource.stop(); } catch (_) {}
-                currentSource = null;
-            }
-
-            var source = audioCtx.createBufferSource();
-            source.buffer = buffer;
-            source.loop = loop;
-            source.connect(gainNode);
-            source.start(0, pauseTime);
-            currentSource = source;
-            isPlaying = true;
-            isPaused = false;
-            startTime = audioCtx.currentTime - pauseTime;
-
-            source.onended = function() {
-                if (!isPaused) {
-                    isPlaying = false;
-                    pauseTime = 0;
-                }
+            // ============================================================
+            //  CONFIGURATION – FICHIERS AUDIO
+            // ============================================================
+            var CONFIG = {
+                coupleImage: 'https://raw.githubusercontent.com/wkwtunisia/invitation/main/test1.jpg',
+                loadingMusicFile: 'https://raw.githubusercontent.com/wkwtunisia/invitation/main/test1.mp3',
+                musicFile: 'https://raw.githubusercontent.com/wkwtunisia/invitation/main/test.mp3',
+                weddingDate: new Date('2027-01-30T20:00:00+01:00').getTime(),
+                photos: [
+                    { name: 'photo1', url: 'https://raw.githubusercontent.com/wkwtunisia/invitation/main/photo1.jpg' },
+                    { name: 'photo2', url: 'https://raw.githubusercontent.com/wkwtunisia/invitation/main/photo2.jpg' },
+                    { name: 'photo3', url: 'https://raw.githubusercontent.com/wkwtunisia/invitation/main/photo3.jpg' },
+                    { name: 'photo4', url: 'https://raw.githubusercontent.com/wkwtunisia/invitation/main/photo4.jpg' },
+                    { name: 'photo5', url: 'https://raw.githubusercontent.com/wkwtunisia/invitation/main/photo5.jpg' }
+                ],
+                invitationUrl: 'https://wkwtunisia.github.io/invitation/'
             };
-        }
 
-        function pauseAudio() {
-            if (!isPlaying || !audioCtx || !currentSource) return;
-            pauseTime = audioCtx.currentTime - startTime;
-            try { currentSource.stop(); } catch (_) {}
-            currentSource = null;
-            isPlaying = false;
-            isPaused = true;
-        }
+            // ============================================================
+            //  AUDIO – test1.mp3 (uniquement sur interaction utilisateur)
+            // ============================================================
+            var loadingAudio = null;
+            var mainAudio = null;
+            var audioCtx = null;
+            var musicPlaying = false;
+            var musicInterval = null;
+            var musicNodes = [];
 
-        function resumeAudio() {
-            if (!audioBuffer || !audioCtx) return;
-            if (audioCtx.state === 'suspended') {
-                audioCtx.resume().then(function() {
-                    resumeAudio();
-                });
-                return;
-            }
-            playBuffer(audioBuffer, true);
-            isPaused = false;
-        }
+            var clickToPlayBtn = document.getElementById('clickToPlay');
 
-        function stopAudio() {
-            if (currentSource) {
-                try { currentSource.stop(); } catch (_) {}
-                currentSource = null;
-            }
-            isPlaying = false;
-            isPaused = false;
-            pauseTime = 0;
-            audioBuffer = null;
-            if (gainNode) {
-                gainNode.disconnect();
-                gainNode = null;
-            }
-            // On ne ferme pas audioCtx pour pouvoir le réutiliser
-        }
-
-        // ----------------------------------------------------------------
-        //  Chargement de la musique initiale (test1.mp3)
-        // ----------------------------------------------------------------
-        function playLoadingMusic() {
-            loadAndPlayAudio(CONFIG.loadingMusicFile, true,
-                function() {
-                    clickToPlayBtn.classList.remove('show');
-                    isMainMusic = false;
-                },
-                function(err) {
-                    console.warn('Autoplay bloqué ou erreur sur test1.mp3, affichage du bouton.', err);
-                    clickToPlayBtn.classList.add('show');
-                }
-            );
-        }
-
-        // ----------------------------------------------------------------
-        //  Gestion du clic sur le bouton de lecture
-        // ----------------------------------------------------------------
-        function startLoadingOnInteraction() {
-            stopAudio(); // on nettoie tout
-
-            try {
-                if (!audioCtx) {
-                    audioCtx = new(window.AudioContext || window.webkitAudioContext)();
-                }
-            } catch (e) {
-                console.error('Impossible de créer AudioContext', e);
-                return;
-            }
-
-            audioCtx.resume().then(function() {
-                loadAndPlayAudio(CONFIG.loadingMusicFile, true,
-                    function() {
-                        clickToPlayBtn.classList.remove('show');
-                        isMainMusic = false;
-                        musicToggleBtn.classList.add('visible');
-                        musicToggleBtn.textContent = translations[currentLang].musicToggle;
-                        musicToggleBtn.classList.add('playing');
-                    },
-                    function(err) {
-                        console.error('Échec après clic sur test1.mp3:', err);
-                        // On tente test.mp3 en secours
-                        loadAndPlayAudio(CONFIG.mainMusicFile, true,
-                            function() {
-                                clickToPlayBtn.classList.remove('show');
-                                isMainMusic = false; // on garde loading
-                                musicToggleBtn.classList.add('visible');
-                                musicToggleBtn.textContent = translations[currentLang].musicToggle;
-                                musicToggleBtn.classList.add('playing');
-                            },
-                            function(err2) {
-                                console.error('Échec définitif de la lecture audio.', err2);
-                            }
-                        );
-                    }
-                );
-            }).catch(function(e) {
-                console.warn('Impossible de reprendre AudioContext après clic', e);
-            });
-
-            document.removeEventListener('click', startLoadingOnInteraction);
-            document.removeEventListener('touchstart', startLoadingOnInteraction);
-            clickToPlayBtn.removeEventListener('click', startLoadingOnInteraction);
-            clickToPlayBtn.removeEventListener('touchstart', startLoadingOnInteraction);
-        }
-
-        document.addEventListener('click', startLoadingOnInteraction);
-        document.addEventListener('touchstart', startLoadingOnInteraction);
-        clickToPlayBtn.addEventListener('click', startLoadingOnInteraction);
-        clickToPlayBtn.addEventListener('touchstart', startLoadingOnInteraction);
-
-        playLoadingMusic();
-
-        // ----------------------------------------------------------------
-        //  Arrêt de la musique de chargement (appelée après grattage)
-        // ----------------------------------------------------------------
-        function stopLoadingMusic() {
-            stopAudio();
-            clickToPlayBtn.classList.remove('show');
-        }
-
-        // ----------------------------------------------------------------
-        //  Musique principale (test.mp3) – jouée après le grattage
-        // ----------------------------------------------------------------
-        function playMainMusic() {
-            if (isPlaying && isMainMusic) return;
-
-            stopAudio(); // on arrête tout
-
-            if (!audioCtx) {
-                try {
-                    audioCtx = new(window.AudioContext || window.webkitAudioContext)();
-                } catch (e) {
-                    console.error('Impossible de créer AudioContext', e);
+            // Fonction appelée au premier clic/toucher (mobile)
+            function startLoadingOnInteraction(e) {
+                if (loadingAudio && !loadingAudio.paused) {
+                    // Déjà en cours : on retire les écouteurs
+                    removeInteractionListeners();
                     return;
                 }
-            }
-
-            audioCtx.resume().then(function() {
-                loadAndPlayAudio(CONFIG.mainMusicFile, true,
-                    function() {
-                        isMainMusic = true;
-                        musicToggleBtn.classList.add('playing');
-                        musicToggleBtn.textContent = translations[currentLang].musicToggle;
-                        musicToggleBtn.classList.add('visible');
-                    },
-                    function(err) {
-                        console.warn('Impossible de jouer test.mp3, fallback synthétique.', err);
-                        playSyntheticMusic();
-                    }
-                );
-            }).catch(function(e) {
-                console.warn('Impossible de reprendre AudioContext pour la musique principale', e);
-                playSyntheticMusic();
-            });
-        }
-
-        function stopMainMusic() {
-            stopAudio();
-            isMainMusic = false;
-            musicToggleBtn.classList.remove('playing');
-            musicToggleBtn.textContent = translations[currentLang].musicOff;
-            if (window._synthInterval) {
-                clearInterval(window._synthInterval);
-                window._synthInterval = null;
-            }
-        }
-
-        // Fallback synthétique
-        function playSyntheticMusic() {
-            if (isPlaying && isMainMusic) return;
-            try {
-                if (!audioCtx) {
-                    audioCtx = new(window.AudioContext || window.webkitAudioContext)();
+                // Créer l'audio dans le gestionnaire d'événement (indispensable sur mobile)
+                if (!loadingAudio) {
+                    loadingAudio = new Audio(CONFIG.loadingMusicFile);
+                    loadingAudio.loop = true;
+                    loadingAudio.volume = 0.3;
                 }
-                if (audioCtx.state === 'suspended') audioCtx.resume();
-
-                var notes = [
-                    { freq: 261.63, dur: 0.3 }, { freq: 293.66, dur: 0.3 },
-                    { freq: 329.63, dur: 0.4 }, { freq: 392.00, dur: 0.3 },
-                    { freq: 440.00, dur: 0.4 }, { freq: 523.25, dur: 0.5 },
-                    { freq: 493.88, dur: 0.3 }, { freq: 440.00, dur: 0.4 },
-                    { freq: 392.00, dur: 0.3 }, { freq: 349.23, dur: 0.3 },
-                    { freq: 329.63, dur: 0.4 }, { freq: 293.66, dur: 0.3 },
-                    { freq: 261.63, dur: 0.6 }
-                ];
-                var currentNote = 0;
-                var synthInterval = null;
-
-                var playNote = function() {
-                    if (!isPlaying || !isMainMusic) {
-                        if (synthInterval) clearInterval(synthInterval);
-                        return;
-                    }
-                    var note = notes[currentNote];
-                    var osc = audioCtx.createOscillator();
-                    var gain = audioCtx.createGain();
-                    osc.type = 'sine';
-                    osc.frequency.value = note.freq;
-                    gain.gain.setValueAtTime(0.12, audioCtx.currentTime);
-                    gain.gain.exponentialRampToValueAtTime(0.001, audioCtx.currentTime + note.dur);
-                    osc.connect(gain);
-                    gain.connect(audioCtx.destination);
-                    osc.start();
-                    osc.stop(audioCtx.currentTime + note.dur);
-                    currentNote = (currentNote + 1) % notes.length;
-                };
-
-                isMainMusic = true;
-                isPlaying = true;
-                musicToggleBtn.classList.add('playing');
-                musicToggleBtn.textContent = translations[currentLang].musicToggle;
-                musicToggleBtn.classList.add('visible');
-                playNote();
-                synthInterval = setInterval(playNote, 400);
-                window._synthInterval = synthInterval;
-            } catch (e) {
-                console.warn('Erreur audio synthétique:', e);
+                loadingAudio.play().then(function() {
+                    clickToPlayBtn.classList.remove('show');
+                }).catch(function(err) {
+                    // En cas d'échec, on laisse le bouton visible
+                    clickToPlayBtn.classList.add('show');
+                });
+                // Retirer les écouteurs après la première interaction
+                removeInteractionListeners();
             }
-        }
 
-        // ================================================================
-        //  LOADER AVEC COMPTE À REBOURS
-        // ================================================================
-        var loader = document.getElementById('loader');
-        var card = document.getElementById('invitationCard');
-        var countdownDisplay = document.getElementById('countdownDisplay');
+            function removeInteractionListeners() {
+                document.removeEventListener('click', startLoadingOnInteraction);
+                document.removeEventListener('touchstart', startLoadingOnInteraction);
+                clickToPlayBtn.removeEventListener('click', startLoadingOnInteraction);
+                clickToPlayBtn.removeEventListener('touchstart', startLoadingOnInteraction);
+            }
 
-        var countdown = 5;
-        countdownDisplay.textContent = countdown;
+            // Ajouter les écouteurs pour le premier clic/toucher
+            document.addEventListener('click', startLoadingOnInteraction);
+            document.addEventListener('touchstart', startLoadingOnInteraction);
+            clickToPlayBtn.addEventListener('click', startLoadingOnInteraction);
+            clickToPlayBtn.addEventListener('touchstart', startLoadingOnInteraction);
 
-        var countdownInterval = setInterval(function() {
-            countdown--;
-            if (countdown > 0) {
-                countdownDisplay.textContent = countdown;
-                countdownDisplay.style.transform = 'scale(1.4)';
-                setTimeout(function() {
-                    countdownDisplay.style.transform = 'scale(1)';
-                }, 200);
-            } else {
-                clearInterval(countdownInterval);
-                loader.classList.add('hidden');
-                card.classList.add('loaded');
-                setTimeout(function() {
-                    initPetals();
-                    initBgParticles();
-                    initCarousel();
-                    animateBgParticles();
-                    animatePetals();
-                }, 100);
-                document.addEventListener('click', function initAudioCtx() {
+            // Le bouton est visible par défaut (attente d'interaction)
+            clickToPlayBtn.classList.add('show');
+
+            // Fonction pour arrêter test1.mp3 (appelée après le grattage)
+            function stopLoadingMusic() {
+                if (loadingAudio) {
+                    loadingAudio.pause();
+                    loadingAudio.currentTime = 0;
+                    loadingAudio = null;
+                }
+                clickToPlayBtn.classList.remove('show');
+            }
+
+            // ============================================================
+            //  MUSIQUE PRINCIPALE (test.mp3)
+            // ============================================================
+            function playMainMusic() {
+                if (musicPlaying) return;
+                if (!mainAudio) {
+                    mainAudio = new Audio(CONFIG.musicFile);
+                    mainAudio.loop = true;
+                    mainAudio.volume = 0.5;
+                }
+                mainAudio.play().then(function() {
+                    musicPlaying = true;
+                    elements.musicToggle.classList.add('playing');
+                    elements.musicToggle.textContent = translations[currentLang].musicToggle;
+                }).catch(function(err) {
+                    console.warn('Impossible de jouer test.mp3, fallback synthétique.', err);
+                    playSyntheticMusic();
+                });
+            }
+
+            function stopMainMusic() {
+                musicPlaying = false;
+                if (mainAudio) {
+                    mainAudio.pause();
+                    mainAudio.currentTime = 0;
+                }
+                if (musicInterval) {
+                    clearTimeout(musicInterval);
+                    musicInterval = null;
+                }
+                musicNodes.forEach(function(item) {
+                    try { item.osc.stop(); item.gain.disconnect(); } catch (_) {}
+                });
+                musicNodes = [];
+                elements.musicToggle.classList.remove('playing');
+                elements.musicToggle.textContent = translations[currentLang].musicOff;
+            }
+
+            function playSyntheticMusic() {
+                if (musicPlaying) return;
+                try {
                     if (!audioCtx) {
-                        try {
-                            audioCtx = new(window.AudioContext || window.webkitAudioContext)();
-                            if (audioCtx.state === 'suspended') audioCtx.resume();
-                        } catch (_) {}
+                        audioCtx = new(window.AudioContext || window.webkitAudioContext)();
                     }
-                }, { once: true });
+                    if (audioCtx.state === 'suspended') audioCtx.resume();
+
+                    var notes = [
+                        { freq: 261.63, dur: 0.3 }, { freq: 293.66, dur: 0.3 },
+                        { freq: 329.63, dur: 0.4 }, { freq: 392.00, dur: 0.3 },
+                        { freq: 440.00, dur: 0.4 }, { freq: 523.25, dur: 0.5 },
+                        { freq: 493.88, dur: 0.3 }, { freq: 440.00, dur: 0.4 },
+                        { freq: 392.00, dur: 0.3 }, { freq: 349.23, dur: 0.3 },
+                        { freq: 329.63, dur: 0.4 }, { freq: 293.66, dur: 0.3 },
+                        { freq: 261.63, dur: 0.6 }
+                    ];
+                    var currentNote = 0;
+                    var playNote = function() {
+                        if (!musicPlaying) return;
+                        var note = notes[currentNote];
+                        var osc = audioCtx.createOscillator();
+                        var gain = audioCtx.createGain();
+                        osc.type = 'sine';
+                        osc.frequency.value = note.freq;
+                        gain.gain.setValueAtTime(0.12, audioCtx.currentTime);
+                        gain.gain.exponentialRampToValueAtTime(0.001, audioCtx.currentTime + note.dur);
+                        osc.connect(gain);
+                        gain.connect(audioCtx.destination);
+                        osc.start();
+                        osc.stop(audioCtx.currentTime + note.dur);
+                        musicNodes.push({ osc: osc, gain: gain });
+                        setTimeout(function() {
+                            musicNodes = musicNodes.filter(function(n) { return n.osc.context.state !== 'closed'; });
+                        }, 1000);
+                        currentNote = (currentNote + 1) % notes.length;
+                        if (musicPlaying) {
+                            musicInterval = setTimeout(playNote, note.dur * 1000 + 60);
+                        }
+                    };
+                    musicPlaying = true;
+                    elements.musicToggle.classList.add('playing');
+                    elements.musicToggle.textContent = translations[currentLang].musicToggle;
+                    playNote();
+                } catch (e) {
+                    console.warn('Erreur audio synthétique:', e);
+                }
             }
-        }, 1000);
 
-        // ================================================================
-        //  CARROUSEL
-        // ================================================================
-        var track = document.getElementById('carouselTrack');
-        var dotsContainer = document.getElementById('carouselDots');
-        var prevBtn = document.getElementById('carouselPrev');
-        var nextBtn = document.getElementById('carouselNext');
-        var currentSlide = 0;
-        var slideCount = 0;
-        var autoPlayInterval = null;
+            // ============================================================
+            //  LOADER AVEC COMPTE À REBOURS
+            // ============================================================
+            var loader = document.getElementById('loader');
+            var card = document.getElementById('invitationCard');
+            var countdownDisplay = document.getElementById('countdownDisplay');
 
-        function initCarousel() {
-            var photos = CONFIG.photos;
-            slideCount = photos.length;
+            var countdown = 5;
+            countdownDisplay.textContent = countdown;
 
-            track.innerHTML = '';
-            photos.forEach(function(photo, index) {
-                var slide = document.createElement('div');
-                slide.className = 'carousel-slide';
+            var countdownInterval = setInterval(function() {
+                countdown--;
+                if (countdown > 0) {
+                    countdownDisplay.textContent = countdown;
+                    countdownDisplay.style.transform = 'scale(1.4)';
+                    setTimeout(function() {
+                        countdownDisplay.style.transform = 'scale(1)';
+                    }, 200);
+                } else {
+                    clearInterval(countdownInterval);
+                    loader.classList.add('hidden');
+                    card.classList.add('loaded');
+                    setTimeout(function() {
+                        initPetals();
+                        initBgParticles();
+                        initCarousel();
+                        animateBgParticles();
+                        animatePetals();
+                    }, 100);
+                    document.addEventListener('click', function initAudioCtx() {
+                        if (!audioCtx) {
+                            try {
+                                audioCtx = new(window.AudioContext || window.webkitAudioContext)();
+                                if (audioCtx.state === 'suspended') audioCtx.resume();
+                            } catch (_) {}
+                        }
+                    }, { once: true });
+                }
+            }, 1000);
+
+            // ============================================================
+            //  CARROUSEL
+            // ============================================================
+            var track = document.getElementById('carouselTrack');
+            var dotsContainer = document.getElementById('carouselDots');
+            var prevBtn = document.getElementById('carouselPrev');
+            var nextBtn = document.getElementById('carouselNext');
+            var currentSlide = 0;
+            var slideCount = 0;
+            var autoPlayInterval = null;
+
+            function initCarousel() {
+                var photos = CONFIG.photos;
+                slideCount = photos.length;
+
+                track.innerHTML = '';
+                photos.forEach(function(photo, index) {
+                    var slide = document.createElement('div');
+                    slide.className = 'carousel-slide';
+                    var img = document.createElement('img');
+                    img.src = photo.url;
+                    img.alt = photo.name;
+                    img.loading = 'lazy';
+                    img.onerror = function() {
+                        this.style.display = 'none';
+                        var fallback = document.createElement('div');
+                        fallback.textContent = photo.name;
+                        fallback.style.cssText = 'display:flex; align-items:center; justify-content:center; width:100%; height:100%; color:rgba(255,255,255,0.6); background:rgba(0,0,0,0.2); font-size:1rem;';
+                        this.parentNode.appendChild(fallback);
+                    };
+                    slide.appendChild(img);
+                    track.appendChild(slide);
+                });
+
+                dotsContainer.innerHTML = '';
+                for (var i = 0; i < slideCount; i++) {
+                    var dot = document.createElement('button');
+                    dot.className = 'carousel-dot' + (i === 0 ? ' active' : '');
+                    dot.dataset.index = i;
+                    dot.addEventListener('click', function() {
+                        goToSlide(parseInt(this.dataset.index));
+                    });
+                    dotsContainer.appendChild(dot);
+                }
+
+                goToSlide(0);
+                startAutoPlay();
+            }
+
+            function goToSlide(index) {
+                if (index < 0) index = slideCount - 1;
+                if (index >= slideCount) index = 0;
+                currentSlide = index;
+                track.style.transform = 'translateX(-' + (index * 100) + '%)';
+                document.querySelectorAll('.carousel-dot').forEach(function(dot, i) {
+                    dot.classList.toggle('active', i === index);
+                });
+            }
+
+            function startAutoPlay() {
+                if (autoPlayInterval) clearInterval(autoPlayInterval);
+                if (slideCount > 1) {
+                    autoPlayInterval = setInterval(function() {
+                        goToSlide(currentSlide + 1);
+                    }, 4000);
+                }
+            }
+
+            function stopAutoPlay() {
+                if (autoPlayInterval) {
+                    clearInterval(autoPlayInterval);
+                    autoPlayInterval = null;
+                }
+            }
+
+            prevBtn.addEventListener('click', function(e) {
+                e.stopPropagation();
+                stopAutoPlay();
+                goToSlide(currentSlide - 1);
+                startAutoPlay();
+            });
+
+            nextBtn.addEventListener('click', function(e) {
+                e.stopPropagation();
+                stopAutoPlay();
+                goToSlide(currentSlide + 1);
+                startAutoPlay();
+            });
+
+            // ============================================================
+            //  SIDEBAR
+            // ============================================================
+            var sidebar = document.getElementById('sidebar');
+            var sidebarToggle = document.getElementById('sidebarToggle');
+            var sidebarClose = document.getElementById('sidebarClose');
+
+            function toggleSidebar() {
+                sidebar.classList.toggle('open');
+                sidebarToggle.classList.toggle('active');
+            }
+            sidebarToggle.addEventListener('click', toggleSidebar);
+            sidebarClose.addEventListener('click', toggleSidebar);
+
+            // ============================================================
+            //  LIGHTBOX
+            // ============================================================
+            var lightbox = document.getElementById('lightbox');
+            var lightboxImg = document.getElementById('lightboxImg');
+            var lightboxName = document.getElementById('lightboxName');
+            var lightboxClose = document.getElementById('lightboxClose');
+            var lightboxPrev = document.getElementById('lightboxPrev');
+            var lightboxNext = document.getElementById('lightboxNext');
+            var currentPhotoIndex = 0;
+            var photoList = [];
+
+            function openLightbox(index) {
+                if (index < 0 || index >= photoList.length) return;
+                currentPhotoIndex = index;
+                var photo = photoList[currentPhotoIndex];
+                lightboxImg.src = photo.url;
+                lightboxName.textContent = photo.name;
+                lightbox.classList.add('active');
+                document.body.style.overflow = 'hidden';
+            }
+
+            function closeLightbox() {
+                lightbox.classList.remove('active');
+                document.body.style.overflow = '';
+            }
+
+            function navigateLightbox(dir) {
+                var newIndex = currentPhotoIndex + dir;
+                if (newIndex >= 0 && newIndex < photoList.length) {
+                    openLightbox(newIndex);
+                }
+            }
+
+            lightboxClose.addEventListener('click', closeLightbox);
+            lightbox.addEventListener('click', function(e) {
+                if (e.target === lightbox) closeLightbox();
+            });
+            lightboxPrev.addEventListener('click', function(e) {
+                e.stopPropagation();
+                navigateLightbox(-1);
+            });
+            lightboxNext.addEventListener('click', function(e) {
+                e.stopPropagation();
+                navigateLightbox(1);
+            });
+            document.addEventListener('keydown', function(e) {
+                if (e.key === 'Escape') closeLightbox();
+                if (e.key === 'ArrowLeft') navigateLightbox(-1);
+                if (e.key === 'ArrowRight') navigateLightbox(1);
+            });
+
+            // ============================================================
+            //  PHOTOS (sidebar)
+            // ============================================================
+            var photosGrid = document.getElementById('photosGrid');
+            photoList = CONFIG.photos;
+            CONFIG.photos.forEach(function(photo, index) {
+                var item = document.createElement('div');
+                item.className = 'photo-item';
                 var img = document.createElement('img');
                 img.src = photo.url;
                 img.alt = photo.name;
@@ -2541,1011 +2186,844 @@
                     this.style.display = 'none';
                     var fallback = document.createElement('div');
                     fallback.textContent = photo.name;
-                    fallback.style.cssText =
-                        'display:flex; align-items:center; justify-content:center; width:100%; height:100%; color:rgba(255,255,255,0.6); background:rgba(0,0,0,0.2); font-size:1rem;';
+                    fallback.style.cssText = 'display:flex; align-items:center; justify-content:center; width:100%; height:100%; color:#fcf8f0; background:rgba(0,0,0,0.3); font-size:0.7rem; text-align:center; padding:4px;';
                     this.parentNode.appendChild(fallback);
                 };
-                slide.appendChild(img);
-                track.appendChild(slide);
-            });
-
-            dotsContainer.innerHTML = '';
-            for (var i = 0; i < slideCount; i++) {
-                var dot = document.createElement('button');
-                dot.className = 'carousel-dot' + (i === 0 ? ' active' : '');
-                dot.dataset.index = i;
-                dot.addEventListener('click', function() {
-                    goToSlide(parseInt(this.dataset.index));
+                var nameLabel = document.createElement('div');
+                nameLabel.className = 'photo-name';
+                nameLabel.textContent = photo.name;
+                item.appendChild(img);
+                item.appendChild(nameLabel);
+                item.addEventListener('click', function(e) {
+                    e.stopPropagation();
+                    openLightbox(index);
                 });
-                dotsContainer.appendChild(dot);
-            }
-
-            goToSlide(0);
-            startAutoPlay();
-        }
-
-        function goToSlide(index) {
-            if (index < 0) index = slideCount - 1;
-            if (index >= slideCount) index = 0;
-            currentSlide = index;
-            track.style.transform = 'translateX(-' + (index * 100) + '%)';
-            document.querySelectorAll('.carousel-dot').forEach(function(dot, i) {
-                dot.classList.toggle('active', i === index);
+                photosGrid.appendChild(item);
             });
-        }
 
-        function startAutoPlay() {
-            if (autoPlayInterval) clearInterval(autoPlayInterval);
-            if (slideCount > 1) {
-                autoPlayInterval = setInterval(function() {
-                    goToSlide(currentSlide + 1);
-                }, 4000);
+            // ============================================================
+            //  PALETTES / THEMES
+            // ============================================================
+            var colorItems = document.querySelectorAll('.color-item');
+            var currentTheme = '';
+
+            function setTheme(color) {
+                document.body.classList.remove('theme-black', 'theme-white', 'theme-red', 'theme-starry');
+                if (color) {
+                    document.body.classList.add('theme-' + color);
+                }
+                colorItems.forEach(function(item) {
+                    var btn = item.querySelector('.color-btn');
+                    var isActive = item.dataset.color === color;
+                    btn.classList.toggle('active', isActive);
+                });
+                currentTheme = color;
             }
-        }
 
-        function stopAutoPlay() {
-            if (autoPlayInterval) {
-                clearInterval(autoPlayInterval);
-                autoPlayInterval = null;
-            }
-        }
-
-        prevBtn.addEventListener('click', function(e) {
-            e.stopPropagation();
-            stopAutoPlay();
-            goToSlide(currentSlide - 1);
-            startAutoPlay();
-        });
-
-        nextBtn.addEventListener('click', function(e) {
-            e.stopPropagation();
-            stopAutoPlay();
-            goToSlide(currentSlide + 1);
-            startAutoPlay();
-        });
-
-        // ================================================================
-        //  SIDEBAR
-        // ================================================================
-        var sidebar = document.getElementById('sidebar');
-        var sidebarToggle = document.getElementById('sidebarToggle');
-        var sidebarClose = document.getElementById('sidebarClose');
-
-        function toggleSidebar() {
-            sidebar.classList.toggle('open');
-            sidebarToggle.classList.toggle('active');
-        }
-        sidebarToggle.addEventListener('click', toggleSidebar);
-        sidebarClose.addEventListener('click', toggleSidebar);
-
-        // ================================================================
-        //  LIGHTBOX
-        // ================================================================
-        var lightbox = document.getElementById('lightbox');
-        var lightboxImg = document.getElementById('lightboxImg');
-        var lightboxName = document.getElementById('lightboxName');
-        var lightboxClose = document.getElementById('lightboxClose');
-        var lightboxPrev = document.getElementById('lightboxPrev');
-        var lightboxNext = document.getElementById('lightboxNext');
-        var currentPhotoIndex = 0;
-        var photoList = [];
-
-        function openLightbox(index) {
-            if (index < 0 || index >= photoList.length) return;
-            currentPhotoIndex = index;
-            var photo = photoList[currentPhotoIndex];
-            lightboxImg.src = photo.url;
-            lightboxName.textContent = photo.name;
-            lightbox.classList.add('active');
-            document.body.style.overflow = 'hidden';
-        }
-
-        function closeLightbox() {
-            lightbox.classList.remove('active');
-            document.body.style.overflow = '';
-        }
-
-        function navigateLightbox(dir) {
-            var newIndex = currentPhotoIndex + dir;
-            if (newIndex >= 0 && newIndex < photoList.length) {
-                openLightbox(newIndex);
-            }
-        }
-
-        lightboxClose.addEventListener('click', closeLightbox);
-        lightbox.addEventListener('click', function(e) {
-            if (e.target === lightbox) closeLightbox();
-        });
-        lightboxPrev.addEventListener('click', function(e) {
-            e.stopPropagation();
-            navigateLightbox(-1);
-        });
-        lightboxNext.addEventListener('click', function(e) {
-            e.stopPropagation();
-            navigateLightbox(1);
-        });
-        document.addEventListener('keydown', function(e) {
-            if (e.key === 'Escape') closeLightbox();
-            if (e.key === 'ArrowLeft') navigateLightbox(-1);
-            if (e.key === 'ArrowRight') navigateLightbox(1);
-        });
-
-        // ================================================================
-        //  PHOTOS (sidebar)
-        // ================================================================
-        var photosGrid = document.getElementById('photosGrid');
-        photoList = CONFIG.photos;
-        CONFIG.photos.forEach(function(photo, index) {
-            var item = document.createElement('div');
-            item.className = 'photo-item';
-            var img = document.createElement('img');
-            img.src = photo.url;
-            img.alt = photo.name;
-            img.loading = 'lazy';
-            img.onerror = function() {
-                this.style.display = 'none';
-                var fallback = document.createElement('div');
-                fallback.textContent = photo.name;
-                fallback.style.cssText =
-                    'display:flex; align-items:center; justify-content:center; width:100%; height:100%; color:#fcf8f0; background:rgba(0,0,0,0.3); font-size:0.7rem; text-align:center; padding:4px;';
-                this.parentNode.appendChild(fallback);
-            };
-            var nameLabel = document.createElement('div');
-            nameLabel.className = 'photo-name';
-            nameLabel.textContent = photo.name;
-            item.appendChild(img);
-            item.appendChild(nameLabel);
-            item.addEventListener('click', function(e) {
-                e.stopPropagation();
-                openLightbox(index);
-            });
-            photosGrid.appendChild(item);
-        });
-
-        // ================================================================
-        //  PALETTES / THEMES
-        // ================================================================
-        var colorItems = document.querySelectorAll('.color-item');
-        var currentTheme = '';
-
-        function setTheme(color) {
-            document.body.classList.remove('theme-black', 'theme-white', 'theme-red', 'theme-starry');
-            if (color) {
-                document.body.classList.add('theme-' + color);
-            }
             colorItems.forEach(function(item) {
-                var btn = item.querySelector('.color-btn');
-                var isActive = item.dataset.color === color;
-                btn.classList.toggle('active', isActive);
+                item.addEventListener('click', function(e) {
+                    e.stopPropagation();
+                    var color = this.dataset.color;
+                    if (currentTheme === color) {
+                        setTheme('');
+                    } else {
+                        setTheme(color);
+                    }
+                });
             });
-            currentTheme = color;
-        }
 
-        colorItems.forEach(function(item) {
-            item.addEventListener('click', function(e) {
-                e.stopPropagation();
-                var color = this.dataset.color;
-                if (currentTheme === color) {
-                    setTheme('');
+            // ============================================================
+            //  PARTICULES D'OR
+            // ============================================================
+            var bgCanvas = document.getElementById('bgParticlesCanvas');
+            var bgCtx = bgCanvas.getContext('2d');
+            var bgParticles = [];
+            var MAX_PARTICLES = 35;
+
+            function resizeBgCanvas() {
+                bgCanvas.width = window.innerWidth;
+                bgCanvas.height = window.innerHeight;
+            }
+            window.addEventListener('resize', resizeBgCanvas);
+            resizeBgCanvas();
+
+            function BgParticle() {
+                this.reset = function() {
+                    this.x = Math.random() * bgCanvas.width;
+                    this.y = Math.random() * bgCanvas.height;
+                    this.size = Math.random() * 2 + 0.8;
+                    this.speedX = (Math.random() - 0.5) * 0.15;
+                    this.speedY = (Math.random() - 0.5) * 0.15;
+                    this.opacity = Math.random() * 0.2 + 0.05;
+                    this.pulseSpeed = 0.005 + Math.random() * 0.01;
+                    this.pulseOffset = Math.random() * Math.PI * 2;
+                    this.shape = Math.random() > 0.8 ? 'heart' : 'circle';
+                };
+                this.update = function() {
+                    this.x += this.speedX;
+                    this.y += this.speedY;
+                    this.pulseOffset += this.pulseSpeed;
+                    if (this.x < 0 || this.x > bgCanvas.width) this.speedX *= -1;
+                    if (this.y < 0 || this.y > bgCanvas.height) this.speedY *= -1;
+                };
+                this.draw = function() {
+                    var pulse = 0.6 + 0.4 * Math.sin(this.pulseOffset);
+                    var currentOpacity = this.opacity * pulse;
+                    var size = this.size * pulse;
+                    bgCtx.save();
+                    bgCtx.globalAlpha = currentOpacity;
+                    bgCtx.fillStyle = '#d4af37';
+                    bgCtx.shadowColor = 'rgba(212, 175, 55, 0.15)';
+                    bgCtx.shadowBlur = 10;
+                    if (this.shape === 'heart') {
+                        bgCtx.translate(this.x, this.y);
+                        bgCtx.scale(size / 5, size / 5);
+                        bgCtx.beginPath();
+                        bgCtx.moveTo(0, -3);
+                        bgCtx.bezierCurveTo(-5, -8, -10, -2, 0, 5);
+                        bgCtx.bezierCurveTo(10, -2, 5, -8, 0, -3);
+                        bgCtx.fill();
+                    } else {
+                        bgCtx.beginPath();
+                        bgCtx.arc(this.x, this.y, size, 0, Math.PI * 2);
+                        bgCtx.fill();
+                    }
+                    bgCtx.restore();
+                };
+                this.reset();
+            }
+
+            function initBgParticles() {
+                bgParticles = [];
+                var count = Math.min(MAX_PARTICLES, Math.floor(window.innerWidth / 15));
+                for (var i = 0; i < count; i++) {
+                    bgParticles.push(new BgParticle());
+                }
+            }
+
+            var bgAnimFrame = null;
+
+            function animateBgParticles() {
+                if (!bgCanvas) return;
+                bgCtx.clearRect(0, 0, bgCanvas.width, bgCanvas.height);
+                bgParticles.forEach(function(p) {
+                    p.update();
+                    p.draw();
+                });
+                bgAnimFrame = requestAnimationFrame(animateBgParticles);
+            }
+
+            // ============================================================
+            //  PÉTALES DE FLEURS
+            // ============================================================
+            var petalsCanvas = document.getElementById('petalsCanvas');
+            var petalsCtx = petalsCanvas.getContext('2d');
+            var petals = [];
+            var MAX_PETALS = 15;
+
+            function resizePetalsCanvas() {
+                petalsCanvas.width = window.innerWidth;
+                petalsCanvas.height = window.innerHeight;
+            }
+            window.addEventListener('resize', resizePetalsCanvas);
+            resizePetalsCanvas();
+
+            function Petal() {
+                this.reset = function() {
+                    this.x = Math.random() * petalsCanvas.width;
+                    this.y = Math.random() * petalsCanvas.height - petalsCanvas.height;
+                    this.size = 6 + Math.random() * 10;
+                    this.speedY = 0.4 + Math.random() * 0.8;
+                    this.speedX = (Math.random() - 0.5) * 0.3;
+                    this.rotation = Math.random() * 360;
+                    this.rotSpeed = (Math.random() - 0.5) * 0.6;
+                    this.opacity = 0.3 + Math.random() * 0.3;
+                    var colors = [
+                        'rgba(232, 200, 180, ',
+                        'rgba(212, 175, 155, ',
+                        'rgba(240, 220, 210, ',
+                        'rgba(200, 170, 160, ',
+                        'rgba(255, 230, 220, '
+                    ];
+                    this.color = colors[Math.floor(Math.random() * colors.length)];
+                    this.wobble = Math.random() * 0.02;
+                    this.wobbleOffset = Math.random() * Math.PI * 2;
+                };
+                this.update = function() {
+                    this.y += this.speedY;
+                    this.x += this.speedX + Math.sin(this.wobbleOffset) * 0.2;
+                    this.rotation += this.rotSpeed;
+                    this.wobbleOffset += this.wobble;
+                    if (this.y > petalsCanvas.height + 50) {
+                        this.reset();
+                        this.y = -20;
+                    }
+                    if (this.x < -50) this.x = petalsCanvas.width + 50;
+                    if (this.x > petalsCanvas.width + 50) this.x = -50;
+                };
+                this.draw = function() {
+                    petalsCtx.save();
+                    petalsCtx.translate(this.x, this.y);
+                    petalsCtx.rotate((this.rotation * Math.PI) / 180);
+                    petalsCtx.globalAlpha = this.opacity;
+                    petalsCtx.beginPath();
+                    petalsCtx.ellipse(0, 0, this.size / 2, this.size / 4, 0, 0, Math.PI * 2);
+                    petalsCtx.fillStyle = this.color + this.opacity + ')';
+                    petalsCtx.fill();
+                    petalsCtx.beginPath();
+                    petalsCtx.ellipse(this.size * 0.2, -this.size * 0.1, this.size / 3, this.size / 5, 0.3, 0, Math.PI * 2);
+                    petalsCtx.fillStyle = this.color + (this.opacity * 0.6) + ')';
+                    petalsCtx.fill();
+                    petalsCtx.restore();
+                };
+                this.reset();
+            }
+
+            function initPetals() {
+                petals = [];
+                var count = Math.min(MAX_PETALS, Math.floor(window.innerWidth / 30));
+                for (var i = 0; i < count; i++) {
+                    var p = new Petal();
+                    p.y = Math.random() * petalsCanvas.height;
+                    petals.push(p);
+                }
+            }
+
+            var petalsAnimFrame = null;
+
+            function animatePetals() {
+                if (!petalsCanvas) return;
+                petalsCtx.clearRect(0, 0, petalsCanvas.width, petalsCanvas.height);
+                petals.forEach(function(p) {
+                    p.update();
+                    p.draw();
+                });
+                petalsAnimFrame = requestAnimationFrame(animatePetals);
+            }
+
+            // ============================================================
+            //  COMPTE À REBOURS (date)
+            // ============================================================
+            function updateCountdown() {
+                var now = Date.now();
+                var diff = CONFIG.weddingDate - now;
+                if (diff < 0) diff = 0;
+
+                var days = Math.floor(diff / (1000 * 60 * 60 * 24));
+                var hours = Math.floor((diff % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+                var minutes = Math.floor((diff % (1000 * 60 * 60)) / (1000 * 60));
+                var seconds = Math.floor((diff % (1000 * 60)) / 1000);
+
+                document.getElementById('cdDays').textContent = String(days).padStart(2, '0');
+                document.getElementById('cdHours').textContent = String(hours).padStart(2, '0');
+                document.getElementById('cdMinutes').textContent = String(minutes).padStart(2, '0');
+                document.getElementById('cdSeconds').textContent = String(seconds).padStart(2, '0');
+            }
+            updateCountdown();
+            setInterval(updateCountdown, 1000);
+
+            // ============================================================
+            //  CARTE GOOGLE MAPS
+            // ============================================================
+            var mapToggle = document.getElementById('mapToggle');
+            var mapContainer = document.getElementById('mapContainer');
+            var mapVisible = false;
+
+            mapToggle.addEventListener('click', function() {
+                mapVisible = !mapVisible;
+                mapContainer.classList.toggle('visible', mapVisible);
+                mapToggle.textContent = mapVisible ? '📍 Fermer la carte' : '📍 Voir sur la carte';
+            });
+
+            // ============================================================
+            //  PARTAGE SOCIAL
+            // ============================================================
+            var url = encodeURIComponent(CONFIG.invitationUrl);
+            var text = encodeURIComponent('💍 YOSRA & MOHAMED ALI - Mariage le 30 Janvier 2027 🎉');
+
+            document.getElementById('shareWhatsApp').addEventListener('click', function() {
+                window.open('https://wa.me/?text=' + text + '%20' + url, '_blank');
+            });
+            document.getElementById('shareFacebook').addEventListener('click', function() {
+                window.open('https://www.facebook.com/sharer/sharer.php?u=' + url, '_blank');
+            });
+            document.getElementById('shareEmail').addEventListener('click', function() {
+                window.location.href = 'mailto:?subject=' + text + '&body=' + text + '%0A%0A' + url;
+            });
+            document.getElementById('shareCopy').addEventListener('click', function() {
+                navigator.clipboard.writeText(CONFIG.invitationUrl).then(function() {
+                    var btn = document.getElementById('shareCopy');
+                    var orig = btn.textContent;
+                    btn.textContent = '✅ Copié !';
+                    setTimeout(function() { btn.textContent = orig; }, 2000);
+                });
+            });
+
+            // ============================================================
+            //  TRADUCTIONS
+            // ============================================================
+            var translations = {
+                fr: {
+                    blessing: 'بسم الله الرحمن الرحيم',
+                    title: 'Mariage d\'Or',
+                    subtitle: '— Tradition & élégance —',
+                    inviteText: '« Nous avons l\'immense joie<br>de vous inviter à célébrer<br>notre mariage. »',
+                    families: '— & leurs familles —',
+                    dayLabel: 'Le Samedi',
+                    monthYear: 'Janvier 2027',
+                    dateDetails: '<i>🕌</i> à <span class="highlight">20h00</span> · Dar Lella - Salles des Fêtes Tunis, La Marsa <i>🕌</i><br><span style="font-size: 0.9rem; opacity: 0.8;">Soirée andalouse & dîner traditionnel</span>',
+                    scratchHint: '☪ Frottez pour découvrir',
+                    musicToggle: '🔊 Couper la musique',
+                    musicOff: '🔇 Musique coupée',
+                    countdownTitle: '📅 Compte à rebours',
+                    daysLabel: 'Jours',
+                    hoursLabel: 'Heures',
+                    minutesLabel: 'Min',
+                    secondsLabel: 'Sec',
+                    storyTitle: '💕 Notre Histoire',
+                    storyP1: 'Yosra et Mohamed Ali se sont rencontrés au détour d\'un chemin de vie, portés par la même soif de partage et de découverte. Leurs regards se sont croisés et leurs cœurs ont immédiatement reconnu une évidence.',
+                    storyP2: 'Au fil des jours, leur complicité s\'est renforcée, nourrie de rires, de confidences et de projets communs. Chaque instant partagé a tissé la toile d\'un amour profond et sincère.',
+                    tl1: 'Rencontre et premiers échanges',
+                    tl2: 'Les fiançailles : un oui pour la vie',
+                    tl3: 'Le jour de l\'union sacrée',
+                    carouselTitle: '📸 Souvenirs'
+                },
+                en: {
+                    blessing: 'In the name of God, the Most Gracious, the Most Merciful',
+                    title: 'Golden Wedding',
+                    subtitle: '— Tradition & elegance —',
+                    inviteText: '« We have the immense joy<br>to invite you to celebrate<br>our wedding. »',
+                    families: '— & their families —',
+                    dayLabel: 'Saturday',
+                    monthYear: 'January 2027',
+                    dateDetails: '<i>🕌</i> at <span class="highlight">8:00 PM</span> · Dar Lella - Salles des Fêtes Tunis, La Marsa <i>🕌</i><br><span style="font-size: 0.9rem; opacity: 0.8;">Andalusian evening & traditional dinner</span>',
+                    scratchHint: '☪ Scratch to reveal',
+                    musicToggle: '🔊 Turn off music',
+                    musicOff: '🔇 Music off',
+                    countdownTitle: '📅 Countdown',
+                    daysLabel: 'Days',
+                    hoursLabel: 'Hours',
+                    minutesLabel: 'Min',
+                    secondsLabel: 'Sec',
+                    storyTitle: '💕 Our Story',
+                    storyP1: 'Yosra and Mohamed Ali met along the path of life, driven by the same thirst for sharing and discovery. Their eyes met and their hearts immediately recognized an evidence.',
+                    storyP2: 'Over the days, their bond grew stronger, nourished by laughter, confidences and shared projects. Every moment together wove the fabric of a deep and sincere love.',
+                    tl1: 'Meeting and first exchanges',
+                    tl2: 'The engagement: a yes for life',
+                    tl3: 'The day of the sacred union',
+                    carouselTitle: '📸 Memories'
+                },
+                ar: {
+                    blessing: 'بسم الله الرحمن الرحيم',
+                    title: 'عرس الذهب',
+                    subtitle: '— تقاليد و أناقة —',
+                    inviteText: '« يشرفنا دعوتكم<br>للاحتفال بزفافنا<br>في حفل مليء بالتقاليد. »',
+                    families: '— و عائلاتهم —',
+                    dayLabel: 'السبت',
+                    monthYear: 'يناير 2027',
+                    dateDetails: '<i>🕌</i> الساعة <span class="highlight">20:00</span> · دار للّة - قاعات الأفراح تونس، المرسى <i>🕌</i><br><span style="font-size: 0.9rem; opacity: 0.8;">أمسية أندلسية و عشاء تقليدي</span>',
+                    scratchHint: '☪ افرك للكشف',
+                    musicToggle: '🔊 إيقاف الموسيقى',
+                    musicOff: '🔇 الموسيقى متوقفة',
+                    countdownTitle: '📅 العد التنازلي',
+                    daysLabel: 'أيام',
+                    hoursLabel: 'ساعات',
+                    minutesLabel: 'دقائق',
+                    secondsLabel: 'ثواني',
+                    storyTitle: '💕 قصتنا',
+                    storyP1: 'التقى يسرى ومحمد علي في طريق الحياة، يجمعهما نفس العطش للمشاركة والاكتشاف. تبادلت نظراتهما وتعرفت قلوبهما على الفور على بديهة.',
+                    storyP2: 'ومع مرور الأيام، تعززت علاقتهما، تغذيها الضحكات والثقة والمشاريع المشتركة. كل لحظة قضاها معًا نسجت نسيج حب عميق وصادق.',
+                    tl1: 'اللقاء والتبادل الأول',
+                    tl2: 'الخطوبة: نعم للحياة',
+                    tl3: 'يوم الاتحاد المقدس',
+                    carouselTitle: '📸 ذكريات'
+                }
+            };
+
+            // ============================================================
+            //  RÉFÉRENCES DOM
+            // ============================================================
+            var elements = {
+                blessing: document.getElementById('blessing'),
+                title: document.getElementById('title'),
+                subtitle: document.getElementById('subtitle'),
+                inviteText: document.getElementById('inviteText'),
+                families: document.getElementById('families'),
+                dayLabel: document.getElementById('dayLabel'),
+                monthYearLabel: document.getElementById('monthYearLabel'),
+                dateDetails: document.getElementById('dateDetails'),
+                scratchHint: document.getElementById('scratchHint'),
+                musicToggle: document.getElementById('musicToggle'),
+                coupleImg: document.getElementById('coupleImg'),
+                dateContent: document.getElementById('dateContent'),
+                countdownTitle: document.getElementById('countdownTitle'),
+                cdDaysLabel: document.getElementById('cdDaysLabel'),
+                cdHoursLabel: document.getElementById('cdHoursLabel'),
+                cdMinutesLabel: document.getElementById('cdMinutesLabel'),
+                cdSecondsLabel: document.getElementById('cdSecondsLabel'),
+                storyTitle: document.getElementById('storyTitle'),
+                storyP1: document.getElementById('storyP1'),
+                storyP2: document.getElementById('storyP2'),
+                tl1: document.getElementById('tl1'),
+                tl2: document.getElementById('tl2'),
+                tl3: document.getElementById('tl3'),
+                carouselTitle: document.getElementById('carouselTitle')
+            };
+
+            if (CONFIG.coupleImage) {
+                elements.coupleImg.src = CONFIG.coupleImage;
+            }
+
+            // ============================================================
+            //  LANGUE
+            // ============================================================
+            var currentLang = 'fr';
+
+            function setLanguage(lang) {
+                currentLang = lang;
+                var t = translations[lang];
+                if (!t) return;
+
+                elements.blessing.textContent = t.blessing;
+                elements.title.textContent = t.title;
+                elements.subtitle.textContent = t.subtitle;
+                elements.inviteText.innerHTML = t.inviteText;
+                elements.families.textContent = t.families;
+                elements.dayLabel.textContent = t.dayLabel;
+                elements.monthYearLabel.textContent = t.monthYear;
+                elements.dateDetails.innerHTML = t.dateDetails;
+                elements.countdownTitle.textContent = t.countdownTitle;
+                elements.cdDaysLabel.textContent = t.daysLabel;
+                elements.cdHoursLabel.textContent = t.hoursLabel;
+                elements.cdMinutesLabel.textContent = t.minutesLabel;
+                elements.cdSecondsLabel.textContent = t.secondsLabel;
+                elements.storyTitle.textContent = t.storyTitle;
+                elements.storyP1.textContent = t.storyP1;
+                elements.storyP2.textContent = t.storyP2;
+                elements.tl1.textContent = t.tl1;
+                elements.tl2.textContent = t.tl2;
+                elements.tl3.textContent = t.tl3;
+                elements.carouselTitle.textContent = t.carouselTitle;
+
+                if (!isRevealed) {
+                    elements.scratchHint.textContent = t.scratchHint;
                 } else {
-                    setTheme(color);
+                    elements.scratchHint.textContent = t.scratchHint;
+                    elements.scratchHint.classList.add('hidden');
                 }
-            });
-        });
-
-        // ================================================================
-        //  PARTICULES D'OR
-        // ================================================================
-        var bgCanvas = document.getElementById('bgParticlesCanvas');
-        var bgCtx = bgCanvas.getContext('2d');
-        var bgParticles = [];
-        var MAX_PARTICLES = 35;
-
-        function resizeBgCanvas() {
-            bgCanvas.width = window.innerWidth;
-            bgCanvas.height = window.innerHeight;
-        }
-        window.addEventListener('resize', resizeBgCanvas);
-        resizeBgCanvas();
-
-        function BgParticle() {
-            this.reset = function() {
-                this.x = Math.random() * bgCanvas.width;
-                this.y = Math.random() * bgCanvas.height;
-                this.size = Math.random() * 2 + 0.8;
-                this.speedX = (Math.random() - 0.5) * 0.15;
-                this.speedY = (Math.random() - 0.5) * 0.15;
-                this.opacity = Math.random() * 0.2 + 0.05;
-                this.pulseSpeed = 0.005 + Math.random() * 0.01;
-                this.pulseOffset = Math.random() * Math.PI * 2;
-                this.shape = Math.random() > 0.8 ? 'heart' : 'circle';
-            };
-            this.update = function() {
-                this.x += this.speedX;
-                this.y += this.speedY;
-                this.pulseOffset += this.pulseSpeed;
-                if (this.x < 0 || this.x > bgCanvas.width) this.speedX *= -1;
-                if (this.y < 0 || this.y > bgCanvas.height) this.speedY *= -1;
-            };
-            this.draw = function() {
-                var pulse = 0.6 + 0.4 * Math.sin(this.pulseOffset);
-                var currentOpacity = this.opacity * pulse;
-                var size = this.size * pulse;
-                bgCtx.save();
-                bgCtx.globalAlpha = currentOpacity;
-                bgCtx.fillStyle = '#d4af37';
-                bgCtx.shadowColor = 'rgba(212, 175, 55, 0.15)';
-                bgCtx.shadowBlur = 10;
-                if (this.shape === 'heart') {
-                    bgCtx.translate(this.x, this.y);
-                    bgCtx.scale(size / 5, size / 5);
-                    bgCtx.beginPath();
-                    bgCtx.moveTo(0, -3);
-                    bgCtx.bezierCurveTo(-5, -8, -10, -2, 0, 5);
-                    bgCtx.bezierCurveTo(10, -2, 5, -8, 0, -3);
-                    bgCtx.fill();
+                if (!isRevealed) {
+                    elements.musicToggle.textContent = t.musicToggle;
                 } else {
-                    bgCtx.beginPath();
-                    bgCtx.arc(this.x, this.y, size, 0, Math.PI * 2);
-                    bgCtx.fill();
+                    elements.musicToggle.textContent = musicPlaying ? t.musicToggle : t.musicOff;
                 }
-                bgCtx.restore();
-            };
-            this.reset();
-        }
 
-        function initBgParticles() {
-            bgParticles = [];
-            var count = Math.min(MAX_PARTICLES, Math.floor(window.innerWidth / 15));
-            for (var i = 0; i < count; i++) {
-                bgParticles.push(new BgParticle());
-            }
-        }
-
-        var bgAnimFrame = null;
-
-        function animateBgParticles() {
-            if (!bgCanvas) return;
-            bgCtx.clearRect(0, 0, bgCanvas.width, bgCanvas.height);
-            bgParticles.forEach(function(p) {
-                p.update();
-                p.draw();
-            });
-            bgAnimFrame = requestAnimationFrame(animateBgParticles);
-        }
-
-        // ================================================================
-        //  PÉTALES DE FLEURS
-        // ================================================================
-        var petalsCanvas = document.getElementById('petalsCanvas');
-        var petalsCtx = petalsCanvas.getContext('2d');
-        var petals = [];
-        var MAX_PETALS = 15;
-
-        function resizePetalsCanvas() {
-            petalsCanvas.width = window.innerWidth;
-            petalsCanvas.height = window.innerHeight;
-        }
-        window.addEventListener('resize', resizePetalsCanvas);
-        resizePetalsCanvas();
-
-        function Petal() {
-            this.reset = function() {
-                this.x = Math.random() * petalsCanvas.width;
-                this.y = Math.random() * petalsCanvas.height - petalsCanvas.height;
-                this.size = 6 + Math.random() * 10;
-                this.speedY = 0.4 + Math.random() * 0.8;
-                this.speedX = (Math.random() - 0.5) * 0.3;
-                this.rotation = Math.random() * 360;
-                this.rotSpeed = (Math.random() - 0.5) * 0.6;
-                this.opacity = 0.3 + Math.random() * 0.3;
-                var colors = [
-                    'rgba(232, 200, 180, ',
-                    'rgba(212, 175, 155, ',
-                    'rgba(240, 220, 210, ',
-                    'rgba(200, 170, 160, ',
-                    'rgba(255, 230, 220, '
-                ];
-                this.color = colors[Math.floor(Math.random() * colors.length)];
-                this.wobble = Math.random() * 0.02;
-                this.wobbleOffset = Math.random() * Math.PI * 2;
-            };
-            this.update = function() {
-                this.y += this.speedY;
-                this.x += this.speedX + Math.sin(this.wobbleOffset) * 0.2;
-                this.rotation += this.rotSpeed;
-                this.wobbleOffset += this.wobble;
-                if (this.y > petalsCanvas.height + 50) {
-                    this.reset();
-                    this.y = -20;
-                }
-                if (this.x < -50) this.x = petalsCanvas.width + 50;
-                if (this.x > petalsCanvas.width + 50) this.x = -50;
-            };
-            this.draw = function() {
-                petalsCtx.save();
-                petalsCtx.translate(this.x, this.y);
-                petalsCtx.rotate((this.rotation * Math.PI) / 180);
-                petalsCtx.globalAlpha = this.opacity;
-                petalsCtx.beginPath();
-                petalsCtx.ellipse(0, 0, this.size / 2, this.size / 4, 0, 0, Math.PI * 2);
-                petalsCtx.fillStyle = this.color + this.opacity + ')';
-                petalsCtx.fill();
-                petalsCtx.beginPath();
-                petalsCtx.ellipse(this.size * 0.2, -this.size * 0.1, this.size / 3, this.size / 5, 0.3, 0, Math.PI * 2);
-                petalsCtx.fillStyle = this.color + (this.opacity * 0.6) + ')';
-                petalsCtx.fill();
-                petalsCtx.restore();
-            };
-            this.reset();
-        }
-
-        function initPetals() {
-            petals = [];
-            var count = Math.min(MAX_PETALS, Math.floor(window.innerWidth / 30));
-            for (var i = 0; i < count; i++) {
-                var p = new Petal();
-                p.y = Math.random() * petalsCanvas.height;
-                petals.push(p);
-            }
-        }
-
-        var petalsAnimFrame = null;
-
-        function animatePetals() {
-            if (!petalsCanvas) return;
-            petalsCtx.clearRect(0, 0, petalsCanvas.width, petalsCanvas.height);
-            petals.forEach(function(p) {
-                p.update();
-                p.draw();
-            });
-            petalsAnimFrame = requestAnimationFrame(animatePetals);
-        }
-
-        // ================================================================
-        //  COMPTE À REBOURS (date)
-        // ================================================================
-        function updateCountdown() {
-            var now = Date.now();
-            var diff = CONFIG.weddingDate - now;
-            if (diff < 0) diff = 0;
-
-            var days = Math.floor(diff / (1000 * 60 * 60 * 24));
-            var hours = Math.floor((diff % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
-            var minutes = Math.floor((diff % (1000 * 60 * 60)) / (1000 * 60));
-            var seconds = Math.floor((diff % (1000 * 60)) / 1000);
-
-            document.getElementById('cdDays').textContent = String(days).padStart(2, '0');
-            document.getElementById('cdHours').textContent = String(hours).padStart(2, '0');
-            document.getElementById('cdMinutes').textContent = String(minutes).padStart(2, '0');
-            document.getElementById('cdSeconds').textContent = String(seconds).padStart(2, '0');
-        }
-        updateCountdown();
-        setInterval(updateCountdown, 1000);
-
-        // ================================================================
-        //  CARTE GOOGLE MAPS
-        // ================================================================
-        var mapToggle = document.getElementById('mapToggle');
-        var mapContainer = document.getElementById('mapContainer');
-        var mapVisible = false;
-
-        mapToggle.addEventListener('click', function() {
-            mapVisible = !mapVisible;
-            mapContainer.classList.toggle('visible', mapVisible);
-            mapToggle.textContent = mapVisible ? '📍 Fermer la carte' : '📍 Voir sur la carte';
-        });
-
-        // ================================================================
-        //  PARTAGE SOCIAL
-        // ================================================================
-        var url = encodeURIComponent(CONFIG.invitationUrl);
-        var text = encodeURIComponent('💍 YOSRA & MOHAMED ALI - Mariage le 30 Janvier 2027 🎉');
-
-        document.getElementById('shareWhatsApp').addEventListener('click', function() {
-            window.open('https://wa.me/?text=' + text + '%20' + url, '_blank');
-        });
-        document.getElementById('shareFacebook').addEventListener('click', function() {
-            window.open('https://www.facebook.com/sharer/sharer.php?u=' + url, '_blank');
-        });
-        document.getElementById('shareEmail').addEventListener('click', function() {
-            window.location.href = 'mailto:?subject=' + text + '&body=' + text + '%0A%0A' + url;
-        });
-        document.getElementById('shareCopy').addEventListener('click', function() {
-            navigator.clipboard.writeText(CONFIG.invitationUrl).then(function() {
-                var btn = document.getElementById('shareCopy');
-                var orig = btn.textContent;
-                btn.textContent = '✅ Copié !';
-                setTimeout(function() { btn.textContent = orig; }, 2000);
-            });
-        });
-
-        // ================================================================
-        //  TRADUCTIONS
-        // ================================================================
-        var translations = {
-            fr: {
-                blessing: 'بسم الله الرحمن الرحيم',
-                title: 'Mariage d\'Or',
-                subtitle: '— Tradition & élégance —',
-                inviteText: '« Nous avons l\'immense joie<br>de vous inviter à célébrer<br>notre mariage. »',
-                families: '— & leurs familles —',
-                dayLabel: 'Le Samedi',
-                monthYear: 'Janvier 2027',
-                dateDetails: '<i>🕌</i> à <span class="highlight">20h00</span> · Dar Lella - Salles des Fêtes Tunis, La Marsa <i>🕌</i><br><span style="font-size: 0.9rem; opacity: 0.8;">Soirée andalouse & dîner traditionnel</span>',
-                scratchHint: '☪ Frottez pour découvrir',
-                musicToggle: '🔊 Couper la musique',
-                musicOff: '🔇 Musique coupée',
-                countdownTitle: '📅 Compte à rebours',
-                daysLabel: 'Jours',
-                hoursLabel: 'Heures',
-                minutesLabel: 'Min',
-                secondsLabel: 'Sec',
-                storyTitle: '💕 Notre Histoire',
-                storyP1: 'Yosra et Mohamed Ali se sont rencontrés au détour d\'un chemin de vie, portés par la même soif de partage et de découverte. Leurs regards se sont croisés et leurs cœurs ont immédiatement reconnu une évidence.',
-                storyP2: 'Au fil des jours, leur complicité s\'est renforcée, nourrie de rires, de confidences et de projets communs. Chaque instant partagé a tissé la toile d\'un amour profond et sincère.',
-                tl1: 'Rencontre et premiers échanges',
-                tl2: 'Les fiançailles : un oui pour la vie',
-                tl3: 'Le jour de l\'union sacrée',
-                carouselTitle: '📸 Souvenirs'
-            },
-            en: {
-                blessing: 'In the name of God, the Most Gracious, the Most Merciful',
-                title: 'Golden Wedding',
-                subtitle: '— Tradition & elegance —',
-                inviteText: '« We have the immense joy<br>to invite you to celebrate<br>our wedding. »',
-                families: '— & their families —',
-                dayLabel: 'Saturday',
-                monthYear: 'January 2027',
-                dateDetails: '<i>🕌</i> at <span class="highlight">8:00 PM</span> · Dar Lella - Salles des Fêtes Tunis, La Marsa <i>🕌</i><br><span style="font-size: 0.9rem; opacity: 0.8;">Andalusian evening & traditional dinner</span>',
-                scratchHint: '☪ Scratch to reveal',
-                musicToggle: '🔊 Turn off music',
-                musicOff: '🔇 Music off',
-                countdownTitle: '📅 Countdown',
-                daysLabel: 'Days',
-                hoursLabel: 'Hours',
-                minutesLabel: 'Min',
-                secondsLabel: 'Sec',
-                storyTitle: '💕 Our Story',
-                storyP1: 'Yosra and Mohamed Ali met along the path of life, driven by the same thirst for sharing and discovery. Their eyes met and their hearts immediately recognized an evidence.',
-                storyP2: 'Over the days, their bond grew stronger, nourished by laughter, confidences and shared projects. Every moment together wove the fabric of a deep and sincere love.',
-                tl1: 'Meeting and first exchanges',
-                tl2: 'The engagement: a yes for life',
-                tl3: 'The day of the sacred union',
-                carouselTitle: '📸 Memories'
-            },
-            ar: {
-                blessing: 'بسم الله الرحمن الرحيم',
-                title: 'عرس الذهب',
-                subtitle: '— تقاليد و أناقة —',
-                inviteText: '« يشرفنا دعوتكم<br>للاحتفال بزفافنا<br>في حفل مليء بالتقاليد. »',
-                families: '— و عائلاتهم —',
-                dayLabel: 'السبت',
-                monthYear: 'يناير 2027',
-                dateDetails: '<i>🕌</i> الساعة <span class="highlight">20:00</span> · دار للّة - قاعات الأفراح تونس، المرسى <i>🕌</i><br><span style="font-size: 0.9rem; opacity: 0.8;">أمسية أندلسية و عشاء تقليدي</span>',
-                scratchHint: '☪ افرك للكشف',
-                musicToggle: '🔊 إيقاف الموسيقى',
-                musicOff: '🔇 الموسيقى متوقفة',
-                countdownTitle: '📅 العد التنازلي',
-                daysLabel: 'أيام',
-                hoursLabel: 'ساعات',
-                minutesLabel: 'دقائق',
-                secondsLabel: 'ثواني',
-                storyTitle: '💕 قصتنا',
-                storyP1: 'التقى يسرى ومحمد علي في طريق الحياة، يجمعهما نفس العطش للمشاركة والاكتشاف. تبادلت نظراتهما وتعرفت قلوبهما على الفور على بديهة.',
-                storyP2: 'ومع مرور الأيام، تعززت علاقتهما، تغذيها الضحكات والثقة والمشاريع المشتركة. كل لحظة قضاها معًا نسجت نسيج حب عميق وصادق.',
-                tl1: 'اللقاء والتبادل الأول',
-                tl2: 'الخطوبة: نعم للحياة',
-                tl3: 'يوم الاتحاد المقدس',
-                carouselTitle: '📸 ذكريات'
-            }
-        };
-
-        // ================================================================
-        //  RÉFÉRENCES DOM
-        // ================================================================
-        var elements = {
-            blessing: document.getElementById('blessing'),
-            title: document.getElementById('title'),
-            subtitle: document.getElementById('subtitle'),
-            inviteText: document.getElementById('inviteText'),
-            families: document.getElementById('families'),
-            dayLabel: document.getElementById('dayLabel'),
-            monthYearLabel: document.getElementById('monthYearLabel'),
-            dateDetails: document.getElementById('dateDetails'),
-            scratchHint: document.getElementById('scratchHint'),
-            musicToggle: document.getElementById('musicToggle'),
-            coupleImg: document.getElementById('coupleImg'),
-            dateContent: document.getElementById('dateContent'),
-            countdownTitle: document.getElementById('countdownTitle'),
-            cdDaysLabel: document.getElementById('cdDaysLabel'),
-            cdHoursLabel: document.getElementById('cdHoursLabel'),
-            cdMinutesLabel: document.getElementById('cdMinutesLabel'),
-            cdSecondsLabel: document.getElementById('cdSecondsLabel'),
-            storyTitle: document.getElementById('storyTitle'),
-            storyP1: document.getElementById('storyP1'),
-            storyP2: document.getElementById('storyP2'),
-            tl1: document.getElementById('tl1'),
-            tl2: document.getElementById('tl2'),
-            tl3: document.getElementById('tl3'),
-            carouselTitle: document.getElementById('carouselTitle')
-        };
-
-        if (CONFIG.coupleImage) {
-            elements.coupleImg.src = CONFIG.coupleImage;
-        }
-
-        // ================================================================
-        //  LANGUE
-        // ================================================================
-        var currentLang = 'fr';
-
-        function setLanguage(lang) {
-            currentLang = lang;
-            var t = translations[lang];
-            if (!t) return;
-
-            elements.blessing.textContent = t.blessing;
-            elements.title.textContent = t.title;
-            elements.subtitle.textContent = t.subtitle;
-            elements.inviteText.innerHTML = t.inviteText;
-            elements.families.textContent = t.families;
-            elements.dayLabel.textContent = t.dayLabel;
-            elements.monthYearLabel.textContent = t.monthYear;
-            elements.dateDetails.innerHTML = t.dateDetails;
-            elements.countdownTitle.textContent = t.countdownTitle;
-            elements.cdDaysLabel.textContent = t.daysLabel;
-            elements.cdHoursLabel.textContent = t.hoursLabel;
-            elements.cdMinutesLabel.textContent = t.minutesLabel;
-            elements.cdSecondsLabel.textContent = t.secondsLabel;
-            elements.storyTitle.textContent = t.storyTitle;
-            elements.storyP1.textContent = t.storyP1;
-            elements.storyP2.textContent = t.storyP2;
-            elements.tl1.textContent = t.tl1;
-            elements.tl2.textContent = t.tl2;
-            elements.tl3.textContent = t.tl3;
-            elements.carouselTitle.textContent = t.carouselTitle;
-
-            if (!isRevealed) {
-                elements.scratchHint.textContent = t.scratchHint;
-            } else {
-                elements.scratchHint.textContent = t.scratchHint;
-                elements.scratchHint.classList.add('hidden');
-            }
-            if (!isRevealed) {
-                elements.musicToggle.textContent = t.musicToggle;
-            } else {
-                elements.musicToggle.textContent = isPlaying ? t.musicToggle : t.musicOff;
+                document.querySelectorAll('.lang-btn').forEach(function(btn) {
+                    btn.classList.toggle('active', btn.dataset.lang === lang);
+                });
+                drawScratchBackground();
             }
 
             document.querySelectorAll('.lang-btn').forEach(function(btn) {
-                btn.classList.toggle('active', btn.dataset.lang === lang);
+                btn.addEventListener('click', function(e) {
+                    e.stopPropagation();
+                    var lang = this.dataset.lang;
+                    if (lang !== currentLang) setLanguage(lang);
+                });
             });
-            drawScratchBackground();
-        }
 
-        document.querySelectorAll('.lang-btn').forEach(function(btn) {
-            btn.addEventListener('click', function(e) {
-                e.stopPropagation();
-                var lang = this.dataset.lang;
-                if (lang !== currentLang) setLanguage(lang);
-            });
-        });
+            // ============================================================
+            //  CANVAS DE GRATTAGE
+            // ============================================================
+            var scratchCanvas = document.getElementById('scratchCanvas');
+            var scratchCtx = scratchCanvas.getContext('2d');
+            var dateWrapper = document.getElementById('dateWrapper');
+            var hint = document.getElementById('scratchHint');
 
-        // ================================================================
-        //  CANVAS DE GRATTAGE
-        // ================================================================
-        var scratchCanvas = document.getElementById('scratchCanvas');
-        var scratchCtx = scratchCanvas.getContext('2d');
-        var dateWrapper = document.getElementById('dateWrapper');
-        var hint = document.getElementById('scratchHint');
+            var isRevealed = false;
+            var isDrawing = false;
+            var lastX = 0, lastY = 0;
 
-        var isRevealed = false;
-        var isDrawing = false;
-        var lastX = 0,
-            lastY = 0;
-
-        function resizeScratchCanvas() {
-            var rect = dateWrapper.getBoundingClientRect();
-            var w = rect.width;
-            var h = rect.height;
-            if (w === 0 || h === 0) return;
-            scratchCanvas.width = w;
-            scratchCanvas.height = h;
-            scratchCanvas.style.width = w + 'px';
-            scratchCanvas.style.height = h + 'px';
-            if (isRevealed) {
-                scratchCtx.clearRect(0, 0, w, h);
-                return;
-            }
-            drawScratchBackground();
-        }
-
-        function drawScratchBackground() {
-            var w = scratchCanvas.width;
-            var h = scratchCanvas.height;
-            if (w === 0 || h === 0) return;
-            if (isRevealed) {
-                scratchCtx.clearRect(0, 0, w, h);
-                return;
+            function resizeScratchCanvas() {
+                var rect = dateWrapper.getBoundingClientRect();
+                var w = rect.width;
+                var h = rect.height;
+                if (w === 0 || h === 0) return;
+                scratchCanvas.width = w;
+                scratchCanvas.height = h;
+                scratchCanvas.style.width = w + 'px';
+                scratchCanvas.style.height = h + 'px';
+                if (isRevealed) {
+                    scratchCtx.clearRect(0, 0, w, h);
+                    return;
+                }
+                drawScratchBackground();
             }
 
-            var grad = scratchCtx.createRadialGradient(w / 2, h / 2, 0, w / 2, h / 2, Math.max(w, h) * 0.7);
-            grad.addColorStop(0, '#d4af37');
-            grad.addColorStop(0.3, '#c49a3c');
-            grad.addColorStop(0.7, '#b8860b');
-            grad.addColorStop(1, '#8b6914');
-            scratchCtx.fillStyle = grad;
-            scratchCtx.fillRect(0, 0, w, h);
+            function drawScratchBackground() {
+                var w = scratchCanvas.width;
+                var h = scratchCanvas.height;
+                if (w === 0 || h === 0) return;
+                if (isRevealed) {
+                    scratchCtx.clearRect(0, 0, w, h);
+                    return;
+                }
 
-            var flowers = ['✦', '✧', '☪', '✶'];
-            scratchCtx.font = '1.6rem serif';
-            scratchCtx.textAlign = 'center';
-            scratchCtx.textBaseline = 'middle';
-            for (var i = 0; i < 20; i++) {
-                var x = Math.random() * w;
-                var y = Math.random() * h;
-                var f = flowers[Math.floor(Math.random() * flowers.length)];
-                scratchCtx.fillStyle = 'rgba(255,215,0,' + (0.08 + Math.random() * 0.08) + ')';
-                scratchCtx.fillText(f, x, y);
+                var grad = scratchCtx.createRadialGradient(w/2, h/2, 0, w/2, h/2, Math.max(w, h) * 0.7);
+                grad.addColorStop(0, '#d4af37');
+                grad.addColorStop(0.3, '#c49a3c');
+                grad.addColorStop(0.7, '#b8860b');
+                grad.addColorStop(1, '#8b6914');
+                scratchCtx.fillStyle = grad;
+                scratchCtx.fillRect(0, 0, w, h);
+
+                var flowers = ['✦', '✧', '☪', '✶'];
+                scratchCtx.font = '1.6rem serif';
+                scratchCtx.textAlign = 'center';
+                scratchCtx.textBaseline = 'middle';
+                for (var i = 0; i < 20; i++) {
+                    var x = Math.random() * w;
+                    var y = Math.random() * h;
+                    var f = flowers[Math.floor(Math.random() * flowers.length)];
+                    scratchCtx.fillStyle = 'rgba(255,215,0,' + (0.08 + Math.random() * 0.08) + ')';
+                    scratchCtx.fillText(f, x, y);
+                }
+                var hintText = currentLang === 'fr' ? 'Grattez ici' :
+                               currentLang === 'en' ? 'Scratch here' :
+                               'افرك هنا';
+                scratchCtx.fillStyle = 'rgba(255,215,0,0.15)';
+                scratchCtx.font = 'bold 1.8rem Amiri, serif';
+                scratchCtx.fillText('☪ ' + hintText, w/2, h/2);
+                scratchCtx.shadowColor = 'rgba(255,215,0,0.15)';
+                scratchCtx.shadowBlur = 30;
+                scratchCtx.strokeStyle = 'rgba(255,215,0,0.1)';
+                scratchCtx.lineWidth = 1.5;
+                scratchCtx.strokeRect(6, 6, w-12, h-12);
+                scratchCtx.shadowBlur = 0;
             }
-            var hintText = currentLang === 'fr' ? 'Grattez ici' :
-                currentLang === 'en' ? 'Scratch here' :
-                'افرك هنا';
-            scratchCtx.fillStyle = 'rgba(255,215,0,0.15)';
-            scratchCtx.font = 'bold 1.8rem Amiri, serif';
-            scratchCtx.fillText('☪ ' + hintText, w / 2, h / 2);
-            scratchCtx.shadowColor = 'rgba(255,215,0,0.15)';
-            scratchCtx.shadowBlur = 30;
-            scratchCtx.strokeStyle = 'rgba(255,215,0,0.1)';
-            scratchCtx.lineWidth = 1.5;
-            scratchCtx.strokeRect(6, 6, w - 12, h - 12);
-            scratchCtx.shadowBlur = 0;
-        }
 
-        function getPosition(e) {
-            var rect = scratchCanvas.getBoundingClientRect();
-            var clientX = e.touches ? e.touches[0].clientX : e.clientX;
-            var clientY = e.touches ? e.touches[0].clientY : e.clientY;
-            return {
-                x: (clientX - rect.left) * (scratchCanvas.width / rect.width),
-                y: (clientY - rect.top) * (scratchCanvas.height / rect.height)
-            };
-        }
+            function getPosition(e) {
+                var rect = scratchCanvas.getBoundingClientRect();
+                var clientX = e.touches ? e.touches[0].clientX : e.clientX;
+                var clientY = e.touches ? e.touches[0].clientY : e.clientY;
+                return {
+                    x: (clientX - rect.left) * (scratchCanvas.width / rect.width),
+                    y: (clientY - rect.top) * (scratchCanvas.height / rect.height)
+                };
+            }
 
-        function startDraw(e) {
-            e.preventDefault();
-            if (isRevealed) return;
-            isDrawing = true;
-            var pos = getPosition(e);
-            lastX = pos.x;
-            lastY = pos.y;
-            hint.classList.add('hidden');
-        }
+            function startDraw(e) {
+                e.preventDefault();
+                if (isRevealed) return;
+                isDrawing = true;
+                var pos = getPosition(e);
+                lastX = pos.x;
+                lastY = pos.y;
+                hint.classList.add('hidden');
+            }
 
-        function draw(e) {
-            e.preventDefault();
-            if (!isDrawing || isRevealed) return;
-            var pos = getPosition(e);
-            var x = pos.x;
-            var y = pos.y;
+            function draw(e) {
+                e.preventDefault();
+                if (!isDrawing || isRevealed) return;
+                var pos = getPosition(e);
+                var x = pos.x;
+                var y = pos.y;
 
-            scratchCtx.globalCompositeOperation = 'destination-out';
-            scratchCtx.beginPath();
-            scratchCtx.arc(x, y, 20, 0, Math.PI * 2);
-            scratchCtx.fill();
-            if (lastX && lastY) {
-                scratchCtx.lineWidth = 40;
-                scratchCtx.lineCap = 'round';
-                scratchCtx.lineJoin = 'round';
+                scratchCtx.globalCompositeOperation = 'destination-out';
                 scratchCtx.beginPath();
-                scratchCtx.moveTo(lastX, lastY);
-                scratchCtx.lineTo(x, y);
-                scratchCtx.stroke();
-            }
-            lastX = x;
-            lastY = y;
-            checkScratchProgress();
-        }
-
-        function stopDraw(e) {
-            e.preventDefault();
-            isDrawing = false;
-            lastX = 0;
-            lastY = 0;
-        }
-
-        function checkScratchProgress() {
-            if (isRevealed) return;
-            var imageData = scratchCtx.getImageData(0, 0, scratchCanvas.width, scratchCanvas.height);
-            var data = imageData.data;
-            var transparent = 0;
-            var total = data.length / 4;
-            var step = 4;
-            for (var i = 3; i < data.length; i += 4 * step) {
-                if (data[i] < 128) transparent++;
-            }
-            var percent = transparent / (total / step);
-            if (percent > 0.35) {
-                revealDate();
-            }
-        }
-
-        // ================================================================
-        //  RÉVÉLATION – ARRÊT DE test1.mp3 ET LANCEMENT DE test.mp3
-        // ================================================================
-        function revealDate() {
-            if (isRevealed) return;
-            isRevealed = true;
-
-            // ★ Arrêter la musique de chargement (test1.mp3)
-            stopLoadingMusic();
-
-            // Jouer le jingle court
-            playTraditionalSound();
-
-            // Lancer les confettis
-            launchConfetti(250);
-            setTimeout(function() { launchConfetti(180); }, 500);
-            setTimeout(function() { launchConfetti(100); }, 1000);
-            setTimeout(function() { launchConfetti(60); }, 1600);
-
-            // Effacer le scratch
-            scratchCtx.globalCompositeOperation = 'destination-out';
-            scratchCtx.fillStyle = '#ffffff';
-            scratchCtx.fillRect(0, 0, scratchCanvas.width, scratchCanvas.height);
-            hint.classList.add('hidden');
-            scratchCanvas.style.pointerEvents = 'none';
-
-            elements.dateContent.classList.add('revealed');
-
-            // Lancer la musique principale (test.mp3) après 1 seconde
-            setTimeout(function() {
-                playMainMusic();
-                musicToggleBtn.classList.add('visible');
-            }, 1000);
-        }
-
-        // ================================================================
-        //  JINGLE
-        // ================================================================
-        function playTraditionalSound() {
-            try {
-                if (!audioCtx) {
-                    audioCtx = new(window.AudioContext || window.webkitAudioContext)();
+                scratchCtx.arc(x, y, 20, 0, Math.PI * 2);
+                scratchCtx.fill();
+                if (lastX && lastY) {
+                    scratchCtx.lineWidth = 40;
+                    scratchCtx.lineCap = 'round';
+                    scratchCtx.lineJoin = 'round';
+                    scratchCtx.beginPath();
+                    scratchCtx.moveTo(lastX, lastY);
+                    scratchCtx.lineTo(x, y);
+                    scratchCtx.stroke();
                 }
-                if (audioCtx.state === 'suspended') audioCtx.resume();
-                var now = audioCtx.currentTime;
-                var notes = [
-                    { freq: 180, time: 0.00, dur: 0.12, vol: 0.18 },
-                    { freq: 240, time: 0.10, dur: 0.10, vol: 0.16 },
-                    { freq: 300, time: 0.20, dur: 0.15, vol: 0.20 },
-                    { freq: 360, time: 0.35, dur: 0.12, vol: 0.18 },
-                    { freq: 450, time: 0.48, dur: 0.20, vol: 0.22 },
-                    { freq: 300, time: 0.68, dur: 0.18, vol: 0.18 }
-                ];
-                notes.forEach(function(n) {
-                    var osc = audioCtx.createOscillator();
-                    var gain = audioCtx.createGain();
-                    osc.type = 'sine';
-                    osc.frequency.value = n.freq;
-                    gain.gain.setValueAtTime(n.vol, now + n.time);
-                    gain.gain.exponentialRampToValueAtTime(0.001, now + n.time + n.dur);
-                    osc.connect(gain);
-                    gain.connect(audioCtx.destination);
-                    osc.start(now + n.time);
-                    osc.stop(now + n.time + n.dur + 0.02);
-                });
-                var percs = [0.05, 0.20, 0.38, 0.55, 0.72];
-                percs.forEach(function(t) {
-                    var bufferSize = audioCtx.sampleRate * 0.03;
-                    var buffer = audioCtx.createBuffer(1, bufferSize, audioCtx.sampleRate);
-                    var data = buffer.getChannelData(0);
-                    for (var i = 0; i < bufferSize; i++) data[i] = (Math.random() * 2 - 1) * 0.10;
-                    var noise = audioCtx.createBufferSource();
-                    noise.buffer = buffer;
-                    var gainN = audioCtx.createGain();
-                    gainN.gain.setValueAtTime(0.10, now + t);
-                    gainN.gain.exponentialRampToValueAtTime(0.001, now + t + 0.06);
-                    noise.connect(gainN);
-                    gainN.connect(audioCtx.destination);
-                    noise.start(now + t);
-                    noise.stop(now + t + 0.07);
-                });
-            } catch (e) {}
-        }
+                lastX = x;
+                lastY = y;
+                checkScratchProgress();
+            }
 
-        // ================================================================
-        //  CONFETTIS
-        // ================================================================
-        var confettiCanvas = document.getElementById('confettiCanvas');
-        var confettiCtx = confettiCanvas.getContext('2d');
-        var confettiPieces = [];
-        var confettiActive = false;
-        var animFrameId = null;
+            function stopDraw(e) {
+                e.preventDefault();
+                isDrawing = false;
+                lastX = 0;
+                lastY = 0;
+            }
 
-        function resizeConfettiCanvas() {
-            confettiCanvas.width = window.innerWidth;
-            confettiCanvas.height = window.innerHeight;
-        }
-        window.addEventListener('resize', resizeConfettiCanvas);
-        resizeConfettiCanvas();
-
-        function Particle(x, y) {
-            this.x = x;
-            this.y = y;
-            var angle = Math.random() * 2 * Math.PI;
-            var speed = 5 + Math.random() * 12;
-            this.vx = Math.cos(angle) * speed * (0.5 + Math.random() * 0.8);
-            this.vy = Math.sin(angle) * speed * (0.5 + Math.random() * 0.8) - 4;
-            this.gravity = 0.12 + Math.random() * 0.08;
-            this.size = 5 + Math.random() * 10;
-            this.life = 1;
-            this.decay = 0.005 + Math.random() * 0.01;
-            this.rotation = Math.random() * 360;
-            this.rotSpeed = (Math.random() - 0.5) * 10;
-            var colors = ['#D4AF37', '#FFD700', '#8B0000', '#B8860B', '#FCF8F0', '#CD853F', '#C49A6C', '#FF6B6B', '#FFD93D',
-                '#6A5ACD', '#4A90D9'
-            ];
-            this.color = colors[Math.floor(Math.random() * colors.length)];
-            this.shape = Math.random() > 0.5 ? 'star' : 'circle';
-        }
-
-        Particle.prototype.update = function() {
-            this.x += this.vx;
-            this.vy += this.gravity;
-            this.y += this.vy;
-            this.vx *= 0.99;
-            this.life -= this.decay;
-            this.rotation += this.rotSpeed;
-            return this.life > 0.01 && this.y < confettiCanvas.height + 50;
-        };
-
-        Particle.prototype.draw = function(ctx) {
-            ctx.save();
-            ctx.globalAlpha = Math.max(0, this.life * 0.9);
-            ctx.translate(this.x, this.y);
-            ctx.rotate((this.rotation * Math.PI) / 180);
-            ctx.fillStyle = this.color;
-            ctx.shadowColor = 'rgba(212, 175, 55, 0.2)';
-            ctx.shadowBlur = 10;
-            if (this.shape === 'star') {
-                var points = 5;
-                var outerR = this.size / 2;
-                var innerR = outerR * 0.4;
-                ctx.beginPath();
-                for (var i = 0; i < points * 2; i++) {
-                    var radius = i % 2 === 0 ? outerR : innerR;
-                    var angle = (i * Math.PI) / points - Math.PI / 2;
-                    var x = Math.cos(angle) * radius;
-                    var y = Math.sin(angle) * radius;
-                    if (i === 0) ctx.moveTo(x, y);
-                    else ctx.lineTo(x, y);
+            function checkScratchProgress() {
+                if (isRevealed) return;
+                var imageData = scratchCtx.getImageData(0, 0, scratchCanvas.width, scratchCanvas.height);
+                var data = imageData.data;
+                var transparent = 0;
+                var total = data.length / 4;
+                var step = 4;
+                for (var i = 3; i < data.length; i += 4 * step) {
+                    if (data[i] < 128) transparent++;
                 }
-                ctx.closePath();
-                ctx.fill();
-            } else {
-                ctx.beginPath();
-                ctx.arc(0, 0, this.size / 2, 0, Math.PI * 2);
-                ctx.fill();
-            }
-            ctx.restore();
-        };
-
-        function launchConfetti(count) {
-            var rect = dateWrapper.getBoundingClientRect();
-            var cx = rect.left + rect.width / 2;
-            var cy = rect.top + rect.height / 2;
-            for (var i = 0; i < count; i++) {
-                confettiPieces.push(new Particle(
-                    cx + (Math.random() - 0.5) * 50,
-                    cy + (Math.random() - 0.5) * 50
-                ));
-            }
-            if (!confettiActive) {
-                confettiActive = true;
-                confettiCanvas.classList.add('active');
-                animateConfetti();
-            }
-        }
-
-        function animateConfetti() {
-            if (!confettiActive) {
-                if (animFrameId) {
-                    cancelAnimationFrame(animFrameId);
-                    animFrameId = null;
+                var percent = transparent / (total / step);
+                if (percent > 0.35) {
+                    revealDate();
                 }
-                confettiCtx.clearRect(0, 0, confettiCanvas.width, confettiCanvas.height);
-                return;
             }
-            confettiCtx.clearRect(0, 0, confettiCanvas.width, confettiCanvas.height);
-            var alive = false;
-            for (var i = confettiPieces.length - 1; i >= 0; i--) {
-                var p = confettiPieces[i];
-                var isAlive = p.update();
-                if (isAlive) { p.draw(confettiCtx);
-                    alive = true; } else { confettiPieces.splice(i, 1); }
+
+            // ============================================================
+            //  RÉVÉLATION – ARRÊT DE test1.mp3 ET LANCEMENT DE test.mp3
+            // ============================================================
+            function revealDate() {
+                if (isRevealed) return;
+                isRevealed = true;
+
+                // ★ Arrêter la musique de chargement (test1.mp3)
+                stopLoadingMusic();
+
+                // Jouer le jingle court
+                playTraditionalSound();
+
+                // Lancer les confettis
+                launchConfetti(250);
+                setTimeout(function() { launchConfetti(180); }, 500);
+                setTimeout(function() { launchConfetti(100); }, 1000);
+                setTimeout(function() { launchConfetti(60); }, 1600);
+
+                // Effacer le scratch
+                scratchCtx.globalCompositeOperation = 'destination-out';
+                scratchCtx.fillStyle = '#ffffff';
+                scratchCtx.fillRect(0, 0, scratchCanvas.width, scratchCanvas.height);
+                hint.classList.add('hidden');
+                scratchCanvas.style.pointerEvents = 'none';
+
+                elements.dateContent.classList.add('revealed');
+
+                // Lancer la musique principale (test.mp3) après 1 seconde
+                setTimeout(function() {
+                    playMainMusic();
+                    elements.musicToggle.classList.add('visible');
+                }, 1000);
             }
-            if (alive || confettiPieces.length > 0) {
-                animFrameId = requestAnimationFrame(animateConfetti);
-            } else {
-                confettiActive = false;
-                confettiCanvas.classList.remove('active');
-                if (animFrameId) {
-                    cancelAnimationFrame(animFrameId);
-                    animFrameId = null;
+
+            // ============================================================
+            //  JINGLE
+            // ============================================================
+            function playTraditionalSound() {
+                try {
+                    if (!audioCtx) {
+                        audioCtx = new(window.AudioContext || window.webkitAudioContext)();
+                    }
+                    if (audioCtx.state === 'suspended') audioCtx.resume();
+                    var now = audioCtx.currentTime;
+                    var notes = [
+                        { freq: 180, time: 0.00, dur: 0.12, vol: 0.18 },
+                        { freq: 240, time: 0.10, dur: 0.10, vol: 0.16 },
+                        { freq: 300, time: 0.20, dur: 0.15, vol: 0.20 },
+                        { freq: 360, time: 0.35, dur: 0.12, vol: 0.18 },
+                        { freq: 450, time: 0.48, dur: 0.20, vol: 0.22 },
+                        { freq: 300, time: 0.68, dur: 0.18, vol: 0.18 }
+                    ];
+                    notes.forEach(function(n) {
+                        var osc = audioCtx.createOscillator();
+                        var gain = audioCtx.createGain();
+                        osc.type = 'sine';
+                        osc.frequency.value = n.freq;
+                        gain.gain.setValueAtTime(n.vol, now + n.time);
+                        gain.gain.exponentialRampToValueAtTime(0.001, now + n.time + n.dur);
+                        osc.connect(gain);
+                        gain.connect(audioCtx.destination);
+                        osc.start(now + n.time);
+                        osc.stop(now + n.time + n.dur + 0.02);
+                    });
+                    var percs = [0.05, 0.20, 0.38, 0.55, 0.72];
+                    percs.forEach(function(t) {
+                        var bufferSize = audioCtx.sampleRate * 0.03;
+                        var buffer = audioCtx.createBuffer(1, bufferSize, audioCtx.sampleRate);
+                        var data = buffer.getChannelData(0);
+                        for (var i = 0; i < bufferSize; i++) data[i] = (Math.random() * 2 - 1) * 0.10;
+                        var noise = audioCtx.createBufferSource();
+                        noise.buffer = buffer;
+                        var gainN = audioCtx.createGain();
+                        gainN.gain.setValueAtTime(0.10, now + t);
+                        gainN.gain.exponentialRampToValueAtTime(0.001, now + t + 0.06);
+                        noise.connect(gainN);
+                        gainN.connect(audioCtx.destination);
+                        noise.start(now + t);
+                        noise.stop(now + t + 0.07);
+                    });
+                } catch (e) {}
+            }
+
+            // ============================================================
+            //  CONFETTIS
+            // ============================================================
+            var confettiCanvas = document.getElementById('confettiCanvas');
+            var confettiCtx = confettiCanvas.getContext('2d');
+            var confettiPieces = [];
+            var confettiActive = false;
+            var animFrameId = null;
+
+            function resizeConfettiCanvas() {
+                confettiCanvas.width = window.innerWidth;
+                confettiCanvas.height = window.innerHeight;
+            }
+            window.addEventListener('resize', resizeConfettiCanvas);
+            resizeConfettiCanvas();
+
+            function Particle(x, y) {
+                this.x = x;
+                this.y = y;
+                var angle = Math.random() * 2 * Math.PI;
+                var speed = 5 + Math.random() * 12;
+                this.vx = Math.cos(angle) * speed * (0.5 + Math.random() * 0.8);
+                this.vy = Math.sin(angle) * speed * (0.5 + Math.random() * 0.8) - 4;
+                this.gravity = 0.12 + Math.random() * 0.08;
+                this.size = 5 + Math.random() * 10;
+                this.life = 1;
+                this.decay = 0.005 + Math.random() * 0.01;
+                this.rotation = Math.random() * 360;
+                this.rotSpeed = (Math.random() - 0.5) * 10;
+                var colors = ['#D4AF37', '#FFD700', '#8B0000', '#B8860B', '#FCF8F0', '#CD853F', '#C49A6C', '#FF6B6B', '#FFD93D', '#6A5ACD', '#4A90D9'];
+                this.color = colors[Math.floor(Math.random() * colors.length)];
+                this.shape = Math.random() > 0.5 ? 'star' : 'circle';
+            }
+
+            Particle.prototype.update = function() {
+                this.x += this.vx;
+                this.vy += this.gravity;
+                this.y += this.vy;
+                this.vx *= 0.99;
+                this.life -= this.decay;
+                this.rotation += this.rotSpeed;
+                return this.life > 0.01 && this.y < confettiCanvas.height + 50;
+            };
+
+            Particle.prototype.draw = function(ctx) {
+                ctx.save();
+                ctx.globalAlpha = Math.max(0, this.life * 0.9);
+                ctx.translate(this.x, this.y);
+                ctx.rotate((this.rotation * Math.PI) / 180);
+                ctx.fillStyle = this.color;
+                ctx.shadowColor = 'rgba(212, 175, 55, 0.2)';
+                ctx.shadowBlur = 10;
+                if (this.shape === 'star') {
+                    var points = 5;
+                    var outerR = this.size / 2;
+                    var innerR = outerR * 0.4;
+                    ctx.beginPath();
+                    for (var i = 0; i < points * 2; i++) {
+                        var radius = i % 2 === 0 ? outerR : innerR;
+                        var angle = (i * Math.PI) / points - Math.PI / 2;
+                        var x = Math.cos(angle) * radius;
+                        var y = Math.sin(angle) * radius;
+                        if (i === 0) ctx.moveTo(x, y);
+                        else ctx.lineTo(x, y);
+                    }
+                    ctx.closePath();
+                    ctx.fill();
+                } else {
+                    ctx.beginPath();
+                    ctx.arc(0, 0, this.size / 2, 0, Math.PI * 2);
+                    ctx.fill();
+                }
+                ctx.restore();
+            };
+
+            function launchConfetti(count) {
+                var rect = dateWrapper.getBoundingClientRect();
+                var cx = rect.left + rect.width / 2;
+                var cy = rect.top + rect.height / 2;
+                for (var i = 0; i < count; i++) {
+                    confettiPieces.push(new Particle(
+                        cx + (Math.random() - 0.5) * 50,
+                        cy + (Math.random() - 0.5) * 50
+                    ));
+                }
+                if (!confettiActive) {
+                    confettiActive = true;
+                    confettiCanvas.classList.add('active');
+                    animateConfetti();
+                }
+            }
+
+            function animateConfetti() {
+                if (!confettiActive) {
+                    if (animFrameId) {
+                        cancelAnimationFrame(animFrameId);
+                        animFrameId = null;
+                    }
+                    confettiCtx.clearRect(0, 0, confettiCanvas.width, confettiCanvas.height);
+                    return;
                 }
                 confettiCtx.clearRect(0, 0, confettiCanvas.width, confettiCanvas.height);
-            }
-        }
-
-        // ================================================================
-        //  ÉVÉNEMENTS SUR LE GRATTAGE
-        // ================================================================
-        scratchCanvas.addEventListener('mousedown', startDraw);
-        scratchCanvas.addEventListener('mousemove', draw);
-        scratchCanvas.addEventListener('mouseup', stopDraw);
-        scratchCanvas.addEventListener('mouseleave', stopDraw);
-
-        scratchCanvas.addEventListener('touchstart', startDraw, { passive: false });
-        scratchCanvas.addEventListener('touchmove', draw, { passive: false });
-        scratchCanvas.addEventListener('touchend', stopDraw, { passive: false });
-        scratchCanvas.addEventListener('touchcancel', stopDraw, { passive: false });
-
-        // ================================================================
-        //  BOUTON MUSIQUE PRINCIPALE
-        // ================================================================
-        musicToggleBtn.addEventListener('click', function(e) {
-            e.stopPropagation();
-            if (isPlaying && isMainMusic) {
-                pauseAudio();
-                musicToggleBtn.classList.remove('playing');
-                musicToggleBtn.textContent = translations[currentLang].musicOff;
-                if (window._synthInterval) {
-                    clearInterval(window._synthInterval);
-                    window._synthInterval = null;
+                var alive = false;
+                for (var i = confettiPieces.length - 1; i >= 0; i--) {
+                    var p = confettiPieces[i];
+                    var isAlive = p.update();
+                    if (isAlive) { p.draw(confettiCtx); alive = true; }
+                    else { confettiPieces.splice(i, 1); }
                 }
-            } else {
-                if (isPaused) {
-                    resumeAudio();
-                    musicToggleBtn.classList.add('playing');
-                    musicToggleBtn.textContent = translations[currentLang].musicToggle;
+                if (alive || confettiPieces.length > 0) {
+                    animFrameId = requestAnimationFrame(animateConfetti);
+                } else {
+                    confettiActive = false;
+                    confettiCanvas.classList.remove('active');
+                    if (animFrameId) {
+                        cancelAnimationFrame(animFrameId);
+                        animFrameId = null;
+                    }
+                    confettiCtx.clearRect(0, 0, confettiCanvas.width, confettiCanvas.height);
+                }
+            }
+
+            // ============================================================
+            //  ÉVÉNEMENTS SUR LE GRATTAGE
+            // ============================================================
+            scratchCanvas.addEventListener('mousedown', startDraw);
+            scratchCanvas.addEventListener('mousemove', draw);
+            scratchCanvas.addEventListener('mouseup', stopDraw);
+            scratchCanvas.addEventListener('mouseleave', stopDraw);
+
+            scratchCanvas.addEventListener('touchstart', startDraw, { passive: false });
+            scratchCanvas.addEventListener('touchmove', draw, { passive: false });
+            scratchCanvas.addEventListener('touchend', stopDraw, { passive: false });
+            scratchCanvas.addEventListener('touchcancel', stopDraw, { passive: false });
+
+            // ============================================================
+            //  BOUTON MUSIQUE PRINCIPALE
+            // ============================================================
+            elements.musicToggle.addEventListener('click', function(e) {
+                e.stopPropagation();
+                if (musicPlaying) {
+                    stopMainMusic();
                 } else {
                     playMainMusic();
                 }
-            }
-        });
+            });
 
-        // ================================================================
-        //  RESIZE
-        // ================================================================
-        window.addEventListener('resize', function() {
-            resizeConfettiCanvas();
-            resizeScratchCanvas();
-        });
+            // ============================================================
+            //  RESIZE
+            // ============================================================
+            window.addEventListener('resize', function() {
+                resizeConfettiCanvas();
+                resizeScratchCanvas();
+            });
 
-        // ================================================================
-        //  INIT FINAL
-        // ================================================================
-        setTimeout(function() {
-            resizeScratchCanvas();
-            resizeConfettiCanvas();
-        }, 100);
+            // ============================================================
+            //  INIT FINAL
+            // ============================================================
+            setTimeout(function() {
+                resizeScratchCanvas();
+                resizeConfettiCanvas();
+            }, 100);
 
-        document.querySelectorAll('.lang-btn').forEach(function(btn) {
-            btn.addEventListener('click', drawScratchBackground);
-        });
+            document.querySelectorAll('.lang-btn').forEach(function(btn) {
+                btn.addEventListener('click', drawScratchBackground);
+            });
 
-        console.log('💍 Lecture audio : test1.mp3 initial, puis test.mp3 après grattage (Web Audio API)');
+            console.log('💍 test1.mp3 démarre uniquement au premier clic/toucher (mobile friendly) et s\'arrête après le grattage');
 
-        window.addEventListener('beforeunload', function() {
-            if (window._synthInterval) {
-                clearInterval(window._synthInterval);
-            }
-        });
-
-    })();
-</script>
+        })();
+    </script>
 
 </body>
 </html>
