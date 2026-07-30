@@ -71,7 +71,7 @@
             transition: transform 0.3s ease;
         }
 
-        /* ===== BOUTON DE LECTURE (sur le loader) ===== */
+        /* ===== BOUTON PLAY ===== */
         .play-btn {
             margin-top: 25px;
             padding: 14px 44px;
@@ -97,15 +97,9 @@
             box-shadow: 0 8px 50px rgba(184, 134, 11, 0.6);
             background: linear-gradient(135deg, #d4af37, #f0d080);
         }
-        .play-btn:active {
-            transform: scale(0.95);
-        }
-        .play-btn .icon {
-            font-size: 1.8rem;
-        }
-        .play-btn.hidden {
-            display: none;
-        }
+        .play-btn:active { transform: scale(0.95); }
+        .play-btn .icon { font-size: 1.8rem; }
+        .play-btn.hidden { display: none; }
 
         /* ===== VARIABLES ===== */
         :root {
@@ -228,6 +222,7 @@
             pointer-events: none;
             z-index: 0;
             opacity: 0.5;
+            will-change: transform;
         }
 
         /* ===== PARTICULES D'OR ===== */
@@ -240,6 +235,7 @@
             pointer-events: none;
             z-index: 0;
             opacity: 0.6;
+            will-change: transform;
         }
 
         #confettiCanvas {
@@ -709,6 +705,7 @@
             transform: translateY(30px) scale(0.96);
             animation: none;
             transition: opacity 0.8s ease, transform 0.8s ease;
+            will-change: transform;
         }
         .invitation-card.loaded {
             opacity: 1;
@@ -1583,7 +1580,6 @@
         <div class="loader-text">YOSRA &amp; MOHAMED ALI</div>
         <div class="loader-spinner"></div>
         <div class="loader-countdown" id="countdownDisplay">5</div>
-        <!-- Bouton PLAY -->
         <button class="play-btn" id="playBtn">
             <span class="icon">▶</span> Lancer la musique
         </button>
@@ -1847,12 +1843,8 @@
 
             var playBtn = document.getElementById('playBtn');
 
-            // Fonction pour lancer test1.mp3 (appelée par le bouton)
             function startLoadingMusic() {
-                if (loadingAudio) {
-                    // déjà en cours
-                    return;
-                }
+                if (loadingAudio) return;
                 loadingAudio = new Audio(CONFIG.loadingMusicFile);
                 loadingAudio.loop = true;
                 loadingAudio.volume = 0.3;
@@ -1864,13 +1856,11 @@
                 });
             }
 
-            // Événement sur le bouton PLAY
             playBtn.addEventListener('click', function(e) {
                 e.stopPropagation();
                 startLoadingMusic();
             });
 
-            // Démarrer automatiquement le compte à rebours (le loader continue)
             var loader = document.getElementById('loader');
             var card = document.getElementById('invitationCard');
             var countdownDisplay = document.getElementById('countdownDisplay');
@@ -1994,9 +1984,6 @@
                 }
             }
 
-            // ============================================================
-            //  ARRÊT DE test1.mp3 (appelée après révélation)
-            // ============================================================
             function stopLoadingMusic() {
                 if (loadingAudio) {
                     loadingAudio.pause();
@@ -2059,7 +2046,7 @@
                 if (index < 0) index = slideCount - 1;
                 if (index >= slideCount) index = 0;
                 currentSlide = index;
-                track.style.transform = 'translateX(-' + (index * 100) + '%)';
+                track.style.transform = 'translate3d(-' + (index * 100) + '%, 0, 0)';
                 document.querySelectorAll('.carousel-dot').forEach(function(dot, i) {
                     dot.classList.toggle('active', i === index);
                 });
@@ -2224,12 +2211,13 @@
             });
 
             // ============================================================
-            //  PARTICULES D'OR
+            //  PARTICULES D'OR (optimisées : moins de particules)
             // ============================================================
             var bgCanvas = document.getElementById('bgParticlesCanvas');
             var bgCtx = bgCanvas.getContext('2d');
             var bgParticles = [];
-            var MAX_PARTICLES = 35;
+            var MAX_PARTICLES = 20; // réduit
+            var bgAnimRunning = true;
 
             function resizeBgCanvas() {
                 bgCanvas.width = window.innerWidth;
@@ -2286,7 +2274,7 @@
 
             function initBgParticles() {
                 bgParticles = [];
-                var count = Math.min(MAX_PARTICLES, Math.floor(window.innerWidth / 15));
+                var count = Math.min(MAX_PARTICLES, Math.floor(window.innerWidth / 20));
                 for (var i = 0; i < count; i++) {
                     bgParticles.push(new BgParticle());
                 }
@@ -2295,7 +2283,13 @@
             var bgAnimFrame = null;
 
             function animateBgParticles() {
-                if (!bgCanvas) return;
+                if (!bgAnimRunning || !bgCanvas) {
+                    if (bgAnimFrame) {
+                        cancelAnimationFrame(bgAnimFrame);
+                        bgAnimFrame = null;
+                    }
+                    return;
+                }
                 bgCtx.clearRect(0, 0, bgCanvas.width, bgCanvas.height);
                 bgParticles.forEach(function(p) {
                     p.update();
@@ -2305,12 +2299,13 @@
             }
 
             // ============================================================
-            //  PÉTALES DE FLEURS
+            //  PÉTALES DE FLEURS (optimisés : moins de pétales)
             // ============================================================
             var petalsCanvas = document.getElementById('petalsCanvas');
             var petalsCtx = petalsCanvas.getContext('2d');
             var petals = [];
-            var MAX_PETALS = 15;
+            var MAX_PETALS = 8; // réduit
+            var petalsRunning = true;
 
             function resizePetalsCanvas() {
                 petalsCanvas.width = window.innerWidth;
@@ -2372,7 +2367,7 @@
 
             function initPetals() {
                 petals = [];
-                var count = Math.min(MAX_PETALS, Math.floor(window.innerWidth / 30));
+                var count = Math.min(MAX_PETALS, Math.floor(window.innerWidth / 40));
                 for (var i = 0; i < count; i++) {
                     var p = new Petal();
                     p.y = Math.random() * petalsCanvas.height;
@@ -2383,7 +2378,13 @@
             var petalsAnimFrame = null;
 
             function animatePetals() {
-                if (!petalsCanvas) return;
+                if (!petalsRunning || !petalsCanvas) {
+                    if (petalsAnimFrame) {
+                        cancelAnimationFrame(petalsAnimFrame);
+                        petalsAnimFrame = null;
+                    }
+                    return;
+                }
                 petalsCtx.clearRect(0, 0, petalsCanvas.width, petalsCanvas.height);
                 petals.forEach(function(p) {
                     p.update();
@@ -2623,7 +2624,7 @@
             });
 
             // ============================================================
-            //  CANVAS DE GRATTAGE – version finale
+            //  CANVAS DE GRATTAGE – optimisé
             // ============================================================
             var scratchCanvas = document.getElementById('scratchCanvas');
             var scratchCtx = scratchCanvas.getContext('2d', { willReadFrequently: true });
@@ -2725,10 +2726,10 @@
 
                 scratchCtx.globalCompositeOperation = 'destination-out';
                 scratchCtx.beginPath();
-                scratchCtx.arc(x, y, 20, 0, Math.PI * 2);
+                scratchCtx.arc(x, y, 18, 0, Math.PI * 2); // pinceau plus petit
                 scratchCtx.fill();
                 if (lastX && lastY) {
-                    scratchCtx.lineWidth = 40;
+                    scratchCtx.lineWidth = 30; // plus fin
                     scratchCtx.lineCap = 'round';
                     scratchCtx.lineJoin = 'round';
                     scratchCtx.beginPath();
@@ -2750,28 +2751,49 @@
                 lastY = 0;
             }
 
+            var progressCheckTimeout = null;
+
             function checkScratchProgress() {
                 if (isRevealed) return;
-                var imageData = scratchCtx.getImageData(0, 0, scratchCanvas.width, scratchCanvas.height);
-                var data = imageData.data;
-                var transparent = 0;
-                var total = data.length / 4;
-                var step = 4;
-                for (var i = 3; i < data.length; i += 4 * step) {
-                    if (data[i] < 128) transparent++;
+                if (progressCheckTimeout) {
+                    cancelAnimationFrame(progressCheckTimeout);
                 }
-                var percent = transparent / (total / step);
-                if (percent > 0.35) {
-                    revealDate();
-                }
+                // On vérifie après un court délai pour éviter de trop solliciter le CPU
+                progressCheckTimeout = requestAnimationFrame(function() {
+                    var imageData = scratchCtx.getImageData(0, 0, scratchCanvas.width, scratchCanvas.height);
+                    var data = imageData.data;
+                    var transparent = 0;
+                    var total = data.length / 4;
+                    var step = 6; // on vérifie 1 pixel sur 6 (moins de calculs)
+                    for (var i = 3; i < data.length; i += 4 * step) {
+                        if (data[i] < 128) transparent++;
+                    }
+                    var percent = transparent / (total / step);
+                    if (percent > 0.35) {
+                        revealDate();
+                    }
+                    progressCheckTimeout = null;
+                });
             }
 
             // ============================================================
-            //  RÉVÉLATION – arrêt de test1.mp3 et lancement test.mp3
+            //  RÉVÉLATION – arrêt des animations de fond
             // ============================================================
             function revealDate() {
                 if (isRevealed) return;
                 isRevealed = true;
+
+                // Arrêter les animations de fond
+                bgAnimRunning = false;
+                petalsRunning = false;
+                if (bgAnimFrame) {
+                    cancelAnimationFrame(bgAnimFrame);
+                    bgAnimFrame = null;
+                }
+                if (petalsAnimFrame) {
+                    cancelAnimationFrame(petalsAnimFrame);
+                    petalsAnimFrame = null;
+                }
 
                 // Arrêter test1.mp3
                 stopLoadingMusic();
@@ -2779,11 +2801,11 @@
                 // Jingle
                 playTraditionalSound();
 
-                // Confettis
-                launchConfetti(250);
-                setTimeout(function() { launchConfetti(180); }, 500);
-                setTimeout(function() { launchConfetti(100); }, 1000);
-                setTimeout(function() { launchConfetti(60); }, 1600);
+                // Confettis (réduits)
+                launchConfetti(180);
+                setTimeout(function() { launchConfetti(120); }, 500);
+                setTimeout(function() { launchConfetti(70); }, 1000);
+                setTimeout(function() { launchConfetti(40); }, 1500);
 
                 // Effacer scratch
                 scratchCtx.globalCompositeOperation = 'destination-out';
@@ -2794,7 +2816,7 @@
 
                 elements.dateContent.classList.add('revealed');
 
-                // Lancer test.mp3 après 1 seconde
+                // Lancer test.mp3
                 setTimeout(function() {
                     playMainMusic();
                     elements.musicToggle.classList.add('visible');
@@ -2851,7 +2873,7 @@
             }
 
             // ============================================================
-            //  CONFETTIS
+            //  CONFETTIS (allégés)
             // ============================================================
             var confettiCanvas = document.getElementById('confettiCanvas');
             var confettiCtx = confettiCanvas.getContext('2d');
@@ -2870,15 +2892,15 @@
                 this.x = x;
                 this.y = y;
                 var angle = Math.random() * 2 * Math.PI;
-                var speed = 5 + Math.random() * 12;
-                this.vx = Math.cos(angle) * speed * (0.5 + Math.random() * 0.8);
-                this.vy = Math.sin(angle) * speed * (0.5 + Math.random() * 0.8) - 4;
-                this.gravity = 0.12 + Math.random() * 0.08;
-                this.size = 5 + Math.random() * 10;
+                var speed = 5 + Math.random() * 10;
+                this.vx = Math.cos(angle) * speed * (0.5 + Math.random() * 0.6);
+                this.vy = Math.sin(angle) * speed * (0.5 + Math.random() * 0.6) - 3;
+                this.gravity = 0.10 + Math.random() * 0.08;
+                this.size = 4 + Math.random() * 8;
                 this.life = 1;
-                this.decay = 0.005 + Math.random() * 0.01;
+                this.decay = 0.006 + Math.random() * 0.01;
                 this.rotation = Math.random() * 360;
-                this.rotSpeed = (Math.random() - 0.5) * 10;
+                this.rotSpeed = (Math.random() - 0.5) * 8;
                 var colors = ['#D4AF37', '#FFD700', '#8B0000', '#B8860B', '#FCF8F0', '#CD853F', '#C49A6C', '#FF6B6B', '#FFD93D', '#6A5ACD', '#4A90D9'];
                 this.color = colors[Math.floor(Math.random() * colors.length)];
                 this.shape = Math.random() > 0.5 ? 'star' : 'circle';
@@ -2900,8 +2922,8 @@
                 ctx.translate(this.x, this.y);
                 ctx.rotate((this.rotation * Math.PI) / 180);
                 ctx.fillStyle = this.color;
-                ctx.shadowColor = 'rgba(212, 175, 55, 0.2)';
-                ctx.shadowBlur = 10;
+                ctx.shadowColor = 'rgba(212, 175, 55, 0.15)';
+                ctx.shadowBlur = 8;
                 if (this.shape === 'star') {
                     var points = 5;
                     var outerR = this.size / 2;
@@ -2931,8 +2953,8 @@
                 var cy = rect.top + rect.height / 2;
                 for (var i = 0; i < count; i++) {
                     confettiPieces.push(new Particle(
-                        cx + (Math.random() - 0.5) * 50,
-                        cy + (Math.random() - 0.5) * 50
+                        cx + (Math.random() - 0.5) * 40,
+                        cy + (Math.random() - 0.5) * 40
                     ));
                 }
                 if (!confettiActive) {
@@ -3017,7 +3039,7 @@
                 btn.addEventListener('click', drawScratchBackground);
             });
 
-            console.log('💍 Invitation avec bouton PLAY pour démarrer test1.mp3 sur mobile');
+            console.log('💍 Version optimisée : moins de particules, grattage allégé, animations stoppées après révélation');
 
         })();
     </script>
